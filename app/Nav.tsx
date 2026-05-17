@@ -50,13 +50,19 @@ export function Nav() {
               key={id}
               href={`#${id}`}
               aria-current={active === id ? "true" : undefined}
-              className={`transition-colors ${
+              className={`group/link relative transition-colors ${
                 active === id
                   ? "text-emerald-400"
                   : "text-zinc-400 hover:text-zinc-100"
               }`}
             >
               {id.charAt(0).toUpperCase() + id.slice(1)}
+              <span
+                aria-hidden="true"
+                className={`absolute -bottom-1 left-0 h-px w-full origin-left bg-emerald-400 transition-transform duration-300 ${
+                  active === id ? "scale-x-100" : "scale-x-0 group-hover/link:scale-x-100"
+                }`}
+              />
             </a>
           ))}
           <a

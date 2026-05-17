@@ -1,7 +1,20 @@
-import { GitBranch, Mail, ExternalLink, ChevronDown, Briefcase, GraduationCap } from "lucide-react";
+import { GitBranch, Mail, ArrowUpRight, ChevronDown, Briefcase, GraduationCap, TrendingDown, TrendingUp } from "lucide-react";
 import { Nav } from "./Nav";
+import { HeroIntro } from "./HeroIntro";
+import { SpotlightCard } from "./SpotlightCard";
+import { Counter } from "./Counter";
+import { TypedHeading } from "./TypedHeading";
 
-const projects = [
+type Metric = { value: number; suffix?: string; label: string; trend: "up" | "down" };
+
+const projects: Array<{
+  title: string;
+  subtitle: string;
+  description: string;
+  tags: string[];
+  github: string;
+  metric?: Metric;
+}> = [
   {
     title: "SmartSignal",
     subtitle: "AI Traffic Light Automation System",
@@ -9,6 +22,7 @@ const projects = [
       "AI-powered traffic signal control system using PPO reinforcement learning and SUMO simulation. Integrated TomTom API for realistic traffic data, reducing vehicle waiting time by ~28% and increasing throughput by 22%.",
     tags: ["Python", "PPO", "SUMO", "TomTom API", "Reinforcement Learning"],
     github: "https://github.com/SaixAbhinav/SmartSignal",
+    metric: { value: 28, suffix: "%", label: "wait time", trend: "down" },
   },
   {
     title: "FakeGuard",
@@ -17,6 +31,7 @@ const projects = [
       "Predictive system trained on 3,000+ accounts using an ensemble model combining ML and CNN-based image classification. Achieved 92% accuracy, 90% precision, and 88% recall with a 15% reduction in false positives.",
     tags: ["Python", "CNN", "Scikit-learn", "TensorFlow", "Keras"],
     github: "https://github.com/SaixAbhinav/FakeGuard",
+    metric: { value: 92, suffix: "%", label: "accuracy", trend: "up" },
   },
   {
     title: "AI Workflow Assistant",
@@ -33,6 +48,7 @@ const projects = [
       "CNN-based image classifier for early skin cancer detection, built during a data analyst internship at IBM Skills Build. Achieved 94% accuracy on dermoscopic images through transfer learning and targeted data augmentation.",
     tags: ["Python", "CNN", "TensorFlow", "Keras", "Image Classification"],
     github: "https://github.com/SaixAbhinav/skin-cancer-detection",
+    metric: { value: 94, suffix: "%", label: "accuracy", trend: "up" },
   },
 ];
 
@@ -91,38 +107,11 @@ export default function Home() {
       {/* Hero */}
       <section className="relative flex min-h-dvh flex-col items-center justify-center overflow-hidden px-6 text-center">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-          <div className="absolute left-1/2 top-1/2 h-[36rem] w-[36rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-500/[0.08] blur-3xl" />
-          <div className="absolute right-[8%] top-[18%] h-[22rem] w-[22rem] rounded-full bg-zinc-100/[0.04] blur-3xl" />
-          <div className="absolute left-[6%] bottom-[12%] h-[18rem] w-[18rem] rounded-full bg-zinc-100/[0.04] blur-3xl" />
+          <div className="orb-1 absolute left-1/2 top-1/2 h-[36rem] w-[36rem] rounded-full bg-emerald-500/[0.08] blur-3xl" />
+          <div className="orb-2 absolute right-[8%] top-[18%] h-[22rem] w-[22rem] rounded-full bg-zinc-100/[0.04] blur-3xl" />
+          <div className="orb-3 absolute left-[6%] bottom-[12%] h-[18rem] w-[18rem] rounded-full bg-zinc-100/[0.04] blur-3xl" />
         </div>
-        <div className="relative max-w-3xl">
-          <p className="mb-6 text-base font-medium tracking-[0.3em] text-emerald-400 uppercase sm:text-lg">
-            Applied AI Builder
-          </p>
-          <h1 className="mb-8 bg-gradient-to-br from-white via-zinc-200 to-emerald-300 bg-clip-text text-6xl font-bold tracking-tighter text-transparent sm:text-8xl lg:text-9xl">
-            Sai Abhinav
-          </h1>
-          <p className="mb-8 text-xl leading-relaxed text-zinc-300 sm:text-2xl lg:text-3xl">
-            I enjoy building stuff. Mostly AI, sometimes chaos.
-          </p>
-          <p className="mb-12 text-base text-zinc-400 sm:text-lg">
-            <span className="font-semibold text-emerald-400">Welcome</span> — take a look around.
-          </p>
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            <a
-              href="#projects"
-              className="rounded-full bg-emerald-500 px-8 py-4 text-base font-semibold text-zinc-950 shadow-lg shadow-emerald-500/30 transition-colors hover:bg-emerald-400"
-            >
-              View Projects
-            </a>
-            <a
-              href="#contact"
-              className="rounded-full border border-zinc-700 px-8 py-4 text-base font-semibold text-zinc-300 transition-colors hover:border-zinc-500 hover:text-zinc-100"
-            >
-              Get in Touch
-            </a>
-          </div>
-        </div>
+        <HeroIntro />
         <a
           href="#about"
           aria-label="Scroll to About section"
@@ -133,11 +122,16 @@ export default function Home() {
       </section>
 
       {/* About */}
-      <section id="about" className="reveal flex min-h-dvh flex-col items-center justify-center px-6 py-24">
-        <div className="mx-auto w-full max-w-5xl">
-          <h2 className="mb-16 text-4xl font-bold tracking-tight text-zinc-50 sm:text-5xl lg:text-6xl">
-            About <span className="text-emerald-400">Me</span>
-          </h2>
+      <section id="about" className="flex min-h-dvh flex-col items-center justify-center px-6 py-24">
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="orb-2 absolute bottom-[15%] left-[8%] h-[14rem] w-[14rem] rounded-full bg-zinc-100/[0.035] blur-3xl" />
+          <div
+            className="orb-3 absolute right-[10%] top-[12%] h-[10rem] w-[10rem] rounded-full bg-zinc-100/[0.04] blur-3xl"
+            style={{ animationDelay: "-3s" }}
+          />
+        </div>
+        <div className="relative mx-auto w-full max-w-5xl">
+          <TypedHeading marker="/ 01" prefix="About " emphasis="Me" className="mb-16" />
           <div className="grid gap-12 lg:grid-cols-2">
             <div>
               <p className="mb-6 text-lg leading-relaxed text-zinc-300">
@@ -161,17 +155,17 @@ export default function Home() {
                 measurable impact.
               </p>
             </div>
-            <div className="space-y-5">
+            <div className="stagger space-y-8">
               {skills.map((group) => (
                 <div key={group.category}>
-                  <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-zinc-300">
+                  <p className="mb-4 font-mono text-xs uppercase tracking-[0.25em] text-emerald-400/70">
                     {group.category}
                   </p>
                   <div className="flex flex-wrap gap-2">
                     {group.items.map((item) => (
                       <span
                         key={item}
-                        className="rounded-md border border-zinc-800 bg-zinc-900 px-3 py-1 text-xs text-zinc-300"
+                        className="rounded-lg border border-zinc-800 bg-zinc-900/60 px-4 py-2 text-sm text-zinc-200 transition-all duration-200 hover:-translate-y-0.5 hover:border-emerald-500/40 hover:bg-zinc-900 hover:text-emerald-300"
                       >
                         {item}
                       </span>
@@ -185,11 +179,19 @@ export default function Home() {
       </section>
 
       {/* Experience & Education */}
-      <section id="experience" className="reveal flex min-h-dvh flex-col items-center justify-center px-6 py-24">
-        <div className="mx-auto w-full max-w-5xl">
-          <h2 className="mb-16 text-4xl font-bold tracking-tight text-zinc-50 sm:text-5xl lg:text-6xl">
-            Experience & <span className="text-emerald-400">Education</span>
-          </h2>
+      <section id="experience" className="flex min-h-dvh flex-col items-center justify-center px-6 py-24">
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div
+            className="orb-2 absolute right-[12%] top-[18%] h-[12rem] w-[12rem] rounded-full bg-zinc-100/[0.035] blur-3xl"
+            style={{ animationDelay: "-5s" }}
+          />
+          <div
+            className="orb-3 absolute bottom-[10%] left-[15%] h-[14rem] w-[14rem] rounded-full bg-zinc-100/[0.04] blur-3xl"
+            style={{ animationDelay: "-2s" }}
+          />
+        </div>
+        <div className="relative mx-auto w-full max-w-5xl">
+          <TypedHeading marker="/ 02" prefix="Experience & " emphasis="Education" className="mb-16" />
           <div className="grid gap-10 lg:grid-cols-2">
             <div>
               <div className="mb-6 flex items-center gap-2">
@@ -198,7 +200,7 @@ export default function Home() {
                   Experience
                 </h3>
               </div>
-              <div className="space-y-4">
+              <div className="stagger space-y-4">
                 {experience.map((item) => (
                   <div
                     key={`${item.role}-${item.org}`}
@@ -223,7 +225,7 @@ export default function Home() {
                   Education
                 </h3>
               </div>
-              <div className="space-y-4">
+              <div className="stagger space-y-4">
                 {education.map((item) => (
                   <div
                     key={`${item.degree}-${item.org}`}
@@ -246,38 +248,66 @@ export default function Home() {
       </section>
 
       {/* Projects */}
-      <section id="projects" className="reveal flex min-h-dvh flex-col items-center justify-center px-6 py-24">
-        <div className="mx-auto w-full max-w-5xl">
-          <h2 className="mb-16 text-4xl font-bold tracking-tight text-zinc-50 sm:text-5xl lg:text-6xl">
-            Featured <span className="text-emerald-400">Projects</span>
-          </h2>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {projects.map((project) => (
-              <div
+      <section id="projects" className="flex min-h-dvh flex-col items-center justify-center px-6 py-24">
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div
+            className="orb-2 absolute left-[6%] top-[20%] h-[10rem] w-[10rem] rounded-full bg-zinc-100/[0.04] blur-3xl"
+            style={{ animationDelay: "-7s" }}
+          />
+          <div
+            className="orb-3 absolute bottom-[15%] right-[10%] h-[14rem] w-[14rem] rounded-full bg-zinc-100/[0.035] blur-3xl"
+            style={{ animationDelay: "-4s" }}
+          />
+        </div>
+        <div className="relative mx-auto w-full max-w-5xl">
+          <TypedHeading marker="/ 03" prefix="Featured " emphasis="Projects" className="mb-16" />
+          <div className="stagger grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {projects.map((project, index) => (
+              <SpotlightCard
                 key={project.title}
-                className="group relative flex flex-col overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900 p-6 transition-all hover:border-zinc-700 hover:shadow-lg hover:shadow-zinc-100/5"
+                className="group relative flex flex-col overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900 p-6 transition-[border-color,box-shadow] duration-300 hover:border-emerald-500/40 hover:shadow-xl hover:shadow-emerald-500/10"
               >
                 <div
                   aria-hidden="true"
                   className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-emerald-500/50 to-transparent"
                 />
-                <div className="mb-4 flex items-start justify-between">
-                  <div>
-                    <h3 className="text-xl font-semibold text-zinc-50 sm:text-2xl">
-                      {project.title}
-                    </h3>
-                    <p className="mt-1 text-sm text-zinc-400">{project.subtitle}</p>
-                  </div>
+                <div className="mb-6 flex items-start justify-between">
+                  <span
+                    aria-hidden="true"
+                    className="font-mono text-3xl font-black leading-none text-zinc-700 transition-colors duration-300 group-hover:text-emerald-400"
+                  >
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
                   <a
                     href={project.github}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`${project.title} repository (opens in a new tab)`}
-                    className="text-zinc-600 transition-colors hover:text-zinc-300"
+                    className="text-zinc-600 transition-all duration-300 hover:text-emerald-400 group-hover:-rotate-12 group-hover:text-emerald-400"
                   >
-                    <ExternalLink size={16} />
+                    <ArrowUpRight size={22} />
                   </a>
                 </div>
+                <div className="mb-4">
+                  <h3 className="text-xl font-semibold text-zinc-50 sm:text-2xl">
+                    {project.title}
+                  </h3>
+                  <p className="mt-1 text-sm text-zinc-400">{project.subtitle}</p>
+                </div>
+                {project.metric && (
+                  <div className="mb-4 inline-flex w-fit items-center gap-2 rounded-lg border border-emerald-500/20 bg-emerald-500/5 px-3 py-2">
+                    {project.metric.trend === "up" ? (
+                      <TrendingUp size={14} className="text-emerald-400" />
+                    ) : (
+                      <TrendingDown size={14} className="text-emerald-400" />
+                    )}
+                    <span className="font-mono text-lg font-bold leading-none text-emerald-400">
+                      <Counter target={project.metric.value} />
+                      {project.metric.suffix}
+                    </span>
+                    <span className="text-xs text-zinc-400">{project.metric.label}</span>
+                  </div>
+                )}
                 <p className="mb-6 flex-1 text-base leading-relaxed text-zinc-300">
                   {project.description}
                 </p>
@@ -291,19 +321,33 @@ export default function Home() {
                     </span>
                   ))}
                 </div>
-              </div>
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-x-0 bottom-0 flex translate-y-full items-center justify-center gap-2 bg-gradient-to-t from-emerald-500/90 to-emerald-500/0 px-6 py-4 text-sm font-semibold text-zinc-950 transition-transform duration-300 group-hover:translate-y-0"
+                >
+                  View Project <ArrowUpRight size={16} />
+                </div>
+              </SpotlightCard>
             ))}
           </div>
         </div>
       </section>
 
       {/* Contact + Footer */}
-      <section id="contact" className="reveal flex min-h-dvh flex-col px-6 pt-24">
-        <div className="mx-auto flex w-full max-w-5xl flex-1 items-center">
+      <section id="contact" className="flex min-h-dvh flex-col px-6 pt-24">
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div
+            className="orb-2 absolute right-[8%] top-[15%] h-[12rem] w-[12rem] rounded-full bg-zinc-100/[0.035] blur-3xl"
+            style={{ animationDelay: "-6s" }}
+          />
+          <div
+            className="orb-3 absolute bottom-[20%] left-[10%] h-[10rem] w-[10rem] rounded-full bg-zinc-100/[0.04] blur-3xl"
+            style={{ animationDelay: "-1s" }}
+          />
+        </div>
+        <div className="relative mx-auto flex w-full max-w-5xl flex-1 items-center">
           <div className="w-full rounded-2xl border border-zinc-800 bg-zinc-900/50 p-12 text-center">
-            <h2 className="mb-6 text-4xl font-bold tracking-tight text-zinc-50 sm:text-5xl lg:text-6xl">
-              Let&apos;s <span className="text-emerald-400">Connect</span>
-            </h2>
+            <TypedHeading marker="/ 04" prefix="Let’s " emphasis="Connect" align="center" className="mb-6" />
             <p className="mx-auto mb-12 max-w-lg text-lg text-zinc-300 sm:text-xl">
               I&apos;m open to collaborations, research opportunities, and
               interesting AI projects. Feel free to reach out.

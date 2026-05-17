@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { CursorSpotlight } from "./CursorSpotlight";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -36,6 +37,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body className={`${inter.className} bg-zinc-950 text-zinc-100 antialiased`}>
+        <CursorSpotlight />
         {children}
       </body>
     </html>
