@@ -17,7 +17,7 @@ export function TypedHeading({
   emphasis,
   align = "left",
   className = "",
-  speed = 85,
+  speed = 120,
 }: Props) {
   const ref = useRef<HTMLHeadingElement>(null);
   const [phase, setPhase] = useState<"idle" | "typing" | "done">("idle");
@@ -25,13 +25,6 @@ export function TypedHeading({
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const reduced = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-    if (reduced) {
-      setPhase("done");
-      return;
-    }
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
