@@ -13,14 +13,27 @@ import {
   Activity,
   type LucideIcon,
 } from "lucide-react";
+import Image from "next/image";
 import { Nav } from "./Nav";
 import { HeroIntro } from "./HeroIntro";
 import { SpotlightCard } from "./SpotlightCard";
 import { Counter } from "./Counter";
 import { TypedHeading } from "./TypedHeading";
-import { TypedAboutBio } from "./TypedAboutBio";
+import { TypedAboutBio, TYPED_ABOUT_BIO_DURATION } from "./TypedAboutBio";
 import { ScrollReveal } from "./ScrollReveal";
 import { StaggeredSkills } from "./StaggeredSkills";
+
+// About-section animation choreography. Computed from constants so changing one
+// (e.g. heading text, typing speed) automatically recomputes everything downstream.
+const ABOUT_HEADING_TEXT = "About Me";
+const ABOUT_HEADING_SPEED = 120; // ms/char — matches TypedHeading default
+const ABOUT_HEADING_DURATION =
+  ABOUT_HEADING_TEXT.length * ABOUT_HEADING_SPEED + 100; // small buffer
+
+const PHOTO_SLIDE_DURATION = 1600;
+const PHOTO_DELAY = ABOUT_HEADING_DURATION;
+const BIO_DELAY = PHOTO_DELAY + PHOTO_SLIDE_DURATION;
+const SKILLS_DELAY = BIO_DELAY + TYPED_ABOUT_BIO_DURATION;
 
 type Metric = { value: number; suffix?: string; label: string; trend: "up" | "down" };
 
@@ -157,13 +170,15 @@ export default function Home() {
           {/* Two-column layout: tall photo on the left fills the column; bio + skills stacked on the right. */}
           <div className="grid gap-10 lg:grid-cols-5">
             {/* Photo — left, spans 2 of 5 cols. Stretches to match right-column height on lg.
-                Waits ~1s for the "About Me" heading to finish typing before sliding in. */}
-            <ScrollReveal effect="slide-left" duration={1600} delay={1100} className="lg:col-span-2">
+                Waits for the "About Me" heading to finish typing before sliding in. */}
+            <ScrollReveal effect="slide-left" duration={PHOTO_SLIDE_DURATION} delay={PHOTO_DELAY} className="lg:col-span-2">
               <div className="group relative h-[26rem] w-full overflow-hidden rounded-2xl border border-emerald-500/20 bg-zinc-900 shadow-2xl shadow-emerald-500/10 sm:h-[32rem] lg:h-full lg:min-h-[36rem]">
-                <img
+                <Image
                   src="/me.jpg"
                   alt="Portrait of Sai Abhinav"
-                  className="h-full w-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0"
+                  fill
+                  sizes="(min-width: 1024px) 40vw, 100vw"
+                  className="object-cover grayscale transition-all duration-700 group-hover:grayscale-0"
                 />
                 <div
                   aria-hidden="true"
@@ -177,12 +192,12 @@ export default function Home() {
             </ScrollReveal>
             {/* Right column: bio on top, skills below */}
             <div className="flex flex-col gap-8 lg:col-span-3">
-              {/* Bio — typewriter, paragraphs reveal sequentially. Waits for heading (~1s) + photo slide (~1.6s) to finish. */}
-              <TypedAboutBio delay={2800} />
+              {/* Bio — typewriter, paragraphs reveal sequentially. Waits for heading + photo slide to finish. */}
+              <TypedAboutBio delay={BIO_DELAY} />
               {/* Skills — each chip fades in individually, starting after the bio finishes typing. */}
               <StaggeredSkills
                 skills={skills}
-                delay={10800}
+                delay={SKILLS_DELAY}
                 stagger={70}
                 className="grid gap-5 sm:grid-cols-2"
               />

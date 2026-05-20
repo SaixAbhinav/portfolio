@@ -11,6 +11,11 @@ const PARAGRAPHS = [
 const SPEED = 13;
 const GAP_BETWEEN_PARAGRAPHS = 400;
 
+// Exported so callers can chain animations off the end of the typewriter without hand-tuning numbers.
+const TOTAL_CHARS = PARAGRAPHS.reduce((sum, p) => sum + p.length, 0);
+export const TYPED_ABOUT_BIO_DURATION =
+  TOTAL_CHARS * SPEED + (PARAGRAPHS.length - 1) * GAP_BETWEEN_PARAGRAPHS;
+
 type Props = {
   delay?: number;
 };
@@ -71,18 +76,17 @@ export function TypedAboutBio({ delay = 0 }: Props) {
             key={idx}
             className={`relative text-lg leading-relaxed text-zinc-300 ${isLast ? "" : "mb-5"}`}
           >
-            {/* Invisible spacer locks in the final height so the column doesn't grow as text types */}
+            {/* Screen-reader source: the full paragraph, always. */}
+            <span className="sr-only">{text}</span>
+            {/* Visual height spacer — invisible to both sight and AT. Reserves the paragraph's final height so the column doesn't grow as text types. */}
             <span aria-hidden="true" className="invisible">
               {text}
             </span>
-            {/* Visible typed overlay */}
-            <span className="absolute inset-0">
+            {/* Visible typed overlay — hidden from AT (it'd announce partial words mid-keystroke). */}
+            <span aria-hidden="true" className="absolute inset-0">
               {visibleText}
               {isCurrent && (
-                <span
-                  aria-hidden="true"
-                  className="blink-bar ml-0.5 inline-block h-5 w-[2px] -translate-y-0.5 bg-emerald-400 align-middle"
-                />
+                <span className="blink-bar ml-0.5 inline-block h-5 w-[2px] -translate-y-0.5 bg-emerald-400 align-middle" />
               )}
             </span>
           </p>

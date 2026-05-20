@@ -38,13 +38,19 @@ export function StaggeredSkills({
     return () => observer.disconnect();
   }, [threshold]);
 
-  // Running chip index so each chip across all groups gets a unique stagger delay
-  let chipIdx = 0;
+  // Precompute the global chip offset per group up-front so render is side-effect free
+  const groupOffsets: number[] = [];
+  let runningCount = 0;
+  for (const group of skills) {
+    groupOffsets.push(runningCount);
+    runningCount += group.items.length;
+  }
 
   return (
     <div ref={ref} className={className}>
-      {skills.map((group) => {
-        const labelDelay = delay + chipIdx * stagger;
+      {skills.map((group, groupIdx) => {
+        const offset = groupOffsets[groupIdx];
+        const labelDelay = delay + offset * stagger;
         return (
           <div key={group.category}>
             <p
@@ -56,9 +62,8 @@ export function StaggeredSkills({
               {group.category}
             </p>
             <div className="flex flex-wrap gap-2">
-              {group.items.map((item) => {
-                const chipDelay = delay + chipIdx * stagger;
-                chipIdx++;
+              {group.items.map((item, itemIdx) => {
+                const chipDelay = delay + (offset + itemIdx) * stagger;
                 return (
                   <div
                     key={item}

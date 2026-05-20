@@ -68,7 +68,9 @@ export function TypedHeading({
                 ? typingAnim
                 : { width: "100%" }
           }
-          onAnimationEnd={() => phase === "typing" && setPhase("done")}
+          onAnimationEnd={(e) => {
+            if (e.animationName === "typing" && phase === "typing") setPhase("done");
+          }}
         >
           <span className="bg-gradient-to-br from-white via-zinc-200 to-emerald-300 bg-clip-text text-transparent">
             {prefix}
