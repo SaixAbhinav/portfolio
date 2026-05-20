@@ -91,20 +91,20 @@ const projects: Array<{
 // Unified timeline — mixing work + education avoids the 1-vs-2 card imbalance
 const timeline = [
   {
-    type: "work" as const,
-    title: "Data Analyst Intern",
-    org: "IBM Skills Build",
-    period: "Internship",
-    description:
-      "Built a CNN-based skin cancer detection model achieving 94% accuracy on dermoscopic images. Owned data preparation, model training, and evaluation end to end.",
-  },
-  {
     type: "education" as const,
     title: "MCA",
     org: "Vivekananda Institute of Professional Studies",
     period: "In progress · CGPA 8.6",
     description:
       "Master of Computer Applications · coursework focused on applied AI, machine learning, and software engineering.",
+  },
+  {
+    type: "work" as const,
+    title: "Data Analyst Intern",
+    org: "IBM Skills Build",
+    period: "Internship",
+    description:
+      "Built a CNN-based skin cancer detection model achieving 94% accuracy on dermoscopic images. Owned data preparation, model training, and evaluation end to end.",
   },
   {
     type: "education" as const,
