@@ -1,20 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { ABOUT_PARAGRAPHS, TYPING_SPEED, PARAGRAPH_GAP } from "./aboutConstants";
 
-const PARAGRAPHS = [
-  "I'm an Applied AI builder currently pursuing my MCA at Vivekananda Institute of Professional Studies (CGPA 8.6), with a BCA background from the same institution.",
-  "My focus is on building systems that work in the real world — not just in notebooks. I've interned at IBM Skills Build as a Data Analyst, where I built a skin cancer detection model achieving 94% accuracy.",
-  "I'm particularly interested in workflow automation, prompt engineering, and reinforcement learning — areas where AI can eliminate tedious manual work and create measurable impact.",
-];
-
-const SPEED = 13;
-const GAP_BETWEEN_PARAGRAPHS = 400;
-
-// Exported so callers can chain animations off the end of the typewriter without hand-tuning numbers.
-const TOTAL_CHARS = PARAGRAPHS.reduce((sum, p) => sum + p.length, 0);
-export const TYPED_ABOUT_BIO_DURATION =
-  TOTAL_CHARS * SPEED + (PARAGRAPHS.length - 1) * GAP_BETWEEN_PARAGRAPHS;
+const PARAGRAPHS = ABOUT_PARAGRAPHS;
 
 type Props = {
   delay?: number;
@@ -58,9 +47,9 @@ export function TypedAboutBio({ delay = 0 }: Props) {
       setChars(i);
       if (i >= text.length) {
         clearInterval(interval);
-        setTimeout(() => setActiveIdx((prev) => prev + 1), GAP_BETWEEN_PARAGRAPHS);
+        setTimeout(() => setActiveIdx((prev) => prev + 1), PARAGRAPH_GAP);
       }
-    }, SPEED);
+    }, TYPING_SPEED);
     return () => clearInterval(interval);
   }, [activeIdx]);
 

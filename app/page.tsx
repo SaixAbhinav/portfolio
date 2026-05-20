@@ -19,7 +19,8 @@ import { HeroIntro } from "./HeroIntro";
 import { SpotlightCard } from "./SpotlightCard";
 import { Counter } from "./Counter";
 import { TypedHeading } from "./TypedHeading";
-import { TypedAboutBio, TYPED_ABOUT_BIO_DURATION } from "./TypedAboutBio";
+import { TypedAboutBio } from "./TypedAboutBio";
+import { TYPED_ABOUT_BIO_DURATION } from "./aboutConstants";
 import { ScrollReveal } from "./ScrollReveal";
 import { StaggeredSkills } from "./StaggeredSkills";
 
@@ -87,26 +88,27 @@ const projects: Array<{
   },
 ];
 
-const experience = [
+// Unified timeline — mixing work + education avoids the 1-vs-2 card imbalance
+const timeline = [
   {
-    role: "Data Analyst Intern",
+    type: "work" as const,
+    title: "Data Analyst Intern",
     org: "IBM Skills Build",
     period: "Internship",
     description:
       "Built a CNN-based skin cancer detection model achieving 94% accuracy on dermoscopic images. Owned data preparation, model training, and evaluation end to end.",
   },
-];
-
-const education = [
   {
-    degree: "MCA",
+    type: "education" as const,
+    title: "MCA",
     org: "Vivekananda Institute of Professional Studies",
     period: "In progress · CGPA 8.6",
     description:
       "Master of Computer Applications · coursework focused on applied AI, machine learning, and software engineering.",
   },
   {
-    degree: "BCA",
+    type: "education" as const,
+    title: "BCA",
     org: "Vivekananda Institute of Professional Studies",
     period: "Completed",
     description:
@@ -117,19 +119,23 @@ const education = [
 const skills = [
   {
     category: "AI & ML",
+    primary: true,
     items: ["Supervised Learning", "Unsupervised Learning", "Feature Engineering", "Model Optimization"],
   },
-  { category: "Programming", items: ["Python", "SQL"] },
+  { category: "Programming", primary: true, items: ["Python", "SQL"] },
   {
     category: "Frameworks",
+    primary: false,
     items: ["TensorFlow", "Keras", "NumPy", "Pandas", "Flask"],
   },
   {
     category: "AI Tools",
+    primary: false,
     items: ["OpenAI API", "Prompt Engineering", "Workflow Automation"],
   },
   {
     category: "Visualization",
+    primary: false,
     items: ["Matplotlib", "Seaborn", "Excel", "Google Sheets"],
   },
 ];
@@ -142,9 +148,9 @@ export default function Home() {
       {/* Hero */}
       <section className="relative flex min-h-dvh flex-col items-center justify-center overflow-hidden px-6 text-center">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-          <div className="orb-1 absolute left-1/2 top-1/2 h-[36rem] w-[36rem] rounded-full bg-emerald-500/[0.10] blur-3xl" />
-          <div className="orb-2 absolute right-[8%] top-[18%] h-[22rem] w-[22rem] rounded-full bg-zinc-100/[0.04] blur-3xl" />
-          <div className="orb-3 absolute left-[6%] bottom-[12%] h-[18rem] w-[18rem] rounded-full bg-zinc-100/[0.04] blur-3xl" />
+          <div className="orb-1 absolute left-1/2 top-1/2 h-[36rem] w-[36rem] rounded-full bg-emerald-500/[0.15] blur-3xl" />
+          <div className="orb-2 absolute right-[8%] top-[18%] h-[22rem] w-[22rem] rounded-full bg-zinc-100/[0.07] blur-3xl" />
+          <div className="orb-3 absolute left-[6%] bottom-[12%] h-[18rem] w-[18rem] rounded-full bg-zinc-100/[0.07] blur-3xl" />
         </div>
         <HeroIntro />
         <a
@@ -159,9 +165,9 @@ export default function Home() {
       {/* About */}
       <section id="about" className="flex min-h-dvh flex-col items-center justify-center px-6 py-16">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div className="orb-2 absolute bottom-[15%] left-[8%] h-[14rem] w-[14rem] rounded-full bg-zinc-100/[0.035] blur-3xl" />
+          <div className="orb-2 absolute bottom-[15%] left-[8%] h-[14rem] w-[14rem] rounded-full bg-zinc-100/[0.07] blur-3xl" />
           <div
-            className="orb-3 absolute right-[10%] top-[12%] h-[10rem] w-[10rem] rounded-full bg-zinc-100/[0.04] blur-3xl"
+            className="orb-3 absolute right-[10%] top-[12%] h-[10rem] w-[10rem] rounded-full bg-zinc-100/[0.07] blur-3xl"
             style={{ animationDelay: "-3s" }}
           />
         </div>
@@ -210,67 +216,40 @@ export default function Home() {
       <section id="experience" className="flex min-h-dvh flex-col items-center justify-center px-6 py-24">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
           <div
-            className="orb-2 absolute right-[12%] top-[18%] h-[12rem] w-[12rem] rounded-full bg-zinc-100/[0.035] blur-3xl"
+            className="orb-2 absolute right-[12%] top-[18%] h-[12rem] w-[12rem] rounded-full bg-zinc-100/[0.07] blur-3xl"
             style={{ animationDelay: "-5s" }}
           />
           <div
-            className="orb-3 absolute bottom-[10%] left-[15%] h-[14rem] w-[14rem] rounded-full bg-zinc-100/[0.04] blur-3xl"
+            className="orb-3 absolute bottom-[10%] left-[15%] h-[14rem] w-[14rem] rounded-full bg-zinc-100/[0.07] blur-3xl"
             style={{ animationDelay: "-2s" }}
           />
         </div>
         <div className="relative mx-auto w-full max-w-5xl">
           <TypedHeading marker="/ 02" prefix="Experience & " emphasis="Education" className="mb-16" />
-          <div className="grid gap-10 lg:grid-cols-2">
-            <div>
-              <div className="mb-6 flex items-center gap-2">
-                <Briefcase size={16} className="text-zinc-400" />
-                <h3 className="text-sm font-semibold uppercase tracking-widest text-zinc-300">
-                  Experience
-                </h3>
-              </div>
-              <div className="stagger space-y-4">
-                {experience.map((item) => (
-                  <div
-                    key={`${item.role}-${item.org}`}
-                    className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-5 transition-colors hover:border-zinc-700"
-                  >
+          {/* Single timeline — work + education interleaved, icon distinguishes type */}
+          <div className="stagger relative mx-auto max-w-2xl space-y-6">
+            {/* Vertical rule */}
+            <div aria-hidden="true" className="absolute left-[1.6rem] top-2 h-full w-px bg-zinc-800" />
+            {timeline.map((item) => {
+              const Icon = item.type === "work" ? Briefcase : GraduationCap;
+              return (
+                <div key={`${item.title}-${item.org}`} className="relative flex gap-6">
+                  {/* Icon node on the timeline rail */}
+                  <div className="relative z-10 flex h-[3.2rem] w-[3.2rem] shrink-0 items-center justify-center rounded-full border border-zinc-800 bg-zinc-950">
+                    <Icon size={16} className={item.type === "work" ? "text-emerald-400" : "text-zinc-400"} />
+                  </div>
+                  {/* Card */}
+                  <div className="flex-1 rounded-xl border border-zinc-800 bg-zinc-900/50 p-5 transition-colors hover:border-zinc-700">
                     <div className="mb-1 flex flex-wrap items-start justify-between gap-2">
-                      <p className="text-lg font-semibold text-zinc-100">{item.role}</p>
+                      <p className="text-lg font-semibold text-zinc-100">{item.title}</p>
                       <span className="text-xs text-zinc-500">{item.period}</span>
                     </div>
-                    <p className="mb-2 text-base text-zinc-300">{item.org}</p>
-                    <p className="text-base leading-relaxed text-zinc-400">
-                      {item.description}
-                    </p>
+                    <p className="mb-2 text-sm text-zinc-400">{item.org}</p>
+                    <p className="text-base leading-relaxed text-zinc-400">{item.description}</p>
                   </div>
-                ))}
-              </div>
-            </div>
-            <div>
-              <div className="mb-6 flex items-center gap-2">
-                <GraduationCap size={16} className="text-zinc-400" />
-                <h3 className="text-sm font-semibold uppercase tracking-widest text-zinc-300">
-                  Education
-                </h3>
-              </div>
-              <div className="stagger space-y-4">
-                {education.map((item) => (
-                  <div
-                    key={`${item.degree}-${item.org}`}
-                    className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-5 transition-colors hover:border-zinc-700"
-                  >
-                    <div className="mb-1 flex flex-wrap items-start justify-between gap-2">
-                      <p className="text-lg font-semibold text-zinc-100">{item.degree}</p>
-                      <span className="text-xs text-zinc-500">{item.period}</span>
-                    </div>
-                    <p className="mb-2 text-base text-zinc-300">{item.org}</p>
-                    <p className="text-base leading-relaxed text-zinc-400">
-                      {item.description}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -279,11 +258,11 @@ export default function Home() {
       <section id="projects" className="flex min-h-dvh flex-col items-center justify-center px-6 py-24">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
           <div
-            className="orb-2 absolute left-[6%] top-[20%] h-[10rem] w-[10rem] rounded-full bg-zinc-100/[0.04] blur-3xl"
+            className="orb-2 absolute left-[6%] top-[20%] h-[10rem] w-[10rem] rounded-full bg-zinc-100/[0.07] blur-3xl"
             style={{ animationDelay: "-7s" }}
           />
           <div
-            className="orb-3 absolute bottom-[15%] right-[10%] h-[14rem] w-[14rem] rounded-full bg-zinc-100/[0.035] blur-3xl"
+            className="orb-3 absolute bottom-[15%] right-[10%] h-[14rem] w-[14rem] rounded-full bg-zinc-100/[0.07] blur-3xl"
             style={{ animationDelay: "-4s" }}
           />
         </div>
@@ -383,11 +362,11 @@ export default function Home() {
       <section id="contact" className="flex min-h-dvh flex-col px-6 pt-24">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
           <div
-            className="orb-2 absolute right-[8%] top-[15%] h-[12rem] w-[12rem] rounded-full bg-zinc-100/[0.035] blur-3xl"
+            className="orb-2 absolute right-[8%] top-[15%] h-[12rem] w-[12rem] rounded-full bg-zinc-100/[0.07] blur-3xl"
             style={{ animationDelay: "-6s" }}
           />
           <div
-            className="orb-3 absolute bottom-[20%] left-[10%] h-[10rem] w-[10rem] rounded-full bg-zinc-100/[0.04] blur-3xl"
+            className="orb-3 absolute bottom-[20%] left-[10%] h-[10rem] w-[10rem] rounded-full bg-zinc-100/[0.07] blur-3xl"
             style={{ animationDelay: "-1s" }}
           />
         </div>
