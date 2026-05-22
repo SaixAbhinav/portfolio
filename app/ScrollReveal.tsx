@@ -2,7 +2,7 @@
 
 import { ReactNode, useEffect, useRef, useState } from "react";
 
-type Effect = "slide-left" | "slide-right" | "fade-up";
+type Effect = "slide-left" | "slide-right" | "fade-up" | "zoom-up";
 
 type Props = {
   children: ReactNode;
@@ -17,6 +17,7 @@ const INITIAL: Record<Effect, string> = {
   "slide-left": "opacity-0 -translate-x-20",
   "slide-right": "opacity-0 translate-x-20",
   "fade-up": "opacity-0 translate-y-5",
+  "zoom-up": "opacity-0 translate-y-8 scale-95",
 };
 
 export function ScrollReveal({
@@ -54,7 +55,7 @@ export function ScrollReveal({
         transitionDelay: `${delay}ms`,
       }}
       className={`${className} transition-all ease-out ${
-        visible ? "opacity-100 translate-x-0 translate-y-0" : INITIAL[effect]
+        visible ? "opacity-100 translate-x-0 translate-y-0 scale-100" : INITIAL[effect]
       }`}
     >
       {children}

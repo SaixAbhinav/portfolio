@@ -60,6 +60,16 @@ Components do **not** need their own JS-level reduced-motion bypass for typewrit
 - Skill categories carry a `primary?: boolean` flag in the data. `StaggeredSkills` reads this and renders primary chips with emerald-tinted styling, others with muted zinc. Hierarchy is data-driven, not duplicated in JSX.
 - The hero portrait (`app/page.tsx`, About section) uses `next/image` with `fill` + `sizes` — match that pattern for any new photographic image. Decorative inline SVGs (icons) use `lucide-react`.
 
+## Context limit — stop before overflow
+
+When the conversation context is approaching its limit (roughly 95% full), **stop all implementation work** before starting any new task or file edit. At that point:
+
+1. List every file that has been modified or created in the current session but not yet committed.
+2. Tell the user: "Context is nearly full — please commit and push the changes above before continuing, then start a new conversation."
+3. Do not attempt further edits, refactors, or new features until the user confirms they have saved their work.
+
+The goal is to ensure no in-progress changes are lost when the context window resets.
+
 ## Memory
 
 User-level preferences for this project live at `C:\Users\marsh\.claude\projects\C--Users-marsh-OneDrive-Desktop-portfolio\memory\MEMORY.md` (and feedback files alongside it). Read those before making style/process decisions — they cover the accent color rule, autonomy preference, ship-then-redirect workflow, and plugin defaults.
