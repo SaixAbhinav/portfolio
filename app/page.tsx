@@ -1,28 +1,24 @@
 import {
   GitBranch,
   Mail,
-  ArrowUpRight,
   ChevronDown,
   Briefcase,
   GraduationCap,
-  TrendingDown,
-  TrendingUp,
-  TrafficCone,
-  ShieldCheck,
-  Workflow,
-  Activity,
-  type LucideIcon,
 } from "lucide-react";
+import { type ReactNode } from "react";
 import Image from "next/image";
 import { Nav } from "./Nav";
 import { HeroIntro } from "./HeroIntro";
-import { SpotlightCard } from "./SpotlightCard";
-import { Counter } from "./Counter";
 import { TypedHeading } from "./TypedHeading";
 import { TypedAboutBio } from "./TypedAboutBio";
 import { TYPED_ABOUT_BIO_DURATION } from "./aboutConstants";
 import { ScrollReveal } from "./ScrollReveal";
 import { StaggeredSkills } from "./StaggeredSkills";
+import { SmartSignalDemo } from "./SmartSignalDemo";
+import { FakeGuardDemo } from "./FakeGuardDemo";
+import { WorkflowDemo } from "./WorkflowDemo";
+import { SkinCancerDemo } from "./SkinCancerDemo";
+import { ProjectCard, type IconName } from "./ProjectCard";
 
 // About-section animation choreography. Computed from constants so changing one
 // (e.g. heading text, typing speed) automatically recomputes everything downstream.
@@ -44,8 +40,9 @@ const projects: Array<{
   description: string;
   tags: string[];
   github: string;
-  icon: LucideIcon;
+  iconName: IconName;
   metric?: Metric;
+  demo: ReactNode;
 }> = [
   {
     title: "SmartSignal",
@@ -54,8 +51,9 @@ const projects: Array<{
       "AI-powered traffic signal control system using PPO reinforcement learning and SUMO simulation. Integrated TomTom API for realistic traffic data, reducing vehicle waiting time by ~28% and increasing throughput by 22%.",
     tags: ["Python", "PPO", "SUMO", "TomTom API", "Reinforcement Learning"],
     github: "https://github.com/SaixAbhinav/SmartSignal",
-    icon: TrafficCone,
+    iconName: "TrafficCone",
     metric: { value: 28, suffix: "%", label: "wait time", trend: "down" },
+    demo: <SmartSignalDemo />,
   },
   {
     title: "FakeGuard",
@@ -64,8 +62,9 @@ const projects: Array<{
       "Predictive system trained on 3,000+ accounts using an ensemble model combining ML and CNN-based image classification. Achieved 92% accuracy, 90% precision, and 88% recall with a 15% reduction in false positives.",
     tags: ["Python", "CNN", "Scikit-learn", "TensorFlow", "Keras"],
     github: "https://github.com/SaixAbhinav/FakeGuard",
-    icon: ShieldCheck,
+    iconName: "ShieldCheck",
     metric: { value: 92, suffix: "%", label: "accuracy", trend: "up" },
+    demo: <FakeGuardDemo />,
   },
   {
     title: "AI Workflow Assistant",
@@ -74,7 +73,8 @@ const projects: Array<{
       "AI-powered tool that automates summarization, insight extraction, and task generation from unstructured data. Built with prompt engineering workflows using the OpenAI API for structured, reliable outputs.",
     tags: ["Python", "OpenAI API", "Prompt Engineering", "Flask"],
     github: "https://github.com/SaixAbhinav/ai-workflow-assistant",
-    icon: Workflow,
+    iconName: "Workflow",
+    demo: <WorkflowDemo />,
   },
   {
     title: "Skin Cancer Detection",
@@ -83,8 +83,9 @@ const projects: Array<{
       "CNN-based image classifier for early skin cancer detection, built during a data analyst internship at IBM Skills Build. Achieved 94% accuracy on dermoscopic images through transfer learning and targeted data augmentation.",
     tags: ["Python", "CNN", "TensorFlow", "Keras", "Image Classification"],
     github: "https://github.com/SaixAbhinav/skin-cancer-detection",
-    icon: Activity,
+    iconName: "Activity",
     metric: { value: 94, suffix: "%", label: "accuracy", trend: "up" },
+    demo: <SkinCancerDemo />,
   },
 ];
 
@@ -227,27 +228,29 @@ export default function Home() {
         <div className="relative mx-auto w-full max-w-5xl">
           <TypedHeading marker="/ 02" prefix="Experience & " emphasis="Education" className="mb-16" />
           {/* Single timeline — work + education interleaved, icon distinguishes type */}
-          <div className="stagger relative mx-auto max-w-2xl space-y-6">
+          <div className="relative mx-auto max-w-2xl space-y-6">
             {/* Vertical rule */}
             <div aria-hidden="true" className="absolute left-[1.6rem] top-2 h-full w-px bg-zinc-800" />
-            {timeline.map((item) => {
+            {timeline.map((item, index) => {
               const Icon = item.type === "work" ? Briefcase : GraduationCap;
               return (
-                <div key={`${item.title}-${item.org}`} className="relative flex gap-6">
-                  {/* Icon node on the timeline rail */}
-                  <div className="relative z-10 flex h-[3.2rem] w-[3.2rem] shrink-0 items-center justify-center rounded-full border border-zinc-800 bg-zinc-950">
-                    <Icon size={16} className={item.type === "work" ? "text-emerald-400" : "text-zinc-400"} />
-                  </div>
-                  {/* Card */}
-                  <div className="flex-1 rounded-xl border border-zinc-800 bg-zinc-900/50 p-5 transition-colors hover:border-zinc-700">
-                    <div className="mb-1 flex flex-wrap items-start justify-between gap-2">
-                      <p className="text-lg font-semibold text-zinc-100">{item.title}</p>
-                      <span className="text-xs text-zinc-500">{item.period}</span>
+                <ScrollReveal key={`${item.title}-${item.org}`} effect="fade-up" delay={index * 180} threshold={0.1}>
+                  <div className="relative flex gap-6">
+                    {/* Icon node on the timeline rail */}
+                    <div className="relative z-10 flex h-[3.2rem] w-[3.2rem] shrink-0 items-center justify-center rounded-full border border-zinc-800 bg-zinc-950">
+                      <Icon size={16} className={item.type === "work" ? "text-emerald-400" : "text-zinc-400"} />
                     </div>
-                    <p className="mb-2 text-sm text-zinc-400">{item.org}</p>
-                    <p className="text-base leading-relaxed text-zinc-400">{item.description}</p>
+                    {/* Card */}
+                    <div className="flex-1 rounded-xl border border-zinc-800 bg-zinc-900/50 p-5 transition-colors hover:border-zinc-700">
+                      <div className="mb-1 flex flex-wrap items-start justify-between gap-2">
+                        <p className="text-lg font-semibold text-zinc-100">{item.title}</p>
+                        <span className="text-xs text-zinc-500">{item.period}</span>
+                      </div>
+                      <p className="mb-2 text-sm text-zinc-400">{item.org}</p>
+                      <p className="text-base leading-relaxed text-zinc-400">{item.description}</p>
+                    </div>
                   </div>
-                </div>
+                </ScrollReveal>
               );
             })}
           </div>
@@ -268,92 +271,21 @@ export default function Home() {
         </div>
         <div className="relative mx-auto w-full max-w-5xl">
           <TypedHeading marker="/ 03" prefix="Featured " emphasis="Projects" className="mb-16" />
-          <div className="stagger grid gap-6 sm:grid-cols-2">
-            {projects.map((project, index) => {
-              const Icon = project.icon;
-              return (
-                <SpotlightCard
-                  key={project.title}
-                  className="group relative flex flex-col overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900 p-7 transition-[border-color,box-shadow] duration-300 hover:border-emerald-500/40 hover:shadow-xl hover:shadow-emerald-500/10"
-                >
-                  <div
-                    aria-hidden="true"
-                    className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-emerald-500/50 to-transparent"
-                  />
-                  {/* Header — icon tile on the left, index + repo link on the right */}
-                  <div className="mb-6 flex items-start justify-between">
-                    <div className="flex h-14 w-14 items-center justify-center rounded-xl border border-emerald-500/20 bg-emerald-500/[0.07] transition-all duration-300 group-hover:border-emerald-500/40 group-hover:bg-emerald-500/[0.12]">
-                      <Icon size={26} className="text-emerald-400" strokeWidth={1.75} />
-                    </div>
-                    <div className="flex items-center gap-4">
-                      <span
-                        aria-hidden="true"
-                        className="font-mono text-xs uppercase tracking-[0.25em] text-zinc-600"
-                      >
-                        {String(index + 1).padStart(2, "0")}
-                      </span>
-                      <a
-                        href={project.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label={`${project.title} repository (opens in a new tab)`}
-                        className="text-zinc-600 transition-all duration-300 hover:text-emerald-400 group-hover:-rotate-12 group-hover:text-emerald-400"
-                      >
-                        <ArrowUpRight size={22} />
-                      </a>
-                    </div>
-                  </div>
-                  {/* Title block */}
-                  <div className="mb-6">
-                    <h3 className="text-2xl font-semibold text-zinc-50 sm:text-3xl">
-                      {project.title}
-                    </h3>
-                    <p className="mt-1 text-sm text-zinc-400">{project.subtitle}</p>
-                  </div>
-                  {/* Amplified metric — the loudest element on the card */}
-                  {project.metric && (
-                    <div className="mb-6 flex items-end gap-4 rounded-xl border border-emerald-500/25 bg-gradient-to-br from-emerald-500/[0.12] to-emerald-500/[0.03] px-5 py-4">
-                      <div className="flex items-baseline gap-1">
-                        <span className="font-mono text-5xl font-black leading-none tracking-tight text-emerald-400">
-                          <Counter target={project.metric.value} />
-                          {project.metric.suffix}
-                        </span>
-                      </div>
-                      <div className="flex flex-col gap-1 pb-1">
-                        <span className="flex items-center gap-1 text-[0.7rem] font-medium uppercase tracking-[0.15em] text-emerald-300/80">
-                          {project.metric.trend === "up" ? (
-                            <TrendingUp size={12} />
-                          ) : (
-                            <TrendingDown size={12} />
-                          )}
-                          {project.metric.trend === "up" ? "Increase" : "Reduction"}
-                        </span>
-                        <span className="text-sm text-zinc-300">{project.metric.label}</span>
-                      </div>
-                    </div>
-                  )}
-                  <p className="mb-6 flex-1 text-base leading-relaxed text-zinc-300">
-                    {project.description}
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {project.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="rounded-md bg-zinc-800 px-2 py-1 text-xs text-zinc-400"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                  <div
-                    aria-hidden="true"
-                    className="pointer-events-none absolute inset-x-0 bottom-0 flex translate-y-full items-center justify-center gap-2 bg-gradient-to-t from-emerald-500/90 to-emerald-500/0 px-6 py-4 text-sm font-semibold text-zinc-950 transition-transform duration-300 group-hover:translate-y-0"
-                  >
-                    View Project <ArrowUpRight size={16} />
-                  </div>
-                </SpotlightCard>
-              );
-            })}
+          <div className="grid gap-6 sm:grid-cols-2">
+            {projects.map((project, index) => (
+              <ScrollReveal key={project.title} effect="zoom-up" duration={800} delay={index * 100} threshold={0.1}>
+                <ProjectCard
+                  title={project.title}
+                  subtitle={project.subtitle}
+                  description={project.description}
+                  tags={project.tags}
+                  github={project.github}
+                  iconName={project.iconName}
+                  metric={project.metric}
+                  demo={project.demo}
+                />
+              </ScrollReveal>
+            ))}
           </div>
         </div>
       </section>
@@ -371,6 +303,7 @@ export default function Home() {
           />
         </div>
         <div className="relative mx-auto flex w-full max-w-5xl flex-1 items-center">
+          <ScrollReveal effect="fade-up" className="w-full" threshold={0.1}>
           <div className="w-full rounded-2xl border border-zinc-800 bg-zinc-900/50 p-12 text-center">
             <TypedHeading marker="/ 04" prefix="Let’s " emphasis="Connect" align="center" className="mb-6" />
             <p className="mx-auto mb-12 max-w-lg text-lg text-zinc-300 sm:text-xl">
@@ -397,6 +330,7 @@ export default function Home() {
               </a>
             </div>
           </div>
+          </ScrollReveal>
         </div>
         <footer className="-mx-6 mt-12 border-t border-zinc-800/50 px-6 py-8 text-center text-sm text-zinc-600">
           <p>Built with Next.js & Tailwind CSS · Sai Abhinav © {new Date().getFullYear()}</p>
