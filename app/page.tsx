@@ -61,7 +61,7 @@ const projects: Array<{
     description:
       "Predictive system trained on 3,000+ accounts using an ensemble model combining ML and CNN-based image classification. Achieved 92% accuracy, 90% precision, and 88% recall with a 15% reduction in false positives.",
     tags: ["Python", "CNN", "Scikit-learn", "TensorFlow", "Keras"],
-    github: "https://github.com/SaixAbhinav/FakeGuard",
+    github: "https://github.com/SaixAbhinav/Instagram_fake_account_detector",
     iconName: "ShieldCheck",
     metric: { value: 92, suffix: "%", label: "accuracy", trend: "up" },
     demo: <FakeGuardDemo />,
@@ -82,7 +82,7 @@ const projects: Array<{
     description:
       "CNN-based image classifier for early skin cancer detection, built during a data analyst internship at IBM Skills Build. Achieved 94% accuracy on dermoscopic images through transfer learning and targeted data augmentation.",
     tags: ["Python", "CNN", "TensorFlow", "Keras", "Image Classification"],
-    github: "https://github.com/SaixAbhinav/skin-cancer-detection",
+    github: "https://github.com/SaixAbhinav/skin_cancer_prediction",
     iconName: "Activity",
     metric: { value: 94, suffix: "%", label: "accuracy", trend: "up" },
     demo: <SkinCancerDemo />,
