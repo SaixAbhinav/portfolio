@@ -4,13 +4,15 @@ import { useState, useRef, useCallback, useEffect, type ReactNode } from "react"
 import { createPortal } from "react-dom";
 import {
   ArrowUpRight,
-  ExternalLink,
   TrendingUp,
   TrendingDown,
   TrafficCone,
   ShieldCheck,
   Workflow,
   Activity,
+  Maximize2,
+  Check,
+  X,
 } from "lucide-react";
 import { SpotlightCard } from "./SpotlightCard";
 import { Counter } from "./Counter";
@@ -20,6 +22,8 @@ export type IconName = keyof typeof ICON_MAP;
 
 type Metric = { value: number; suffix?: string; label: string; trend: "up" | "down" };
 
+type Screenshot = { src: string; caption: string };
+
 type Props = {
   title: string;
   subtitle: string;
@@ -28,6 +32,8 @@ type Props = {
   github: string;
   iconName: IconName;
   metric?: Metric;
+  highlights?: string[];
+  screenshots?: Screenshot[];
   demo: ReactNode;
 };
 
@@ -39,51 +45,58 @@ export function ProjectCard({
   github,
   iconName,
   metric,
+  highlights,
+  screenshots,
   demo,
 }: Props) {
   const Icon = ICON_MAP[iconName];
   const [visible, setVisible] = useState(false);
   const [animate, setAnimate] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const showTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
-  const hideTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const [lightbox, setLightbox] = useState<Screenshot | null>(null);
+  const closeTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
   const cardRef = useRef<HTMLDivElement>(null);
   const cardRectRef = useRef<DOMRect | null>(null);
 
   useEffect(() => {
     setMounted(true);
-    return () => {
-      clearTimeout(showTimer.current);
-      clearTimeout(hideTimer.current);
-    };
+    return () => clearTimeout(closeTimer.current);
   }, []);
 
   const show = useCallback(() => {
-    clearTimeout(hideTimer.current);
-    // Capture card position NOW (before any scroll/layout changes)
+    clearTimeout(closeTimer.current);
+    // Capture card position NOW (before any scroll/layout changes) for the FLIP origin
     cardRectRef.current = cardRef.current?.getBoundingClientRect() ?? null;
-    showTimer.current = setTimeout(() => {
-      setVisible(true);
-      requestAnimationFrame(() => requestAnimationFrame(() => setAnimate(true)));
-    }, 200);
+    setVisible(true);
+    requestAnimationFrame(() => requestAnimationFrame(() => setAnimate(true)));
   }, []);
 
   const hide = useCallback(() => {
-    clearTimeout(showTimer.current);
-    hideTimer.current = setTimeout(() => {
-      setAnimate(false);
-      setTimeout(() => setVisible(false), 380);
-    }, 120);
+    setAnimate(false);
+    closeTimer.current = setTimeout(() => setVisible(false), 380);
   }, []);
 
   useEffect(() => {
     if (!visible) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") hide();
+      if (e.key !== "Escape") return;
+      // Lightbox takes priority — close it first, keep the card open.
+      if (lightbox) setLightbox(null);
+      else hide();
     };
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [visible, hide]);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [visible, hide, lightbox]);
+
+  // Make sure no lightbox lingers once the card is fully closed.
+  useEffect(() => {
+    if (!visible) setLightbox(null);
+  }, [visible]);
 
   // Compute FLIP transform: start at card's screen position, end at viewport center
   const getStartTransform = () => {
@@ -91,7 +104,7 @@ export function ProjectCard({
     if (!r) return "translate(0px, 0px) scale(0.9)";
     const vpW = window.innerWidth;
     const vpH = window.innerHeight;
-    const expandedW = Math.min(576, vpW - 48); // max-w-xl with p-6 gutters
+    const expandedW = Math.min(768, vpW - 48); // max-w-3xl with p-6 gutters
     const dx = (r.left + r.width / 2) - vpW / 2;
     const dy = (r.top + r.height / 2) - vpH / 2;
     const scale = r.width / expandedW;
@@ -99,11 +112,7 @@ export function ProjectCard({
   };
 
   const overlay = visible ? (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-6"
-      onMouseEnter={() => clearTimeout(hideTimer.current)}
-      onMouseLeave={hide}
-    >
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-6">
       {/* Backdrop — fades in independently */}
       <div
         className="absolute inset-0 bg-zinc-950/80 backdrop-blur-md"
@@ -113,7 +122,7 @@ export function ProjectCard({
 
       {/* Expanded card — FLIP-animates from card origin to center */}
       <div
-        className="relative z-10 max-h-[85vh] w-full max-w-xl overflow-y-auto rounded-2xl border border-zinc-700 bg-zinc-900 shadow-2xl shadow-zinc-950"
+        className="relative z-10 max-h-[85vh] w-full max-w-3xl overflow-y-auto rounded-2xl border border-zinc-700 bg-zinc-900 shadow-2xl shadow-zinc-950"
         style={{
           opacity: animate ? 1 : 0,
           transform: animate ? "translate(0px, 0px) scale(1)" : getStartTransform(),
@@ -121,22 +130,21 @@ export function ProjectCard({
         }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Top accent line */}
-        <div className="absolute inset-x-0 top-0 h-px rounded-t-2xl bg-gradient-to-r from-emerald-500/80 via-emerald-400/30 to-transparent" />
+        {/* Sticky header — stays pinned while the card content scrolls */}
+        <div className="sticky top-0 z-20 flex items-start gap-4 border-b border-zinc-800 bg-zinc-900/90 px-7 py-5 backdrop-blur-md">
+          {/* Top accent line */}
+          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-emerald-500/80 via-emerald-400/30 to-transparent" />
+          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl border border-emerald-500/25 bg-emerald-500/[0.08]">
+            <Icon size={28} className="text-emerald-400" strokeWidth={1.5} />
+          </div>
+          <div className="min-w-0 pt-0.5">
+            <h3 className="text-2xl font-bold text-zinc-50">{title}</h3>
+            <p className="mt-0.5 text-sm text-zinc-400">{subtitle}</p>
+          </div>
+        </div>
 
         {/* Scrollable content */}
-        <div className="p-7">
-          {/* Header */}
-          <div className="mb-5 flex items-start gap-4">
-            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl border border-emerald-500/25 bg-emerald-500/[0.08]">
-              <Icon size={28} className="text-emerald-400" strokeWidth={1.5} />
-            </div>
-            <div className="min-w-0 pt-0.5">
-              <h3 className="text-2xl font-bold text-zinc-50">{title}</h3>
-              <p className="mt-0.5 text-sm text-zinc-400">{subtitle}</p>
-            </div>
-          </div>
-
+        <div className="px-7 pb-7 pt-5">
           {/* Live interactive demo */}
           <div className="mb-5 overflow-hidden rounded-xl border border-zinc-800 bg-zinc-950">
             {demo}
@@ -162,6 +170,64 @@ export function ProjectCard({
           {/* Full description */}
           <p className="mb-5 text-sm leading-relaxed text-zinc-300">{description}</p>
 
+          {/* Highlights */}
+          {highlights && highlights.length > 0 && (
+            <div className="mb-5">
+              <p className="mb-2.5 text-[0.65rem] font-semibold uppercase tracking-widest text-emerald-300/70">
+                Highlights
+              </p>
+              <ul className="flex flex-col gap-2">
+                {highlights.map((h) => (
+                  <li
+                    key={h}
+                    className="flex items-start gap-2.5 text-sm leading-relaxed text-zinc-300"
+                  >
+                    <Check size={15} strokeWidth={2.5} className="mt-0.5 shrink-0 text-emerald-400" />
+                    <span>{h}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* Screenshots — real app captures, horizontally scrollable */}
+          {screenshots && screenshots.length > 0 && (
+            <div className="mb-6">
+              <p className="mb-2.5 text-[0.65rem] font-semibold uppercase tracking-widest text-emerald-300/70">
+                Screenshots
+              </p>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                {screenshots.map((shot) => (
+                  <figure key={shot.src}>
+                    <button
+                      type="button"
+                      onClick={() => setLightbox(shot)}
+                      aria-label={`Expand screenshot: ${shot.caption}`}
+                      className="group/shot relative block w-full cursor-pointer overflow-hidden rounded-lg border border-zinc-800 bg-zinc-950 transition-all duration-300 hover:border-emerald-500/60 hover:shadow-[0_0_0_1px_rgba(16,185,129,0.3),0_16px_40px_-14px_rgba(16,185,129,0.4)]"
+                    >
+                      {/* Remote GitHub-hosted screenshots — plain img avoids next/image remote config */}
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={shot.src}
+                        alt={shot.caption}
+                        loading="lazy"
+                        className="block h-auto w-full transition-transform duration-500 group-hover/shot:scale-[1.02]"
+                      />
+                      {/* Expand affordance */}
+                      <span className="pointer-events-none absolute right-2 top-2 flex items-center gap-1 rounded-full border border-emerald-500/30 bg-zinc-950/80 px-2.5 py-1 text-[0.6rem] font-medium uppercase tracking-widest text-emerald-300/90 opacity-0 backdrop-blur-sm transition-opacity duration-300 group-hover/shot:opacity-100">
+                        <Maximize2 size={11} />
+                        Expand
+                      </span>
+                    </button>
+                    <figcaption className="mt-2 text-xs leading-relaxed text-zinc-500">
+                      {shot.caption}
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Tags */}
           <div className="mb-6 flex flex-wrap gap-2">
             {tags.map((tag) => (
@@ -176,14 +242,6 @@ export function ProjectCard({
 
           {/* Actions */}
           <div className="flex flex-wrap items-center gap-3">
-            <button
-              disabled
-              title="Live demo coming soon"
-              className="flex cursor-not-allowed items-center gap-2 rounded-full bg-emerald-500/10 px-6 py-3 text-sm font-semibold text-emerald-500/40"
-            >
-              <ExternalLink size={15} />
-              Live Demo (Coming Soon)
-            </button>
             <a
               href={github}
               target="_blank"
@@ -201,15 +259,31 @@ export function ProjectCard({
 
   return (
     <>
-      <div ref={cardRef} onMouseEnter={show} onMouseLeave={hide}>
-        <SpotlightCard className="group relative flex flex-col overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900 p-5 transition-[border-color,box-shadow] duration-300 hover:border-emerald-500/40 hover:shadow-xl hover:shadow-emerald-500/10">
+      <div ref={cardRef} onClick={show} className="cursor-pointer">
+        <SpotlightCard className="group relative flex flex-col overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900 p-5 transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-1 hover:border-emerald-500/60 hover:shadow-[0_0_0_1px_rgba(16,185,129,0.35),0_22px_55px_-12px_rgba(16,185,129,0.45)]">
           <div
             aria-hidden="true"
             className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-emerald-500/50 to-transparent"
           />
-          {/* Interactive demo area */}
-          <div className="mb-4 min-h-[13rem] overflow-hidden rounded-xl border border-zinc-800 bg-zinc-950">
+          {/* Interactive demo area — clicks here drive the demo, not the expand */}
+          <div
+            className="relative mb-4 min-h-[13rem] overflow-hidden rounded-xl border border-zinc-800 bg-zinc-950"
+            onClick={(e) => e.stopPropagation()}
+          >
             {demo}
+            {/* Expand affordance — visible on hover/focus, also the keyboard-accessible control */}
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                show();
+              }}
+              aria-label={`Expand ${title} details`}
+              className="absolute right-2 top-2 flex items-center gap-1 rounded-full border border-emerald-500/30 bg-zinc-950/80 px-2.5 py-1 text-[0.6rem] font-medium uppercase tracking-widest text-emerald-300/90 opacity-0 backdrop-blur-sm transition-all duration-300 hover:border-emerald-400/60 hover:text-emerald-200 focus-visible:opacity-100 focus-visible:outline-none group-hover:opacity-100"
+            >
+              <Maximize2 size={11} />
+              Expand
+            </button>
           </div>
           {/* Info area */}
           <div className="flex flex-col gap-3">
@@ -264,6 +338,35 @@ export function ProjectCard({
         </SpotlightCard>
       </div>
       {mounted && createPortal(overlay, document.body)}
+      {mounted &&
+        lightbox &&
+        createPortal(
+          <div
+            className="fixed inset-0 z-[60] flex items-center justify-center bg-zinc-950/90 p-4 backdrop-blur-sm sm:p-10"
+            onClick={() => setLightbox(null)}
+          >
+            <figure className="relative max-h-full max-w-5xl" onClick={(e) => e.stopPropagation()}>
+              <button
+                type="button"
+                onClick={() => setLightbox(null)}
+                aria-label="Close screenshot"
+                className="absolute -right-3 -top-3 z-10 flex h-9 w-9 items-center justify-center rounded-full border border-zinc-600 bg-zinc-900 text-zinc-300 transition-colors hover:border-emerald-400/60 hover:text-emerald-300"
+              >
+                <X size={16} />
+              </button>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={lightbox.src}
+                alt={lightbox.caption}
+                className="max-h-[80vh] w-auto rounded-lg border border-zinc-700 shadow-2xl shadow-zinc-950"
+              />
+              <figcaption className="mt-3 text-center text-sm text-zinc-400">
+                {lightbox.caption}
+              </figcaption>
+            </figure>
+          </div>,
+          document.body
+        )}
     </>
   );
 }

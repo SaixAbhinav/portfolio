@@ -42,8 +42,45 @@ const projects: Array<{
   github: string;
   iconName: IconName;
   metric?: Metric;
+  highlights?: string[];
+  screenshots?: { src: string; caption: string }[];
   demo: ReactNode;
 }> = [
+  {
+    title: "AI Workflow Copilot",
+    subtitle: "Local-first AI desktop assistant",
+    description:
+      "A local-first PyQt5 desktop app that turns documents and Gmail into summaries, tasks, insights, and comparisons — powered by a local Ollama model, so nothing ever leaves your machine. Auto mode triages your inbox in parallel, ranks emails by urgency, and pushes the important action items straight to Google Calendar.",
+    tags: ["Python", "PyQt5", "Ollama · local LLM", "Gmail & Calendar API", "SQLite"],
+    github: "https://github.com/SaixAbhinav/Workflow_copilot",
+    iconName: "Workflow",
+    highlights: [
+      "100% local LLM via Ollama — documents and emails never touch a third-party API",
+      "Auto inbox triage: parallel-scans recent Gmail and ranks each message high / medium / low urgency",
+      "One-click push of extracted action items to Google Calendar, with a review step first",
+      "Four workflows — Summary, Tasks, Insights, and side-by-side Compare",
+      "Multi-account Google OAuth, cancellable runs, and a searchable SQLite run history",
+    ],
+    screenshots: [
+      {
+        src: "https://raw.githubusercontent.com/SaixAbhinav/Workflow_copilot/main/docs/screenshots/main.png",
+        caption: "Main window — choose a workflow and run it on a local model",
+      },
+      {
+        src: "https://raw.githubusercontent.com/SaixAbhinav/Workflow_copilot/main/docs/screenshots/task-review.png",
+        caption: "Extracted tasks, ranked and ready to push to Calendar",
+      },
+      {
+        src: "https://raw.githubusercontent.com/SaixAbhinav/Workflow_copilot/main/docs/screenshots/task-review-dialog.png",
+        caption: "Edit titles, deadlines & priority before anything hits your calendar",
+      },
+      {
+        src: "https://raw.githubusercontent.com/SaixAbhinav/Workflow_copilot/main/docs/screenshots/history.png",
+        caption: "Every run saved to a searchable local SQLite history",
+      },
+    ],
+    demo: <WorkflowDemo />,
+  },
   {
     title: "SmartSignal",
     subtitle: "AI Traffic Light Automation System",
@@ -65,16 +102,6 @@ const projects: Array<{
     iconName: "ShieldCheck",
     metric: { value: 92, suffix: "%", label: "accuracy", trend: "up" },
     demo: <FakeGuardDemo />,
-  },
-  {
-    title: "AI Workflow Assistant",
-    subtitle: "Intelligent Automation Tool",
-    description:
-      "AI-powered tool that automates summarization, insight extraction, and task generation from unstructured data. Built with prompt engineering workflows using the OpenAI API for structured, reliable outputs.",
-    tags: ["Python", "OpenAI API", "Prompt Engineering", "Flask"],
-    github: "https://github.com/SaixAbhinav/ai-workflow-assistant",
-    iconName: "Workflow",
-    demo: <WorkflowDemo />,
   },
   {
     title: "Skin Cancer Detection",
@@ -282,6 +309,8 @@ export default function Home() {
                   github={project.github}
                   iconName={project.iconName}
                   metric={project.metric}
+                  highlights={project.highlights}
+                  screenshots={project.screenshots}
                   demo={project.demo}
                 />
               </ScrollReveal>
