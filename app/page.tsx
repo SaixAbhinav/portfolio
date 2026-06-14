@@ -43,6 +43,7 @@ const projects: Array<{
   metric?: Metric;
   highlights?: string[];
   screenshots?: { src: string; caption: string; width: number; height: number }[];
+  embedUrl?: string;
   demo: ReactNode;
 }> = [
   {
@@ -94,7 +95,8 @@ const projects: Array<{
     description:
       "AI-powered traffic signal control system using PPO reinforcement learning and SUMO simulation. Integrated TomTom API for realistic traffic data, reducing vehicle waiting time by ~28% and increasing throughput by 22%.",
     tags: ["Python", "PPO", "SUMO", "TomTom API", "Reinforcement Learning"],
-    github: "https://github.com/SaixAbhinav/SmartSignal",
+    github: "https://github.com/SaixAbhinav/smart-signal",
+    embedUrl: "https://smart-signal-i0v5.onrender.com",
     iconName: "TrafficCone",
     metric: { value: 28, suffix: "%", label: "wait time", trend: "down" },
     demo: <SmartSignalDemo key="smartsignal-demo" />,
@@ -317,6 +319,7 @@ export default function Home() {
                   metric={project.metric}
                   highlights={project.highlights}
                   screenshots={project.screenshots}
+                  embedUrl={project.embedUrl}
                   demo={project.demo}
                 />
               </ScrollReveal>

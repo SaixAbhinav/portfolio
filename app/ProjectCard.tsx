@@ -34,6 +34,7 @@ type Props = {
   metric?: Metric;
   highlights?: string[];
   screenshots?: Screenshot[];
+  embedUrl?: string;
   demo: ReactNode;
 };
 
@@ -47,6 +48,7 @@ export function ProjectCard({
   metric,
   highlights,
   screenshots,
+  embedUrl,
   demo,
 }: Props) {
   const Icon = ICON_MAP[iconName];
@@ -145,10 +147,40 @@ export function ProjectCard({
 
         {/* Scrollable content */}
         <div className="px-7 pb-7 pt-5">
-          {/* Live interactive demo */}
-          <div className="mb-5 overflow-hidden rounded-xl border border-zinc-800 bg-zinc-950">
-            {demo}
-          </div>
+          {embedUrl ? (
+            /* Live deployed app, embedded */
+            <div className="mb-5">
+              <div className="mb-2.5 flex items-center justify-between">
+                <p className="text-[0.65rem] font-semibold uppercase tracking-widest text-emerald-300/70">
+                  Live dashboard
+                </p>
+                <a
+                  href={embedUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 text-xs text-zinc-400 transition-colors hover:text-emerald-300"
+                >
+                  Open full <ArrowUpRight size={13} />
+                </a>
+              </div>
+              <div className="overflow-hidden rounded-xl border border-zinc-800 bg-zinc-950">
+                <iframe
+                  src={embedUrl}
+                  title={`${title} live dashboard`}
+                  loading="lazy"
+                  className="h-[34rem] w-full"
+                />
+              </div>
+              <p className="mt-2 text-xs text-zinc-500">
+                Live app on free hosting — the first load can take ~30s to wake up.
+              </p>
+            </div>
+          ) : (
+            /* Interactive in-card demo */
+            <div className="mb-5 overflow-hidden rounded-xl border border-zinc-800 bg-zinc-950">
+              {demo}
+            </div>
+          )}
 
           {/* Metric */}
           {metric && (
