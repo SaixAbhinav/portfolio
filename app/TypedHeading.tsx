@@ -3,7 +3,6 @@
 import { CSSProperties, useEffect, useRef, useState } from "react";
 
 type Props = {
-  marker: string;
   prefix: string;
   emphasis: string;
   align?: "left" | "center";
@@ -12,7 +11,6 @@ type Props = {
 };
 
 export function TypedHeading({
-  marker,
   prefix,
   emphasis,
   align = "left",
@@ -48,13 +46,6 @@ export function TypedHeading({
 
   return (
     <div className={className}>
-      <p
-        className={`mb-4 font-mono text-sm tracking-[0.2em] text-emerald-400/70 ${
-          centered ? "text-center" : ""
-        }`}
-      >
-        {marker}
-      </p>
       <div className={`${centered ? "mx-auto" : ""} w-max`}>
         <h2
           ref={ref}

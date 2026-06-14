@@ -1,7 +1,6 @@
 import {
   GitBranch,
   Mail,
-  ChevronDown,
   Briefcase,
   GraduationCap,
 } from "lucide-react";
@@ -43,43 +42,51 @@ const projects: Array<{
   iconName: IconName;
   metric?: Metric;
   highlights?: string[];
-  screenshots?: { src: string; caption: string }[];
+  screenshots?: { src: string; caption: string; width: number; height: number }[];
   demo: ReactNode;
 }> = [
   {
     title: "AI Workflow Copilot",
     subtitle: "Local-first AI desktop assistant",
     description:
-      "A local-first PyQt5 desktop app that turns documents and Gmail into summaries, tasks, insights, and comparisons — powered by a local Ollama model, so nothing ever leaves your machine. Auto mode triages your inbox in parallel, ranks emails by urgency, and pushes the important action items straight to Google Calendar.",
+      "A local-first PyQt5 desktop app that turns documents and Gmail into summaries, tasks, insights, and comparisons. Powered by a local Ollama model, nothing ever leaves your machine. Auto mode triages your inbox in parallel, ranks emails by urgency, and pushes the important action items straight to Google Calendar.",
     tags: ["Python", "PyQt5", "Ollama · local LLM", "Gmail & Calendar API", "SQLite"],
     github: "https://github.com/SaixAbhinav/Workflow_copilot",
     iconName: "Workflow",
     highlights: [
-      "100% local LLM via Ollama — documents and emails never touch a third-party API",
+      "100% local LLM via Ollama, so documents and emails never touch a third-party API",
       "Auto inbox triage: parallel-scans recent Gmail and ranks each message high / medium / low urgency",
       "One-click push of extracted action items to Google Calendar, with a review step first",
-      "Four workflows — Summary, Tasks, Insights, and side-by-side Compare",
+      "Four workflows: Summary, Tasks, Insights, and side-by-side Compare",
       "Multi-account Google OAuth, cancellable runs, and a searchable SQLite run history",
     ],
     screenshots: [
       {
         src: "https://raw.githubusercontent.com/SaixAbhinav/Workflow_copilot/main/docs/screenshots/main.png",
-        caption: "Main window — choose a workflow and run it on a local model",
+        caption: "Main window: choose a workflow and run it on a local model",
+        width: 1198,
+        height: 712,
       },
       {
         src: "https://raw.githubusercontent.com/SaixAbhinav/Workflow_copilot/main/docs/screenshots/task-review.png",
         caption: "Extracted tasks, ranked and ready to push to Calendar",
+        width: 1199,
+        height: 717,
       },
       {
         src: "https://raw.githubusercontent.com/SaixAbhinav/Workflow_copilot/main/docs/screenshots/task-review-dialog.png",
         caption: "Edit titles, deadlines & priority before anything hits your calendar",
+        width: 786,
+        height: 471,
       },
       {
         src: "https://raw.githubusercontent.com/SaixAbhinav/Workflow_copilot/main/docs/screenshots/history.png",
         caption: "Every run saved to a searchable local SQLite history",
+        width: 508,
+        height: 641,
       },
     ],
-    demo: <WorkflowDemo />,
+    demo: <WorkflowDemo key="workflow-demo" />,
   },
   {
     title: "SmartSignal",
@@ -90,7 +97,7 @@ const projects: Array<{
     github: "https://github.com/SaixAbhinav/SmartSignal",
     iconName: "TrafficCone",
     metric: { value: 28, suffix: "%", label: "wait time", trend: "down" },
-    demo: <SmartSignalDemo />,
+    demo: <SmartSignalDemo key="smartsignal-demo" />,
   },
   {
     title: "FakeGuard",
@@ -101,7 +108,7 @@ const projects: Array<{
     github: "https://github.com/SaixAbhinav/Instagram_fake_account_detector",
     iconName: "ShieldCheck",
     metric: { value: 92, suffix: "%", label: "accuracy", trend: "up" },
-    demo: <FakeGuardDemo />,
+    demo: <FakeGuardDemo key="fakeguard-demo" />,
   },
   {
     title: "Skin Cancer Detection",
@@ -112,7 +119,7 @@ const projects: Array<{
     github: "https://github.com/SaixAbhinav/skin_cancer_prediction",
     iconName: "Activity",
     metric: { value: 94, suffix: "%", label: "accuracy", trend: "up" },
-    demo: <SkinCancerDemo />,
+    demo: <SkinCancerDemo key="skincancer-demo" />,
   },
 ];
 
@@ -173,25 +180,20 @@ export default function Home() {
     <div id="top" className="min-h-dvh">
       <Nav />
 
-      {/* Hero */}
-      <section className="relative flex min-h-dvh flex-col items-center justify-center overflow-hidden px-6 text-center">
+      {/* Hero — asymmetric: type column left, breathing room right */}
+      <section className="relative flex min-h-dvh flex-col justify-center overflow-hidden px-6">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-          <div className="orb-1 absolute left-1/2 top-1/2 h-[36rem] w-[36rem] rounded-full bg-emerald-500/[0.15] blur-3xl" />
-          <div className="orb-2 absolute right-[8%] top-[18%] h-[22rem] w-[22rem] rounded-full bg-zinc-100/[0.07] blur-3xl" />
-          <div className="orb-3 absolute left-[6%] bottom-[12%] h-[18rem] w-[18rem] rounded-full bg-zinc-100/[0.07] blur-3xl" />
+          <div className="orb-1 absolute right-[-8%] top-[20%] h-[36rem] w-[36rem] rounded-full bg-emerald-500/[0.15] blur-3xl" />
+          <div className="orb-2 absolute right-[28%] top-[8%] h-[22rem] w-[22rem] rounded-full bg-zinc-100/[0.07] blur-3xl" />
+          <div className="orb-3 absolute left-[4%] bottom-[10%] h-[18rem] w-[18rem] rounded-full bg-zinc-100/[0.07] blur-3xl" />
         </div>
-        <HeroIntro />
-        <a
-          href="#about"
-          aria-label="Scroll to About section"
-          className="absolute bottom-10 animate-bounce text-zinc-600 hover:text-zinc-400 motion-reduce:animate-none"
-        >
-          <ChevronDown size={24} />
-        </a>
+        <div className="relative mx-auto w-full max-w-5xl">
+          <HeroIntro />
+        </div>
       </section>
 
       {/* About */}
-      <section id="about" className="flex min-h-dvh flex-col items-center justify-center px-6 py-16">
+      <section id="about" className="flex min-h-dvh flex-col items-center justify-center px-6 py-24">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
           <div className="orb-2 absolute bottom-[15%] left-[8%] h-[14rem] w-[14rem] rounded-full bg-zinc-100/[0.07] blur-3xl" />
           <div
@@ -200,7 +202,7 @@ export default function Home() {
           />
         </div>
         <div className="relative mx-auto w-full max-w-5xl">
-          <TypedHeading marker="/ 01" prefix="About " emphasis="Me" className="mb-16" />
+          <TypedHeading prefix="About " emphasis="Me" className="mb-16" />
           {/* Two-column layout: tall photo on the left fills the column; bio + skills stacked on the right. */}
           <div className="grid gap-10 lg:grid-cols-5">
             {/* Photo — left, spans 2 of 5 cols. Stretches to match right-column height on lg.
@@ -253,27 +255,31 @@ export default function Home() {
           />
         </div>
         <div className="relative mx-auto w-full max-w-5xl">
-          <TypedHeading marker="/ 02" prefix="Experience & " emphasis="Education" className="mb-16" />
-          {/* Single timeline — work + education interleaved, icon distinguishes type */}
-          <div className="relative mx-auto max-w-2xl space-y-6">
-            {/* Vertical rule */}
-            <div aria-hidden="true" className="absolute left-[1.6rem] top-2 h-full w-px bg-zinc-800" />
+          <TypedHeading prefix="Experience & " emphasis="Education" className="mb-16" />
+          {/* Timeline — de-carded editorial rows: mono period rail left, content right.
+              Work + education interleaved, icon distinguishes type. */}
+          <div className="space-y-14">
             {timeline.map((item, index) => {
               const Icon = item.type === "work" ? Briefcase : GraduationCap;
               return (
                 <ScrollReveal key={`${item.title}-${item.org}`} effect="fade-up" delay={index * 180} threshold={0.1}>
-                  <div className="relative flex gap-6">
-                    {/* Icon node on the timeline rail */}
-                    <div className="relative z-10 flex h-[3.2rem] w-[3.2rem] shrink-0 items-center justify-center rounded-full border border-zinc-800 bg-zinc-950">
-                      <Icon size={16} className={item.type === "work" ? "text-emerald-400" : "text-zinc-400"} />
-                    </div>
-                    {/* Card */}
-                    <div className="flex-1 rounded-xl border border-zinc-800 bg-zinc-900/50 p-5 transition-colors hover:border-zinc-700">
-                      <div className="mb-1 flex flex-wrap items-start justify-between gap-2">
-                        <p className="text-lg font-semibold text-zinc-100">{item.title}</p>
-                        <span className="text-xs text-zinc-500">{item.period}</span>
+                  <div className="grid gap-3 md:grid-cols-[11rem_1fr] md:gap-10">
+                    {/* Period rail */}
+                    <p className="pt-1 font-mono text-sm tracking-wide text-zinc-500">
+                      {item.period}
+                    </p>
+                    {/* Entry */}
+                    <div className="max-w-2xl">
+                      <div className="mb-2 flex items-center gap-3">
+                        <Icon
+                          size={18}
+                          className={item.type === "work" ? "text-emerald-400" : "text-zinc-500"}
+                        />
+                        <h3 className="text-2xl font-semibold tracking-tight text-zinc-50 sm:text-3xl">
+                          {item.title}
+                        </h3>
                       </div>
-                      <p className="mb-2 text-sm text-zinc-400">{item.org}</p>
+                      <p className="mb-3 text-sm font-medium text-emerald-400/80">{item.org}</p>
                       <p className="text-base leading-relaxed text-zinc-400">{item.description}</p>
                     </div>
                   </div>
@@ -297,7 +303,7 @@ export default function Home() {
           />
         </div>
         <div className="relative mx-auto w-full max-w-5xl">
-          <TypedHeading marker="/ 03" prefix="Featured " emphasis="Projects" className="mb-16" />
+          <TypedHeading prefix="Featured " emphasis="Projects" className="mb-16" />
           <div className="grid gap-6 sm:grid-cols-2">
             {projects.map((project, index) => (
               <ScrollReveal key={project.title} effect="zoom-up" duration={800} delay={index * 100} threshold={0.1}>
@@ -333,32 +339,32 @@ export default function Home() {
         </div>
         <div className="relative mx-auto flex w-full max-w-5xl flex-1 items-center">
           <ScrollReveal effect="fade-up" className="w-full" threshold={0.1}>
-          <div className="w-full rounded-2xl border border-zinc-800 bg-zinc-900/50 p-12 text-center">
-            <TypedHeading marker="/ 04" prefix="Let’s " emphasis="Connect" align="center" className="mb-6" />
-            <p className="mx-auto mb-12 max-w-lg text-lg text-zinc-300 sm:text-xl">
-              I&apos;m open to collaborations, research opportunities, and
-              interesting AI projects. Feel free to reach out.
-            </p>
-            <div className="flex flex-wrap items-center justify-center gap-4">
-              <a
-                href="mailto:saiabhinav190404@gmail.com"
-                className="flex items-center gap-2 rounded-full bg-emerald-500 px-8 py-4 text-base font-semibold text-zinc-950 shadow-lg shadow-emerald-500/30 transition-colors hover:bg-emerald-400"
-              >
-                <Mail size={18} />
-                saiabhinav190404@gmail.com
-              </a>
-              <a
-                href="https://github.com/SaixAbhinav"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="GitHub profile (opens in a new tab)"
-                className="flex items-center gap-2 rounded-full border border-zinc-700 px-8 py-4 text-base font-semibold text-zinc-300 transition-colors hover:border-zinc-500 hover:text-zinc-100"
-              >
-                <GitBranch size={18} />
-                github.com/SaixAbhinav
-              </a>
+            <div className="w-full">
+              <TypedHeading prefix="Let’s " emphasis="Connect" className="mb-8" />
+              <p className="mb-12 max-w-xl text-lg leading-relaxed text-zinc-300 sm:text-xl">
+                I&apos;m open to collaborations, research opportunities, and
+                interesting AI projects. Feel free to reach out.
+              </p>
+              <div className="flex flex-wrap items-center gap-4">
+                <a
+                  href="mailto:saiabhinav190404@gmail.com"
+                  className="flex items-center gap-2 rounded-full bg-emerald-500 px-8 py-4 text-base font-semibold text-zinc-950 shadow-lg shadow-emerald-500/30 transition-colors hover:bg-emerald-400"
+                >
+                  <Mail size={18} />
+                  saiabhinav190404@gmail.com
+                </a>
+                <a
+                  href="https://github.com/SaixAbhinav"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="GitHub profile (opens in a new tab)"
+                  className="flex items-center gap-2 rounded-full border border-zinc-700 px-8 py-4 text-base font-semibold text-zinc-300 transition-colors hover:border-zinc-500 hover:text-zinc-100"
+                >
+                  <GitBranch size={18} />
+                  github.com/SaixAbhinav
+                </a>
+              </div>
             </div>
-          </div>
           </ScrollReveal>
         </div>
         <footer className="-mx-6 mt-12 border-t border-zinc-800/50 px-6 py-8 text-center text-sm text-zinc-600">

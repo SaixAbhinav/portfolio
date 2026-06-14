@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+/* Geist via next/font CSS variables (set on <body> in layout.tsx) */
+@theme inline {
+  --font-sans: var(--font-geist);
+  --font-mono: var(--font-geist-mono);
+}
+
 html {
   scroll-behavior: smooth;
 }

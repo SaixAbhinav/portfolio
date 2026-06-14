@@ -9,7 +9,6 @@ const PHASES = [
   "name",
   "eyebrow",
   "bio",
-  "welcome",
   "done",
 ] as const;
 type Phase = (typeof PHASES)[number];
@@ -18,14 +17,12 @@ const TEXTS = {
   eyebrow: "Applied AI Engineer",
   name: "I’m Sai Abhinav",
   bio: "I enjoy building stuff.",
-  welcomeRest: "take a look around.",
 };
 
 const SPEEDS = {
   eyebrow: 70,
   name: 180,
   bio: 50,
-  welcomeRest: 55,
 };
 
 const typingStyle = (text: string, speed: number): CSSProperties => ({
@@ -52,18 +49,18 @@ export function HeroIntro() {
   const atOrPast = (target: Phase) => phaseIndex >= PHASES.indexOf(target);
 
   return (
-    <div className="relative max-w-3xl">
+    <div className="relative w-full">
       {/* Underlying hero content — invisible until Hi starts fading out */}
       <div
         className={`transition-opacity duration-700 ${
           atOrPast("fading") ? "opacity-100" : "opacity-0"
         }`}
       >
-        {/* Name — wrapper for centering + mouse parallax target */}
-        <div className="mx-auto mb-8 min-h-[1.1em] w-max">
+        {/* Name — left-aligned headline, types first */}
+        <div className="mb-8 min-h-[1.1em] w-max max-w-full">
           {atOrPast("name") && (
             <h1
-              className={`overflow-hidden whitespace-nowrap pr-2 text-6xl font-bold tracking-tighter sm:text-8xl lg:text-9xl ${
+              className={`overflow-hidden whitespace-nowrap pr-2 text-[2.5rem] font-bold tracking-tighter sm:text-8xl lg:text-9xl ${
                 phase === "name" ? "border-r-[6px] border-emerald-400" : ""
               }`}
               style={
@@ -79,7 +76,7 @@ export function HeroIntro() {
               {past("name") && (
                 <span
                   aria-hidden="true"
-                  className="blink-bar ml-3 inline-block h-16 w-[6px] bg-emerald-400 align-middle sm:h-24 lg:h-28"
+                  className="blink-bar ml-3 inline-block h-10 w-[6px] bg-emerald-400 align-middle sm:h-24 lg:h-28"
                 />
               )}
             </h1>
@@ -87,7 +84,7 @@ export function HeroIntro() {
         </div>
 
         {/* Eyebrow — appears below as a role tag, types after the name */}
-        <div className="mx-auto mb-8 min-h-[1.6em] w-max">
+        <div className="mb-8 min-h-[1.6em] w-max max-w-full">
           {atOrPast("eyebrow") && (
             <p
               className={`overflow-hidden whitespace-nowrap pr-1 text-base font-medium uppercase tracking-[0.3em] sm:text-lg ${
@@ -108,10 +105,10 @@ export function HeroIntro() {
         </div>
 
         {/* Bio */}
-        <div className="mx-auto mb-6 min-h-[2em] w-max max-w-full">
+        <div className="mb-12 min-h-[2em] w-max max-w-full">
           {atOrPast("bio") && (
             <p
-              className={`overflow-hidden whitespace-nowrap pr-1 text-3xl leading-relaxed text-zinc-300 sm:text-4xl lg:text-5xl ${
+              className={`overflow-hidden whitespace-nowrap pr-1 text-2xl leading-relaxed text-zinc-300 sm:text-4xl lg:text-5xl ${
                 phase === "bio" ? "border-r-[3px] border-emerald-400" : ""
               }`}
               style={
@@ -119,43 +116,17 @@ export function HeroIntro() {
                   ? typingStyle(TEXTS.bio, SPEEDS.bio)
                   : { width: "100%" }
               }
-              onAnimationEnd={() => phase === "bio" && setPhase("welcome")}
+              onAnimationEnd={() => phase === "bio" && setPhase("done")}
             >
               {TEXTS.bio}
             </p>
           )}
         </div>
 
-        {/* Welcome — static "Welcome — " prefix, then typed rest */}
-        <div className="mx-auto mb-12 flex min-h-[1.5em] w-max items-baseline justify-center text-base text-zinc-400 sm:text-lg">
-          {atOrPast("welcome") && (
-            <>
-              <span className="font-semibold text-emerald-400">Welcome</span>
-              <span>&nbsp;—&nbsp;</span>
-              <span
-                className={`overflow-hidden whitespace-nowrap pr-1 ${
-                  phase === "welcome" ? "border-r-2 border-emerald-400" : ""
-                }`}
-                style={
-                  phase === "welcome"
-                    ? {
-                        display: "inline-block",
-                        ...typingStyle(TEXTS.welcomeRest, SPEEDS.welcomeRest),
-                      }
-                    : { display: "inline-block", width: "100%" }
-                }
-                onAnimationEnd={() => phase === "welcome" && setPhase("done")}
-              >
-                {TEXTS.welcomeRest}
-              </span>
-            </>
-          )}
-        </div>
-
         {/* CTAs — fade in after typing finishes */}
         <div
-          className={`flex flex-wrap items-center justify-center gap-4 transition-opacity duration-500 ${
-            past("welcome") ? "opacity-100" : "opacity-0"
+          className={`flex flex-wrap items-center gap-4 transition-opacity duration-500 ${
+            past("bio") ? "opacity-100" : "opacity-0"
           }`}
         >
           <a
@@ -176,7 +147,7 @@ export function HeroIntro() {
       {/* Hi — big centered overlay, pops in then fades out */}
       <div
         aria-hidden={atOrPast("fading") ? "true" : undefined}
-        className={`pointer-events-none absolute inset-0 flex items-center justify-center transition-all duration-700 ${
+        className={`pointer-events-none absolute inset-0 flex items-center justify-start transition-all duration-700 ${
           phase === "init"
             ? "scale-75 opacity-0"
             : phase === "hi"

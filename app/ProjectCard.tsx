@@ -22,7 +22,7 @@ export type IconName = keyof typeof ICON_MAP;
 
 type Metric = { value: number; suffix?: string; label: string; trend: "up" | "down" };
 
-type Screenshot = { src: string; caption: string };
+type Screenshot = { src: string; caption: string; width: number; height: number };
 
 type Props = {
   title: string;
@@ -210,6 +210,8 @@ export function ProjectCard({
                       <img
                         src={shot.src}
                         alt={shot.caption}
+                        width={shot.width}
+                        height={shot.height}
                         loading="lazy"
                         className="block h-auto w-full transition-transform duration-500 group-hover/shot:scale-[1.02]"
                       />
@@ -358,6 +360,8 @@ export function ProjectCard({
               <img
                 src={lightbox.src}
                 alt={lightbox.caption}
+                width={lightbox.width}
+                height={lightbox.height}
                 className="max-h-[80vh] w-auto rounded-lg border border-zinc-700 shadow-2xl shadow-zinc-950"
               />
               <figcaption className="mt-3 text-center text-sm text-zinc-400">

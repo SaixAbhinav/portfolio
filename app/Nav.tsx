@@ -44,7 +44,7 @@ export function Nav() {
         >
           SA
         </a>
-        <div className="flex items-center gap-8 text-base">
+        <div className="flex items-center gap-4 text-xs sm:gap-8 sm:text-base">
           {sections.map((id) => (
             <a
               key={id}
@@ -70,7 +70,7 @@ export function Nav() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="GitHub profile (opens in a new tab)"
-            className="text-zinc-400 transition-colors hover:text-zinc-100"
+            className="hidden text-zinc-400 transition-colors hover:text-zinc-100 sm:block"
           >
             <GitBranch size={16} />
           </a>

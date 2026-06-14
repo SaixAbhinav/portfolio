@@ -1,11 +1,16 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { CursorSpotlight } from "./CursorSpotlight";
 
-const inter = Inter({ subsets: ["latin"] });
+const geist = Geist({ subsets: ["latin"], variable: "--font-geist" });
+const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono" });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : "http://localhost:3000");
 const description =
   "Applied AI builder focused on automation-driven solutions using machine learning, reinforcement learning, and prompt engineering.";
 
@@ -29,6 +34,16 @@ export const metadata: Metadata = {
   },
 };
 
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Sai Abhinav",
+  jobTitle: "Applied AI Engineer",
+  email: "mailto:saiabhinav190404@gmail.com",
+  url: siteUrl,
+  sameAs: ["https://github.com/SaixAbhinav"],
+};
+
 export default function RootLayout({
   children,
 }: {
@@ -36,7 +51,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body className={`${inter.className} bg-zinc-950 text-zinc-100 antialiased`}>
+      <body
+        className={`${geist.variable} ${geistMono.variable} bg-zinc-950 font-sans text-zinc-100 antialiased`}
+      >
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        />
         <CursorSpotlight />
         {children}
       </body>
