@@ -235,7 +235,7 @@ export function ProjectCard({
                       type="button"
                       onClick={() => setLightbox(shot)}
                       aria-label={`Expand screenshot: ${shot.caption}`}
-                      className="group/shot relative block w-full cursor-pointer overflow-hidden rounded-lg border border-zinc-800 bg-zinc-950 transition-all duration-300 hover:border-emerald-500/60 hover:shadow-[0_0_0_1px_rgba(16,185,129,0.3),0_16px_40px_-14px_rgba(16,185,129,0.4)]"
+                      className="group/shot relative block w-full cursor-pointer overflow-hidden rounded-lg border border-zinc-800 bg-zinc-950 transition-all duration-300 hover:border-emerald-500/60 hover:shadow-lg hover:shadow-black/40"
                     >
                       {/* Remote GitHub-hosted screenshots — plain img avoids next/image remote config */}
                       {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -294,7 +294,7 @@ export function ProjectCard({
   return (
     <>
       <div ref={cardRef} onClick={show} className="cursor-pointer">
-        <SpotlightCard className="group relative flex flex-col overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900 p-5 transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-1 hover:border-emerald-500/60 hover:shadow-[0_0_0_1px_rgba(16,185,129,0.35),0_22px_55px_-12px_rgba(16,185,129,0.45)]">
+        <SpotlightCard className="group relative flex flex-col overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900 p-5 transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-1 hover:border-emerald-500/60 hover:shadow-xl hover:shadow-black/40">
           <div
             aria-hidden="true"
             className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-emerald-500/50 to-transparent"

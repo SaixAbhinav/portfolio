@@ -182,13 +182,8 @@ export default function Home() {
     <div id="top" className="min-h-dvh">
       <Nav />
 
-      {/* Hero — asymmetric: type column left, breathing room right */}
+      {/* Hero — centered */}
       <section className="relative flex min-h-dvh flex-col justify-center overflow-hidden px-6">
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-          <div className="orb-1 absolute right-[-8%] top-[20%] h-[36rem] w-[36rem] rounded-full bg-emerald-500/[0.15] blur-3xl" />
-          <div className="orb-2 absolute right-[28%] top-[8%] h-[22rem] w-[22rem] rounded-full bg-zinc-100/[0.07] blur-3xl" />
-          <div className="orb-3 absolute left-[4%] bottom-[10%] h-[18rem] w-[18rem] rounded-full bg-zinc-100/[0.07] blur-3xl" />
-        </div>
         <div className="relative mx-auto w-full max-w-5xl">
           <HeroIntro />
         </div>
@@ -196,13 +191,6 @@ export default function Home() {
 
       {/* About */}
       <section id="about" className="flex min-h-dvh flex-col items-center justify-center px-6 py-24">
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div className="orb-2 absolute bottom-[15%] left-[8%] h-[14rem] w-[14rem] rounded-full bg-zinc-100/[0.07] blur-3xl" />
-          <div
-            className="orb-3 absolute right-[10%] top-[12%] h-[10rem] w-[10rem] rounded-full bg-zinc-100/[0.07] blur-3xl"
-            style={{ animationDelay: "-3s" }}
-          />
-        </div>
         <div className="relative mx-auto w-full max-w-5xl">
           <TypedHeading prefix="About " emphasis="Me" className="mb-16" />
           {/* Two-column layout: tall photo on the left fills the column; bio + skills stacked on the right. */}
@@ -210,7 +198,7 @@ export default function Home() {
             {/* Photo — left, spans 2 of 5 cols. Stretches to match right-column height on lg.
                 Waits for the "About Me" heading to finish typing before sliding in. */}
             <ScrollReveal effect="slide-left" duration={PHOTO_SLIDE_DURATION} delay={PHOTO_DELAY} className="lg:col-span-2">
-              <div className="group relative h-[26rem] w-full overflow-hidden rounded-2xl border border-emerald-500/20 bg-zinc-900 shadow-2xl shadow-emerald-500/10 sm:h-[32rem] lg:h-full lg:min-h-[36rem]">
+              <div className="group relative h-[26rem] w-full overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900 shadow-2xl shadow-black/30 sm:h-[32rem] lg:h-full lg:min-h-[36rem]">
                 <Image
                   src="/me.jpg"
                   alt="Portrait of Sai Abhinav"
@@ -246,16 +234,6 @@ export default function Home() {
 
       {/* Experience & Education */}
       <section id="experience" className="flex min-h-dvh flex-col items-center justify-center px-6 py-24">
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div
-            className="orb-2 absolute right-[12%] top-[18%] h-[12rem] w-[12rem] rounded-full bg-zinc-100/[0.07] blur-3xl"
-            style={{ animationDelay: "-5s" }}
-          />
-          <div
-            className="orb-3 absolute bottom-[10%] left-[15%] h-[14rem] w-[14rem] rounded-full bg-zinc-100/[0.07] blur-3xl"
-            style={{ animationDelay: "-2s" }}
-          />
-        </div>
         <div className="relative mx-auto w-full max-w-5xl">
           <TypedHeading prefix="Experience & " emphasis="Education" className="mb-16" />
           {/* Timeline — de-carded editorial rows: mono period rail left, content right.
@@ -294,16 +272,6 @@ export default function Home() {
 
       {/* Projects */}
       <section id="projects" className="flex min-h-dvh flex-col items-center justify-center px-6 py-24">
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div
-            className="orb-2 absolute left-[6%] top-[20%] h-[10rem] w-[10rem] rounded-full bg-zinc-100/[0.07] blur-3xl"
-            style={{ animationDelay: "-7s" }}
-          />
-          <div
-            className="orb-3 absolute bottom-[15%] right-[10%] h-[14rem] w-[14rem] rounded-full bg-zinc-100/[0.07] blur-3xl"
-            style={{ animationDelay: "-4s" }}
-          />
-        </div>
         <div className="relative mx-auto w-full max-w-5xl">
           <TypedHeading prefix="Featured " emphasis="Projects" className="mb-16" />
           <div className="grid gap-6 sm:grid-cols-2">
@@ -330,16 +298,6 @@ export default function Home() {
 
       {/* Contact + Footer */}
       <section id="contact" className="flex min-h-dvh flex-col px-6 pt-24">
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div
-            className="orb-2 absolute right-[8%] top-[15%] h-[12rem] w-[12rem] rounded-full bg-zinc-100/[0.07] blur-3xl"
-            style={{ animationDelay: "-6s" }}
-          />
-          <div
-            className="orb-3 absolute bottom-[20%] left-[10%] h-[10rem] w-[10rem] rounded-full bg-zinc-100/[0.07] blur-3xl"
-            style={{ animationDelay: "-1s" }}
-          />
-        </div>
         <div className="relative mx-auto flex w-full max-w-5xl flex-1 items-center">
           <ScrollReveal effect="fade-up" className="w-full" threshold={0.1}>
             <div className="w-full">
@@ -351,7 +309,7 @@ export default function Home() {
               <div className="flex flex-wrap items-center gap-4">
                 <a
                   href="mailto:saiabhinav190404@gmail.com"
-                  className="flex items-center gap-2 rounded-full bg-emerald-500 px-8 py-4 text-base font-semibold text-zinc-950 shadow-lg shadow-emerald-500/30 transition-colors hover:bg-emerald-400"
+                  className="flex items-center gap-2 rounded-full bg-emerald-500 px-8 py-4 text-base font-semibold text-zinc-950 transition-colors hover:bg-emerald-400"
                 >
                   <Mail size={18} />
                   saiabhinav190404@gmail.com
