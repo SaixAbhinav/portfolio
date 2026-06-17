@@ -41,5 +41,11 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# Claude Code local config (preview launch settings, worktrees, etc.)
+# Claude Code / AI-agent tooling — never commit to the repo
 .claude/
+.agents/
+.mcp.json
+skills-lock.json
+# AI-assistant instruction docs — kept local, not published to GitHub
+CLAUDE.md
+AGENTS.md
