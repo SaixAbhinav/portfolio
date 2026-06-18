@@ -182,7 +182,7 @@ export default function Home() {
     <div id="top" className="min-h-dvh">
       <Nav />
 
-      {/* Hero — centered over the site-wide deep-space starfield (see SpaceBackground) */}
+      {/* Hero — centered intro */}
       <section className="relative flex min-h-dvh flex-col justify-center overflow-hidden px-6">
         <div className="relative mx-auto w-full max-w-5xl">
           <HeroIntro />
