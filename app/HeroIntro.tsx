@@ -37,15 +37,6 @@ export function HeroIntro() {
 
   return (
     <div className="flex flex-col items-center text-center">
-      {/* Kicker */}
-      <p
-        style={{ transitionDelay: "0ms" }}
-        className={`${revealClass(shown)} mb-5 flex items-center gap-2 font-sans text-xs font-semibold uppercase tracking-[0.3em] text-gold`}
-      >
-        <Compass size={14} strokeWidth={2} />
-        Explorer · Builder · Learner
-      </p>
-
       {/* Name */}
       <h1
         style={{ transitionDelay: "120ms" }}
@@ -59,16 +50,7 @@ export function HeroIntro() {
         style={{ transitionDelay: "260ms" }}
         className={`${revealClass(shown)} mt-3 font-hand text-[clamp(1.75rem,4vw,2.75rem)] leading-none text-gold`}
       >
-        The universe is larger than the map.
-      </p>
-
-      {/* Manifesto line */}
-      <p
-        style={{ transitionDelay: "400ms" }}
-        className={`${revealClass(shown)} mt-7 max-w-xl text-balance text-lg leading-relaxed text-cream-soft sm:text-xl`}
-      >
-        I build intelligent systems to better understand worlds that haven&apos;t
-        been mapped yet.
+        Aspiring AI Engineer
       </p>
 
       {/* Personality chips — outlined, like the brand board */}
