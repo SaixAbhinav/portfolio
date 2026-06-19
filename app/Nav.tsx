@@ -1,80 +1,65 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { GitBranch } from "lucide-react";
-
-const sections = ["about", "experience", "projects", "contact"] as const;
-type Section = (typeof sections)[number];
+import { contactLinks, routes } from "./content";
 
 export function Nav() {
-  const [active, setActive] = useState<Section | null>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries.filter((e) => e.isIntersecting);
-        if (visible.length === 0) return;
-        const top = visible.reduce((a, b) =>
-          a.boundingClientRect.top < b.boundingClientRect.top ? a : b,
-        );
-        setActive(top.target.id as Section);
-      },
-      { rootMargin: "-40% 0px -55% 0px", threshold: 0 },
-    );
-
-    const observed: Element[] = [];
-    sections.forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) {
-        observer.observe(el);
-        observed.push(el);
-      }
-    });
-
-    return () => observer.disconnect();
-  }, []);
+  const pathname = usePathname();
 
   return (
-    <nav className="fixed top-0 z-50 w-full border-b border-zinc-800/50 bg-zinc-950/80 backdrop-blur-md">
-      <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
-        <a
-          href="#top"
-          className="text-base font-bold tracking-[0.25em] text-zinc-100 uppercase"
-          aria-label="Back to top"
+    <nav className="fixed inset-x-0 top-0 z-50 border-b border-[color:var(--line)] bg-[rgba(7,16,26,0.82)] backdrop-blur-xl">
+      <div className="mx-auto flex max-w-7xl items-center gap-4 px-5 py-3 sm:px-8 lg:px-10">
+        <Link
+          href="/"
+          className="journal-frame star-field shrink-0 px-3 py-2 font-serif text-base leading-none tracking-[0.22em] text-[var(--cream)] transition hover:border-[color:var(--line-strong)] hover:text-[var(--peach)]"
+          aria-label="Sai Abhinav journey"
         >
           SA
-        </a>
-        <div className="flex items-center gap-8 text-base">
-          {sections.map((id) => (
-            <a
-              key={id}
-              href={`#${id}`}
-              aria-current={active === id ? "true" : undefined}
-              className={`group/link relative transition-colors ${
-                active === id
-                  ? "text-emerald-400"
-                  : "text-zinc-400 hover:text-zinc-100"
-              }`}
-            >
-              {id.charAt(0).toUpperCase() + id.slice(1)}
-              <span
-                aria-hidden="true"
-                className={`absolute -bottom-1 left-0 h-px w-full origin-left bg-emerald-400 transition-transform duration-300 ${
-                  active === id ? "scale-x-100" : "scale-x-0 group-hover/link:scale-x-100"
-                }`}
-              />
-            </a>
-          ))}
-          <a
-            href="https://github.com/SaixAbhinav"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="GitHub profile (opens in a new tab)"
-            className="text-zinc-400 transition-colors hover:text-zinc-100"
-          >
-            <GitBranch size={16} />
-          </a>
+        </Link>
+
+        <div className="min-w-0 flex-1 overflow-x-auto">
+          <div className="flex w-max items-center gap-1 px-1 sm:ml-auto sm:w-auto sm:justify-end">
+            {routes.map((route) => {
+              const active = pathname === route.href;
+
+              return (
+                <Link
+                  key={route.href}
+                  href={route.href}
+                  aria-current={active ? "page" : undefined}
+                  className={`group relative rounded-md border px-3 py-2 text-xs font-semibold uppercase tracking-[0.16em] transition sm:text-[0.8rem] ${
+                    active
+                      ? "border-[color:var(--line-strong)] bg-[rgba(255,189,129,0.08)] text-[var(--peach)]"
+                      : "border-transparent text-[var(--muted)] hover:border-[color:var(--line)] hover:text-[var(--cream)]"
+                  }`}
+                >
+                  <span className="mr-2 font-mono text-[0.65rem] text-[var(--dim)]">
+                    {route.eyebrow}
+                  </span>
+                  {route.label}
+                  <span
+                    aria-hidden="true"
+                    className={`absolute inset-x-3 -bottom-px h-px origin-left bg-[var(--peach)] transition-transform ${
+                      active ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
+                    }`}
+                  />
+                </Link>
+              );
+            })}
+          </div>
         </div>
+
+        <a
+          href={contactLinks.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="GitHub profile opens in a new tab"
+          className="journal-frame hidden shrink-0 p-2 text-[var(--muted)] transition hover:border-[color:var(--line-strong)] hover:text-[var(--peach)] sm:inline-flex"
+        >
+          <GitBranch size={17} aria-hidden="true" />
+        </a>
       </div>
     </nav>
   );
