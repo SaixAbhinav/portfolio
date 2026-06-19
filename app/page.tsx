@@ -18,6 +18,7 @@ import { FakeGuardDemo } from "./FakeGuardDemo";
 import { WorkflowDemo } from "./WorkflowDemo";
 import { SkinCancerDemo } from "./SkinCancerDemo";
 import { SkyBackdrop } from "./SkyBackdrop";
+import { HeroScene } from "./HeroScene";
 import { ProjectCard, type IconName } from "./ProjectCard";
 
 type Metric = { value: number; suffix?: string; label: string; trend: "up" | "down" };
@@ -172,8 +173,8 @@ export default function Home() {
       <Nav />
 
       {/* Hero — the journey begins */}
-      <section className="relative flex min-h-dvh flex-col justify-center overflow-hidden px-6 pt-28">
-        <SkyBackdrop tint="dawn" position="top" />
+      <section className="relative flex min-h-dvh flex-col justify-center overflow-hidden px-6 pb-44 pt-28 sm:pb-0">
+        <HeroScene />
         <div className="relative z-10 mx-auto w-full max-w-5xl">
           <HeroIntro />
         </div>
