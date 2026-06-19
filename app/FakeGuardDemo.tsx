@@ -33,7 +33,7 @@ export function FakeGuardDemo() {
 
   return (
     <div className="flex h-full min-h-[13rem] flex-col p-4">
-      <p className="mb-3 text-[0.65rem] font-medium uppercase tracking-widest text-zinc-500">
+      <p className="mb-3 text-[0.65rem] font-semibold uppercase tracking-widest text-ink-soft">
         Profile Analyzer
       </p>
 
@@ -41,19 +41,20 @@ export function FakeGuardDemo() {
       <div className="mb-3 flex gap-2">
         {(Object.keys(PROFILES) as ProfileKey[]).map((key) => {
           const p = PROFILES[key];
+          const active = selected === key;
           return (
             <button
               key={key}
               onClick={() => analyze(key)}
               disabled={analyzing}
-              className="flex flex-1 flex-col rounded-lg border p-2.5 text-left transition-all duration-200 disabled:opacity-50"
-              style={{
-                borderColor: selected === key ? "rgba(16,185,129,0.4)" : "#3f3f46",
-                backgroundColor: selected === key ? "rgba(16,185,129,0.06)" : "transparent",
-              }}
+              className={`flex flex-1 flex-col rounded-xl border p-2.5 text-left transition-all duration-200 disabled:opacity-50 ${
+                active
+                  ? "border-amber-flame/60 bg-peach/40"
+                  : "border-ink/12 bg-paper hover:border-ink/25"
+              }`}
             >
-              <span className="text-xs font-semibold text-zinc-300">{p.label}</span>
-              <span className="mt-0.5 text-[0.6rem] text-zinc-600">
+              <span className="text-xs font-semibold text-ink">{p.label}</span>
+              <span className="mt-0.5 text-[0.6rem] text-ink-soft">
                 {p.followers} followers · {p.posts} posts
               </span>
             </button>
@@ -62,15 +63,15 @@ export function FakeGuardDemo() {
       </div>
 
       {/* Result area */}
-      <div className="flex flex-1 flex-col justify-center rounded-lg bg-zinc-900 p-3">
+      <div className="flex flex-1 flex-col justify-center rounded-xl border border-ink/10 bg-paper p-3">
         {!selected && !analyzing && (
-          <p className="text-center text-xs text-zinc-600">Select a profile to analyze</p>
+          <p className="text-center text-xs text-ink-soft">Select a profile to analyze</p>
         )}
 
         {analyzing && (
           <div className="space-y-2">
             {[80, 60, 40].map((w, i) => (
-              <div key={i} className="h-2 animate-pulse rounded-full bg-zinc-800" style={{ width: `${w}%` }} />
+              <div key={i} className="h-2 animate-pulse rounded-full bg-wildflower" style={{ width: `${w}%` }} />
             ))}
           </div>
         )}
@@ -79,22 +80,20 @@ export function FakeGuardDemo() {
           <div>
             <div className="mb-2 flex items-center gap-2">
               <span
-                className="rounded px-2 py-0.5 text-xs font-bold"
-                style={{
-                  color: isAuthentic ? "#10b981" : "#a1a1aa",
-                  backgroundColor: isAuthentic ? "rgba(16,185,129,0.12)" : "rgba(113,113,122,0.15)",
-                }}
+                className={`rounded-full px-2.5 py-0.5 text-xs font-bold text-ink ${
+                  isAuthentic ? "bg-mint" : "bg-dawn"
+                }`}
               >
                 {isAuthentic ? "✓" : "✗"} {result.verdict}
               </span>
-              <span className="text-xs text-zinc-500">{result.confidence}% confidence</span>
+              <span className="text-xs text-ink-soft">{result.confidence}% confidence</span>
             </div>
-            <div className="h-1.5 w-full overflow-hidden rounded-full bg-zinc-800">
+            <div className="h-1.5 w-full overflow-hidden rounded-full bg-ink/10">
               <div
                 className="h-full rounded-full transition-[width] duration-700 ease-out"
                 style={{
                   width: `${barWidth}%`,
-                  backgroundColor: isAuthentic ? "#10b981" : "#71717a",
+                  backgroundColor: isAuthentic ? "#2f3142" : "#b45c1e",
                 }}
               />
             </div>

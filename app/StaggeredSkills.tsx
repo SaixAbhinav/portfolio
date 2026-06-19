@@ -12,6 +12,15 @@ type Props = {
   className?: string;
 };
 
+// Each category leans on one pastel tint (the Pastel-Rotation Rule).
+const CHIP_TINTS = [
+  "bg-wildflower",
+  "bg-dawn",
+  "bg-mint",
+  "bg-peach",
+  "bg-lavender",
+];
+
 export function StaggeredSkills({
   skills,
   delay = 0,
@@ -52,14 +61,18 @@ export function StaggeredSkills({
         const offset = groupOffsets[groupIdx];
         const labelDelay = delay + offset * stagger;
         const isPrimary = group.primary ?? false;
+        const tint = CHIP_TINTS[groupIdx % CHIP_TINTS.length];
         return (
           <div key={group.category}>
             <p
               style={{ transitionDelay: `${labelDelay}ms` }}
-              className={`mb-3 font-mono text-xs uppercase tracking-[0.25em] transition-opacity duration-500 ease-out ${
+              className={`mb-3 flex items-center gap-2 font-sans text-xs font-semibold uppercase tracking-[0.2em] transition-opacity duration-500 ease-out ${
                 visible ? "opacity-100" : "opacity-0"
-              } ${isPrimary ? "text-emerald-400" : "text-emerald-400/50"}`}
+              } ${isPrimary ? "text-ink" : "text-ink-soft"}`}
             >
+              {isPrimary && (
+                <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-amber-flame" />
+              )}
               {group.category}
             </p>
             <div className="flex flex-wrap gap-2">
@@ -74,10 +87,8 @@ export function StaggeredSkills({
                     }`}
                   >
                     <span
-                      className={`inline-block rounded-lg border px-3 py-1.5 text-sm transition-all duration-200 hover:-translate-y-0.5 ${
-                        isPrimary
-                          ? "border-emerald-500/30 bg-emerald-500/[0.08] text-emerald-100 hover:border-emerald-500/60 hover:bg-emerald-500/[0.15] hover:text-emerald-50"
-                          : "border-zinc-800 bg-zinc-900/60 text-zinc-300 hover:border-zinc-600 hover:bg-zinc-900 hover:text-zinc-100"
+                      className={`inline-block rounded-full ${tint} px-3.5 py-1.5 text-sm font-medium text-ink shadow-[0_2px_10px_-5px_rgba(47,49,66,0.25)] transition-transform duration-200 hover:-translate-y-0.5 ${
+                        isPrimary ? "" : "opacity-90"
                       }`}
                     >
                       {item}

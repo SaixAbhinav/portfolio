@@ -1,9 +1,25 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Fraunces, Manrope, Caveat } from "next/font/google";
 import "./globals.css";
 
-const geist = Geist({ subsets: ["latin"], variable: "--font-geist" });
-const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono" });
+// Display serif — storybook wonder. Optical display cut, soft terminals.
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  variable: "--font-fraunces",
+  display: "swap",
+});
+// Body sans — plain-spoken clarity.
+const manrope = Manrope({
+  subsets: ["latin"],
+  variable: "--font-manrope",
+  display: "swap",
+});
+// Handwritten — the explorer's pen, for margin notes & taglines only.
+const caveat = Caveat({
+  subsets: ["latin"],
+  variable: "--font-caveat",
+  display: "swap",
+});
 
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ??
@@ -11,15 +27,15 @@ const siteUrl =
     ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
     : "http://localhost:3000");
 const description =
-  "Applied AI builder focused on automation-driven solutions using machine learning, reinforcement learning, and prompt engineering.";
+  "I build intelligent systems to better understand worlds that haven't been mapped yet — an explorer's journal of applied AI work in machine learning, reinforcement learning, and automation.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "Sai Abhinav | Applied AI Builder",
+  title: "Sai Abhinav | Explorer · Builder · Learner",
   description,
   authors: [{ name: "Sai Abhinav" }],
   openGraph: {
-    title: "Sai Abhinav | Applied AI Builder",
+    title: "Sai Abhinav | Explorer · Builder · Learner",
     description,
     type: "website",
     url: "/",
@@ -28,7 +44,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Sai Abhinav | Applied AI Builder",
+    title: "Sai Abhinav | Explorer · Builder · Learner",
     description,
   },
 };
@@ -51,7 +67,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body
-        className={`${geist.variable} ${geistMono.variable} bg-zinc-950 font-sans text-zinc-100 antialiased`}
+        className={`${fraunces.variable} ${manrope.variable} ${caveat.variable} bg-skymilk font-sans text-ink antialiased`}
       >
         <script
           type="application/ld+json"
