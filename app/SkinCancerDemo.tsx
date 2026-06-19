@@ -3,9 +3,9 @@
 import { useState, useCallback, useEffect } from "react";
 
 const SAMPLES = [
-  { label: "Sample 1", gradient: "from-rose-900/60 to-zinc-800", classification: "Benign", confidence: 94, color: "#10b981" },
-  { label: "Sample 2", gradient: "from-amber-900/60 to-zinc-800", classification: "Malignant", confidence: 88, color: "#f59e0b" },
-  { label: "Sample 3", gradient: "from-pink-900/60 to-zinc-800", classification: "Benign", confidence: 91, color: "#10b981" },
+  { label: "Sample 1", gradient: "from-peach to-dawn", classification: "Benign" as const, confidence: 94 },
+  { label: "Sample 2", gradient: "from-dawn to-lavender", classification: "Malignant" as const, confidence: 88 },
+  { label: "Sample 3", gradient: "from-mint to-wildflower", classification: "Benign" as const, confidence: 91 },
 ];
 
 export function SkinCancerDemo() {
@@ -35,7 +35,7 @@ export function SkinCancerDemo() {
 
   return (
     <div className="flex h-full min-h-[13rem] flex-col p-4">
-      <p className="mb-3 text-[0.65rem] font-medium uppercase tracking-widest text-zinc-500">
+      <p className="mb-3 text-[0.65rem] font-semibold uppercase tracking-widest text-cream-soft">
         Dermoscopic Image Classifier
       </p>
 
@@ -46,24 +46,24 @@ export function SkinCancerDemo() {
             key={i}
             onClick={() => analyze(i)}
             disabled={analyzing}
-            className="flex flex-col items-center gap-1.5 rounded-lg border p-2 transition-all duration-200 disabled:opacity-50"
-            style={{
-              borderColor: selected === i ? "rgba(16,185,129,0.4)" : "#3f3f46",
-              backgroundColor: selected === i ? "rgba(16,185,129,0.06)" : "transparent",
-            }}
+            className={`flex flex-col items-center gap-1.5 rounded-xl border p-2 transition-all duration-200 disabled:opacity-50 ${
+              selected === i
+                ? "border-amber-flame/60 bg-amber-flame/12"
+                : "border-cream/12 bg-ink hover:border-cream/25"
+            }`}
           >
-            <div className={`h-9 w-9 rounded-md bg-gradient-to-br ${s.gradient}`} />
-            <span className="text-[0.6rem] text-zinc-500">{s.label}</span>
+            <div className={`h-9 w-9 rounded-lg bg-gradient-to-br ${s.gradient}`} />
+            <span className="text-[0.6rem] text-cream-soft">{s.label}</span>
           </button>
         ))}
       </div>
 
       {/* Result */}
-      <div className="flex flex-1 flex-col justify-center rounded-lg bg-zinc-900 p-3">
+      <div className="flex flex-1 flex-col justify-center rounded-xl border border-cream/10 bg-ink p-3">
         {analyzing && (
           <div className="space-y-2">
             {[75, 55, 40].map((w, i) => (
-              <div key={i} className="h-2 animate-pulse rounded-full bg-zinc-800" style={{ width: `${w}%` }} />
+              <div key={i} className="h-2 animate-pulse rounded-full bg-cream/15" style={{ width: `${w}%` }} />
             ))}
           </div>
         )}
@@ -72,25 +72,24 @@ export function SkinCancerDemo() {
           <div>
             <div className="mb-3 flex items-center justify-between">
               <span
-                className="rounded px-2 py-0.5 text-xs font-bold"
-                style={{
-                  color: result.color,
-                  backgroundColor: result.classification === "Benign"
-                    ? "rgba(16,185,129,0.12)"
-                    : "rgba(245,158,11,0.12)",
-                }}
+                className={`rounded-full px-2.5 py-0.5 text-xs font-bold text-ink ${
+                  result.classification === "Benign" ? "bg-mint/80" : "bg-peach/80"
+                }`}
               >
                 {result.classification}
               </span>
-              <span className="text-xs text-zinc-500">{result.confidence}% confidence</span>
+              <span className="text-xs text-cream-soft">{result.confidence}% confidence</span>
             </div>
-            <div className="h-1.5 w-full overflow-hidden rounded-full bg-zinc-800">
+            <div className="h-1.5 w-full overflow-hidden rounded-full bg-cream/10">
               <div
                 className="h-full rounded-full transition-[width] duration-700 ease-out"
-                style={{ width: `${barWidth}%`, backgroundColor: result.color }}
+                style={{
+                  width: `${barWidth}%`,
+                  backgroundColor: result.classification === "Benign" ? "#cfefd9" : "#ffb347",
+                }}
               />
             </div>
-            <p className="mt-2 text-[0.65rem] text-zinc-600">
+            <p className="mt-2 text-[0.65rem] text-cream-soft">
               Early detection model · CNN + transfer learning
             </p>
           </div>

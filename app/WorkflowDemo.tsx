@@ -37,25 +37,25 @@ export function WorkflowDemo() {
         }
       `}</style>
 
-      <p className="mb-3 text-[0.65rem] font-medium uppercase tracking-widest text-zinc-500">
+      <p className="mb-3 text-[0.65rem] font-semibold uppercase tracking-widest text-cream-soft">
         Workflow Automation
       </p>
 
       {/* Input */}
-      <div className="mb-2 rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2">
-        <p className="mb-1 text-[0.6rem] uppercase tracking-widest text-zinc-600">Raw input</p>
-        <p className="line-clamp-2 text-xs leading-relaxed text-zinc-400">{RAW_TEXT}</p>
+      <div className="mb-2 rounded-xl border border-cream/10 bg-ink px-3 py-2">
+        <p className="mb-1 text-[0.6rem] uppercase tracking-widest text-cream-soft">Raw input</p>
+        <p className="line-clamp-2 text-xs leading-relaxed text-cream-soft">{RAW_TEXT}</p>
       </div>
 
       {/* Output */}
       <div
-        className="flex flex-1 flex-col rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2 transition-opacity duration-200"
+        className="flex flex-1 flex-col rounded-xl border border-cream/10 bg-ink px-3 py-2 transition-opacity duration-200"
         style={{ opacity: fading ? 0 : 1 }}
       >
         <div className="mb-1 flex items-center justify-between">
-          <p className="text-[0.6rem] uppercase tracking-widest text-zinc-600">AI Summary</p>
+          <p className="text-[0.6rem] uppercase tracking-widest text-cream-soft">AI Summary</p>
           {phase === "done" && (
-            <button onClick={reset} className="text-[0.6rem] text-zinc-600 hover:text-zinc-400 transition-colors">
+            <button onClick={reset} className="text-[0.6rem] text-cream-soft transition-colors hover:text-gold">
               Reset
             </button>
           )}
@@ -63,14 +63,14 @@ export function WorkflowDemo() {
 
         {phase === "idle" && (
           <div className="flex flex-1 items-center">
-            <span className="inline-block h-3.5 w-0.5 animate-pulse rounded-sm bg-zinc-700" />
+            <span className="inline-block h-3.5 w-0.5 animate-pulse rounded-sm bg-cream/30" />
           </div>
         )}
 
         {phase === "working" && (
           <div className="flex flex-1 flex-col justify-center gap-2">
             {[90, 70, 55].map((w, i) => (
-              <div key={i} className="h-2 animate-pulse rounded-full bg-zinc-800" style={{ width: `${w}%` }} />
+              <div key={i} className="h-2 animate-pulse rounded-full bg-cream/15" style={{ width: `${w}%` }} />
             ))}
           </div>
         )}
@@ -80,14 +80,14 @@ export function WorkflowDemo() {
             {BULLETS.map((b, i) => (
               <li
                 key={i}
-                className="flex items-start gap-1.5 text-xs leading-relaxed text-zinc-300"
+                className="flex items-start gap-1.5 text-xs leading-relaxed text-cream"
                 style={{
                   opacity: 0,
                   animation: "fadeSlideUp 0.35s ease-out forwards",
                   animationDelay: `${i * 150}ms`,
                 }}
               >
-                <span className="mt-0.5 shrink-0 text-emerald-500">›</span>
+                <span className="mt-0.5 shrink-0 font-bold text-gold">›</span>
                 {b}
               </li>
             ))}
@@ -99,7 +99,7 @@ export function WorkflowDemo() {
       <button
         onClick={run}
         disabled={phase !== "idle"}
-        className="mt-2 rounded-md border border-zinc-700 px-3 py-1.5 text-xs font-medium text-zinc-400 transition-colors hover:border-zinc-500 hover:text-zinc-200 disabled:opacity-40"
+        className="mt-2 rounded-full bg-amber-flame px-3 py-1.5 text-xs font-semibold text-ink transition-all hover:brightness-105 disabled:opacity-50"
       >
         {phase === "idle" ? "→ Run Workflow" : phase === "working" ? "Processing…" : "Done"}
       </button>

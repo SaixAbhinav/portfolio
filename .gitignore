@@ -44,8 +44,12 @@ next-env.d.ts
 # Claude Code / AI-agent tooling — never commit to the repo
 .claude/
 .agents/
+.codex/
+.impeccable/
 .mcp.json
 skills-lock.json
-# AI-assistant instruction docs — kept local, not published to GitHub
+# AI-assistant instruction & design-context docs — kept local, not published to GitHub
 CLAUDE.md
 AGENTS.md
+PRODUCT.md
+DESIGN.md

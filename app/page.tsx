@@ -3,33 +3,43 @@ import {
   Mail,
   Briefcase,
   GraduationCap,
+  ArrowUpRight,
+  BookOpen,
+  Map as MapIcon,
+  Telescope,
+  RadioTower,
+  Flame,
+  Orbit,
 } from "lucide-react";
 import { type ReactNode } from "react";
 import Image from "next/image";
 import { Nav } from "./Nav";
 import { HeroIntro } from "./HeroIntro";
-import { TypedHeading } from "./TypedHeading";
-import { TypedAboutBio } from "./TypedAboutBio";
-import { TYPED_ABOUT_BIO_DURATION } from "./aboutConstants";
+import { SectionHeading } from "./SectionHeading";
+import { AboutBio } from "./AboutBio";
 import { ScrollReveal } from "./ScrollReveal";
 import { StaggeredSkills } from "./StaggeredSkills";
 import { SmartSignalDemo } from "./SmartSignalDemo";
 import { FakeGuardDemo } from "./FakeGuardDemo";
 import { WorkflowDemo } from "./WorkflowDemo";
 import { SkinCancerDemo } from "./SkinCancerDemo";
+import { SkyBackdrop } from "./SkyBackdrop";
+import { HeroScene } from "./HeroScene";
 import { ProjectCard, type IconName } from "./ProjectCard";
-
-// About-section animation choreography. Computed from constants so changing one
-// (e.g. heading text, typing speed) automatically recomputes everything downstream.
-const ABOUT_HEADING_TEXT = "About Me";
-const ABOUT_HEADING_SPEED = 120; // ms/char — matches TypedHeading default
-const ABOUT_HEADING_DURATION =
-  ABOUT_HEADING_TEXT.length * ABOUT_HEADING_SPEED + 100; // small buffer
-
-const PHOTO_SLIDE_DURATION = 1600;
-const PHOTO_DELAY = ABOUT_HEADING_DURATION;
-const BIO_DELAY = PHOTO_DELAY + PHOTO_SLIDE_DURATION;
-const SKILLS_DELAY = BIO_DELAY + TYPED_ABOUT_BIO_DURATION;
+import {
+  OpenJournal,
+  CompassRose,
+  PlanetRinged,
+  TelescopeStand,
+  MountainRange,
+  Signpost,
+  LanternHanging,
+  CampfireScene,
+  FloatingIsland,
+  PineTree,
+  StarScatter,
+  Pagoda,
+} from "./LineArt";
 
 type Metric = { value: number; suffix?: string; label: string; trend: "up" | "down" };
 
@@ -125,7 +135,7 @@ const projects: Array<{
   },
 ];
 
-// Unified timeline — mixing work + education avoids the 1-vs-2 card imbalance
+// Work + education interleaved
 const timeline = [
   {
     type: "education" as const,
@@ -177,90 +187,97 @@ const skills = [
   },
 ];
 
+// Decorative line-art layer helper
+function Art({ className, children }: { className: string; children: ReactNode }) {
+  return (
+    <div aria-hidden="true" className={`pointer-events-none absolute text-gold ${className}`}>
+      {children}
+    </div>
+  );
+}
+
 export default function Home() {
   return (
     <div id="top" className="min-h-dvh">
       <Nav />
 
-      {/* Hero — centered intro */}
-      <section className="relative flex min-h-dvh flex-col justify-center overflow-hidden px-6">
-        <div className="relative mx-auto w-full max-w-5xl">
+      {/* Hero */}
+      <section className="relative flex min-h-dvh flex-col justify-center overflow-hidden px-6 pb-44 pt-28 sm:pb-0">
+        <HeroScene />
+        <div className="relative z-10 mx-auto w-full max-w-5xl">
           <HeroIntro />
         </div>
       </section>
 
-      {/* About */}
-      <section id="about" className="flex min-h-dvh flex-col items-center justify-center px-6 py-24">
-        <div className="relative mx-auto w-full max-w-5xl">
-          <TypedHeading prefix="About " emphasis="Me" className="mb-16" />
-          {/* Two-column layout: tall photo on the left fills the column; bio + skills stacked on the right. */}
+      {/* About Me */}
+      <section
+        id="about"
+        className="relative flex min-h-dvh flex-col items-center justify-center overflow-hidden px-6 py-24"
+      >
+        <SkyBackdrop tint="lavender" topo />
+        <Art className="right-6 top-24 opacity-25 sm:right-16"><OpenJournal className="w-36 sm:w-48" /></Art>
+        <Art className="bottom-16 left-6 opacity-20 sm:left-16"><CompassRose className="float-slow w-24 sm:w-28" /></Art>
+        <Art className="right-20 bottom-28 opacity-15"><PlanetRinged className="w-28" /></Art>
+        <div className="relative z-10 mx-auto w-full max-w-5xl">
+          <SectionHeading icon={<BookOpen size={14} />} kicker="Get to know me" prefix="About " emphasis="Me" className="mb-14" />
           <div className="grid gap-10 lg:grid-cols-5">
-            {/* Photo — left, spans 2 of 5 cols. Stretches to match right-column height on lg.
-                Waits for the "About Me" heading to finish typing before sliding in. */}
-            <ScrollReveal effect="slide-left" duration={PHOTO_SLIDE_DURATION} delay={PHOTO_DELAY} className="lg:col-span-2">
-              <div className="group relative h-[26rem] w-full overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900 shadow-2xl shadow-black/30 sm:h-[32rem] lg:h-full lg:min-h-[36rem]">
-                <Image
-                  src="/me.jpg"
-                  alt="Portrait of Sai Abhinav"
-                  fill
-                  sizes="(min-width: 1024px) 40vw, 100vw"
-                  className="object-cover grayscale transition-all duration-700 group-hover:grayscale-0"
-                />
-                <div
-                  aria-hidden="true"
-                  className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-zinc-950/80 to-transparent"
-                />
-                <div
-                  aria-hidden="true"
-                  className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-emerald-400/60 to-transparent"
-                />
+            {/* Photo — framed like a journal plate with a margin note */}
+            <ScrollReveal effect="slide-left" duration={900} className="lg:col-span-2">
+              <div className="group relative">
+                <div className="relative h-[26rem] w-full overflow-hidden rounded-[1.5rem] border border-gold/30 bg-ink p-2 shadow-[0_18px_50px_-18px_rgba(0,0,0,0.7)] sm:h-[32rem] lg:h-full lg:min-h-[34rem]">
+                  <div className="relative h-full w-full overflow-hidden rounded-[1.1rem]">
+                    <Image
+                      src="/me.jpg"
+                      alt="Portrait of Sai Abhinav"
+                      fill
+                      sizes="(min-width: 1024px) 40vw, 100vw"
+                      className="object-cover transition-all duration-700 group-hover:scale-[1.03]"
+                    />
+                  </div>
+                </div>
+                <span className="absolute -bottom-4 -right-3 -rotate-6 rounded-2xl bg-lavender px-4 py-1.5 font-hand text-2xl text-ink shadow-[0_8px_20px_-8px_rgba(0,0,0,0.6)]">
+                  that&apos;s me ✷
+                </span>
               </div>
             </ScrollReveal>
-            {/* Right column: bio on top, skills below */}
-            <div className="flex flex-col gap-8 lg:col-span-3">
-              {/* Bio — typewriter, paragraphs reveal sequentially. Waits for heading + photo slide to finish. */}
-              <TypedAboutBio delay={BIO_DELAY} />
-              {/* Skills — each chip fades in individually, starting after the bio finishes typing. */}
-              <StaggeredSkills
-                skills={skills}
-                delay={SKILLS_DELAY}
-                stagger={70}
-                className="grid gap-5 sm:grid-cols-2"
-              />
+            <div className="flex flex-col justify-center lg:col-span-3">
+              <AboutBio />
             </div>
           </div>
         </div>
       </section>
 
-      {/* Experience & Education */}
-      <section id="experience" className="flex min-h-dvh flex-col items-center justify-center px-6 py-24">
-        <div className="relative mx-auto w-full max-w-5xl">
-          <TypedHeading prefix="Experience & " emphasis="Education" className="mb-16" />
-          {/* Timeline — de-carded editorial rows: mono period rail left, content right.
-              Work + education interleaved, icon distinguishes type. */}
-          <div className="space-y-14">
+      {/* Experience */}
+      <section
+        id="experience"
+        className="relative flex min-h-dvh flex-col items-center justify-center overflow-hidden px-6 py-24"
+      >
+        <SkyBackdrop tint="mint" topo />
+        <Art className="inset-x-0 bottom-0 flex justify-center opacity-25"><MountainRange className="w-full max-w-5xl" /></Art>
+        <Art className="left-8 top-24 opacity-25"><LanternHanging className="float-slow w-12" /></Art>
+        <Art className="right-10 bottom-32 opacity-20"><Signpost className="w-24" /></Art>
+        <div className="relative z-10 mx-auto w-full max-w-5xl">
+          <SectionHeading icon={<MapIcon size={14} />} kicker="Where I've been" prefix="My " emphasis="Experience" className="mb-14" />
+          <div className="space-y-6">
             {timeline.map((item, index) => {
               const Icon = item.type === "work" ? Briefcase : GraduationCap;
               return (
-                <ScrollReveal key={`${item.title}-${item.org}`} effect="fade-up" delay={index * 180} threshold={0.1}>
-                  <div className="grid gap-3 md:grid-cols-[11rem_1fr] md:gap-10">
-                    {/* Period rail */}
-                    <p className="pt-1 font-mono text-sm tracking-wide text-zinc-500">
-                      {item.period}
-                    </p>
-                    {/* Entry */}
-                    <div className="max-w-2xl">
-                      <div className="mb-2 flex items-center gap-3">
-                        <Icon
-                          size={18}
-                          className={item.type === "work" ? "text-emerald-400" : "text-zinc-500"}
-                        />
-                        <h3 className="text-2xl font-semibold tracking-tight text-zinc-50 sm:text-3xl">
+                <ScrollReveal key={`${item.title}-${item.org}`} effect="fade-up" delay={index * 120} threshold={0.1}>
+                  <div className="group rounded-[1.25rem] border border-cream/10 bg-ink/70 p-6 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.5)] backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-mint/40 hover:shadow-[0_20px_44px_-18px_rgba(0,0,0,0.6)] sm:p-7">
+                    <div className="grid gap-4 md:grid-cols-[12rem_1fr] md:gap-8">
+                      <div className="flex items-center gap-2.5 md:flex-col md:items-start md:gap-3">
+                        <span className="flex h-10 w-10 items-center justify-center rounded-2xl border border-mint/30 bg-mint/12">
+                          <Icon size={18} className="text-mint" strokeWidth={1.7} />
+                        </span>
+                        <p className="font-sans text-sm font-medium text-cream-soft">{item.period}</p>
+                      </div>
+                      <div className="max-w-2xl">
+                        <h3 className="font-display text-2xl font-semibold tracking-tight text-cream sm:text-[1.7rem]">
                           {item.title}
                         </h3>
+                        <p className="mt-1 mb-3 text-sm font-semibold text-gold">{item.org}</p>
+                        <p className="text-base leading-relaxed text-cream-soft">{item.description}</p>
                       </div>
-                      <p className="mb-3 text-sm font-medium text-emerald-400/80">{item.org}</p>
-                      <p className="text-base leading-relaxed text-zinc-400">{item.description}</p>
                     </div>
                   </div>
                 </ScrollReveal>
@@ -271,9 +288,16 @@ export default function Home() {
       </section>
 
       {/* Projects */}
-      <section id="projects" className="flex min-h-dvh flex-col items-center justify-center px-6 py-24">
-        <div className="relative mx-auto w-full max-w-5xl">
-          <TypedHeading prefix="Featured " emphasis="Projects" className="mb-16" />
+      <section
+        id="projects"
+        className="relative flex min-h-dvh flex-col items-center justify-center overflow-hidden px-6 py-24"
+      >
+        <SkyBackdrop tint="peach" topo />
+        <Art className="right-8 top-20 opacity-25"><PlanetRinged className="float-slow w-36" /></Art>
+        <Art className="left-6 top-40 opacity-20"><StarScatter className="w-40" /></Art>
+        <Art className="bottom-10 left-10 opacity-20"><TelescopeStand className="w-24" /></Art>
+        <div className="relative z-10 mx-auto w-full max-w-5xl">
+          <SectionHeading icon={<Telescope size={14} />} kicker="Things I've built" prefix="Featured " emphasis="Projects" className="mb-14" />
           <div className="grid gap-6 sm:grid-cols-2">
             {projects.map((project, index) => (
               <ScrollReveal key={project.title} effect="zoom-up" duration={800} delay={index * 100} threshold={0.1}>
@@ -284,6 +308,7 @@ export default function Home() {
                   tags={project.tags}
                   github={project.github}
                   iconName={project.iconName}
+                  kicker={`Project 0${index + 1}`}
                   metric={project.metric}
                   highlights={project.highlights}
                   screenshots={project.screenshots}
@@ -296,20 +321,56 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Contact + Footer */}
-      <section id="contact" className="flex min-h-dvh flex-col px-6 pt-24">
-        <div className="relative mx-auto flex w-full max-w-5xl flex-1 items-center">
+      {/* Skills */}
+      <section
+        id="skills"
+        className="relative flex min-h-dvh flex-col items-center justify-center overflow-hidden px-6 py-24"
+      >
+        <SkyBackdrop tint="wildflower" topo />
+        <Art className="right-10 top-24 opacity-20"><Orbit size={56} strokeWidth={1.2} className="float-slow" /></Art>
+        <Art className="left-8 bottom-24 opacity-20"><Pagoda className="w-24" /></Art>
+        <Art className="right-16 bottom-16 opacity-25"><PineTree className="w-12" /></Art>
+        <Art className="left-1/3 top-16 opacity-20"><StarScatter className="w-48" /></Art>
+        <div className="relative z-10 mx-auto w-full max-w-5xl">
+          <SectionHeading icon={<RadioTower size={14} />} kicker="My toolkit" prefix="My " emphasis="Skills" className="mb-6" />
+          <p className="mb-12 max-w-xl text-lg leading-relaxed text-cream-soft">
+            The instruments I reach for — the tools and methods I&apos;ve learned to
+            read along the way.
+          </p>
+          <StaggeredSkills
+            skills={skills}
+            delay={0}
+            stagger={60}
+            className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3"
+          />
+        </div>
+      </section>
+
+      {/* Contact */}
+      <section
+        id="contact"
+        className="relative flex min-h-dvh flex-col overflow-hidden px-6 pt-28"
+      >
+        <SkyBackdrop tint="dawn" position="bottom" topo />
+        <Art className="bottom-24 right-10 opacity-30 sm:right-24"><CampfireScene className="fire-glow-wrap w-32" /></Art>
+        <Art className="bottom-16 left-6 opacity-20"><FloatingIsland className="island-bob w-40" /></Art>
+        <Art className="bottom-10 right-1/3 opacity-20"><PineTree className="w-10" /></Art>
+        <div className="relative z-10 mx-auto flex w-full max-w-5xl flex-1 items-center">
           <ScrollReveal effect="fade-up" className="w-full" threshold={0.1}>
             <div className="w-full">
-              <TypedHeading prefix="Let’s " emphasis="Connect" className="mb-8" />
-              <p className="mb-12 max-w-xl text-lg leading-relaxed text-zinc-300 sm:text-xl">
+              <SectionHeading icon={<Flame size={14} />} kicker="Say hello" prefix="Get in " emphasis="Touch" className="mb-6" />
+              {/* Note-to-self sticky */}
+              <div className="mb-8 inline-block -rotate-2 rounded-2xl bg-peach px-5 py-3 font-hand text-2xl text-ink shadow-[0_10px_24px_-10px_rgba(0,0,0,0.6)]">
+                Let&apos;s build something worth mapping.
+              </div>
+              <p className="mb-12 max-w-xl text-lg leading-relaxed text-cream-soft sm:text-xl">
                 I&apos;m open to collaborations, research opportunities, and
-                interesting AI projects. Feel free to reach out.
+                interesting AI projects. Feel free to reach out — I usually reply within a day.
               </p>
               <div className="flex flex-wrap items-center gap-4">
                 <a
                   href="mailto:saiabhinav190404@gmail.com"
-                  className="flex items-center gap-2 rounded-full bg-emerald-500 px-8 py-4 text-base font-semibold text-zinc-950 transition-colors hover:bg-emerald-400"
+                  className="group flex items-center gap-2 rounded-full bg-dawn px-7 py-4 text-base font-semibold text-ink shadow-[0_10px_30px_-10px_rgba(255,214,231,0.6)] transition-all duration-300 hover:-translate-y-0.5 hover:brightness-105"
                 >
                   <Mail size={18} />
                   saiabhinav190404@gmail.com
@@ -319,17 +380,20 @@ export default function Home() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="GitHub profile (opens in a new tab)"
-                  className="flex items-center gap-2 rounded-full border border-zinc-700 px-8 py-4 text-base font-semibold text-zinc-300 transition-colors hover:border-zinc-500 hover:text-zinc-100"
+                  className="flex items-center gap-2 rounded-full border border-cream/25 px-7 py-4 text-base font-semibold text-cream transition-all duration-300 hover:-translate-y-0.5 hover:border-dawn/60"
                 >
                   <GitBranch size={18} />
                   github.com/SaixAbhinav
+                  <ArrowUpRight size={15} className="text-cream-soft" />
                 </a>
               </div>
             </div>
           </ScrollReveal>
         </div>
-        <footer className="-mx-6 mt-12 border-t border-zinc-800/50 px-6 py-8 text-center text-sm text-zinc-600">
-          <p>Built with Next.js & Tailwind CSS · Sai Abhinav © {new Date().getFullYear()}</p>
+        <footer className="relative z-10 mt-12 border-t border-cream/10 py-8 text-center text-sm text-cream-soft">
+          <p>
+            Built with Next.js &amp; Tailwind CSS · Sai Abhinav © {new Date().getFullYear()}
+          </p>
         </footer>
       </section>
     </div>
