@@ -35,7 +35,7 @@ export function SkinCancerDemo() {
 
   return (
     <div className="flex h-full min-h-[13rem] flex-col p-4">
-      <p className="mb-3 text-[0.65rem] font-semibold uppercase tracking-widest text-ink-soft">
+      <p className="mb-3 text-[0.65rem] font-semibold uppercase tracking-widest text-cream-soft">
         Dermoscopic Image Classifier
       </p>
 
@@ -48,22 +48,22 @@ export function SkinCancerDemo() {
             disabled={analyzing}
             className={`flex flex-col items-center gap-1.5 rounded-xl border p-2 transition-all duration-200 disabled:opacity-50 ${
               selected === i
-                ? "border-amber-flame/60 bg-peach/40"
-                : "border-ink/12 bg-paper hover:border-ink/25"
+                ? "border-amber-flame/60 bg-amber-flame/12"
+                : "border-cream/12 bg-ink hover:border-cream/25"
             }`}
           >
             <div className={`h-9 w-9 rounded-lg bg-gradient-to-br ${s.gradient}`} />
-            <span className="text-[0.6rem] text-ink-soft">{s.label}</span>
+            <span className="text-[0.6rem] text-cream-soft">{s.label}</span>
           </button>
         ))}
       </div>
 
       {/* Result */}
-      <div className="flex flex-1 flex-col justify-center rounded-xl border border-ink/10 bg-paper p-3">
+      <div className="flex flex-1 flex-col justify-center rounded-xl border border-cream/10 bg-ink p-3">
         {analyzing && (
           <div className="space-y-2">
             {[75, 55, 40].map((w, i) => (
-              <div key={i} className="h-2 animate-pulse rounded-full bg-wildflower" style={{ width: `${w}%` }} />
+              <div key={i} className="h-2 animate-pulse rounded-full bg-cream/15" style={{ width: `${w}%` }} />
             ))}
           </div>
         )}
@@ -73,23 +73,23 @@ export function SkinCancerDemo() {
             <div className="mb-3 flex items-center justify-between">
               <span
                 className={`rounded-full px-2.5 py-0.5 text-xs font-bold text-ink ${
-                  result.classification === "Benign" ? "bg-mint" : "bg-peach"
+                  result.classification === "Benign" ? "bg-mint/80" : "bg-peach/80"
                 }`}
               >
                 {result.classification}
               </span>
-              <span className="text-xs text-ink-soft">{result.confidence}% confidence</span>
+              <span className="text-xs text-cream-soft">{result.confidence}% confidence</span>
             </div>
-            <div className="h-1.5 w-full overflow-hidden rounded-full bg-ink/10">
+            <div className="h-1.5 w-full overflow-hidden rounded-full bg-cream/10">
               <div
                 className="h-full rounded-full transition-[width] duration-700 ease-out"
                 style={{
                   width: `${barWidth}%`,
-                  backgroundColor: result.classification === "Benign" ? "#2f3142" : "#b45c1e",
+                  backgroundColor: result.classification === "Benign" ? "#cfefd9" : "#ffb347",
                 }}
               />
             </div>
-            <p className="mt-2 text-[0.65rem] text-ink-soft">
+            <p className="mt-2 text-[0.65rem] text-cream-soft">
               Early detection model · CNN + transfer learning
             </p>
           </div>

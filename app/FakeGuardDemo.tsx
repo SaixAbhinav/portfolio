@@ -33,7 +33,7 @@ export function FakeGuardDemo() {
 
   return (
     <div className="flex h-full min-h-[13rem] flex-col p-4">
-      <p className="mb-3 text-[0.65rem] font-semibold uppercase tracking-widest text-ink-soft">
+      <p className="mb-3 text-[0.65rem] font-semibold uppercase tracking-widest text-cream-soft">
         Profile Analyzer
       </p>
 
@@ -49,12 +49,12 @@ export function FakeGuardDemo() {
               disabled={analyzing}
               className={`flex flex-1 flex-col rounded-xl border p-2.5 text-left transition-all duration-200 disabled:opacity-50 ${
                 active
-                  ? "border-amber-flame/60 bg-peach/40"
-                  : "border-ink/12 bg-paper hover:border-ink/25"
+                  ? "border-amber-flame/60 bg-amber-flame/12"
+                  : "border-cream/12 bg-ink hover:border-cream/25"
               }`}
             >
-              <span className="text-xs font-semibold text-ink">{p.label}</span>
-              <span className="mt-0.5 text-[0.6rem] text-ink-soft">
+              <span className="text-xs font-semibold text-cream">{p.label}</span>
+              <span className="mt-0.5 text-[0.6rem] text-cream-soft">
                 {p.followers} followers · {p.posts} posts
               </span>
             </button>
@@ -63,15 +63,15 @@ export function FakeGuardDemo() {
       </div>
 
       {/* Result area */}
-      <div className="flex flex-1 flex-col justify-center rounded-xl border border-ink/10 bg-paper p-3">
+      <div className="flex flex-1 flex-col justify-center rounded-xl border border-cream/10 bg-ink p-3">
         {!selected && !analyzing && (
-          <p className="text-center text-xs text-ink-soft">Select a profile to analyze</p>
+          <p className="text-center text-xs text-cream-soft">Select a profile to analyze</p>
         )}
 
         {analyzing && (
           <div className="space-y-2">
             {[80, 60, 40].map((w, i) => (
-              <div key={i} className="h-2 animate-pulse rounded-full bg-wildflower" style={{ width: `${w}%` }} />
+              <div key={i} className="h-2 animate-pulse rounded-full bg-cream/15" style={{ width: `${w}%` }} />
             ))}
           </div>
         )}
@@ -81,19 +81,19 @@ export function FakeGuardDemo() {
             <div className="mb-2 flex items-center gap-2">
               <span
                 className={`rounded-full px-2.5 py-0.5 text-xs font-bold text-ink ${
-                  isAuthentic ? "bg-mint" : "bg-dawn"
+                  isAuthentic ? "bg-mint/80" : "bg-dawn/80"
                 }`}
               >
                 {isAuthentic ? "✓" : "✗"} {result.verdict}
               </span>
-              <span className="text-xs text-ink-soft">{result.confidence}% confidence</span>
+              <span className="text-xs text-cream-soft">{result.confidence}% confidence</span>
             </div>
-            <div className="h-1.5 w-full overflow-hidden rounded-full bg-ink/10">
+            <div className="h-1.5 w-full overflow-hidden rounded-full bg-cream/10">
               <div
                 className="h-full rounded-full transition-[width] duration-700 ease-out"
                 style={{
                   width: `${barWidth}%`,
-                  backgroundColor: isAuthentic ? "#2f3142" : "#b45c1e",
+                  backgroundColor: isAuthentic ? "#cfefd9" : "#ffb347",
                 }}
               />
             </div>

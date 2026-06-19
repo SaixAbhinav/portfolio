@@ -12,14 +12,15 @@ type Props = {
   className?: string;
 };
 
-// Each category leans on one pastel tint (the Pastel-Rotation Rule).
+// Each category leans on one pastel tint (border accent on the dark chips).
 const CHIP_TINTS = [
-  "bg-wildflower",
-  "bg-dawn",
-  "bg-mint",
-  "bg-peach",
-  "bg-lavender",
+  "border-wildflower/45",
+  "border-dawn/45",
+  "border-mint/45",
+  "border-peach/45",
+  "border-lavender/45",
 ];
+const DOT_TINTS = ["bg-wildflower", "bg-dawn", "bg-mint", "bg-peach", "bg-lavender"];
 
 export function StaggeredSkills({
   skills,
@@ -62,17 +63,16 @@ export function StaggeredSkills({
         const labelDelay = delay + offset * stagger;
         const isPrimary = group.primary ?? false;
         const tint = CHIP_TINTS[groupIdx % CHIP_TINTS.length];
+        const dot = DOT_TINTS[groupIdx % DOT_TINTS.length];
         return (
           <div key={group.category}>
             <p
               style={{ transitionDelay: `${labelDelay}ms` }}
               className={`mb-3 flex items-center gap-2 font-sans text-xs font-semibold uppercase tracking-[0.2em] transition-opacity duration-500 ease-out ${
                 visible ? "opacity-100" : "opacity-0"
-              } ${isPrimary ? "text-ink" : "text-ink-soft"}`}
+              } ${isPrimary ? "text-cream" : "text-cream-soft"}`}
             >
-              {isPrimary && (
-                <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-amber-flame" />
-              )}
+              <span aria-hidden="true" className={`h-1.5 w-1.5 rounded-full ${isPrimary ? "bg-amber-flame" : dot}`} />
               {group.category}
             </p>
             <div className="flex flex-wrap gap-2">
@@ -87,9 +87,7 @@ export function StaggeredSkills({
                     }`}
                   >
                     <span
-                      className={`inline-block rounded-full ${tint} px-3.5 py-1.5 text-sm font-medium text-ink shadow-[0_2px_10px_-5px_rgba(47,49,66,0.25)] transition-transform duration-200 hover:-translate-y-0.5 ${
-                        isPrimary ? "" : "opacity-90"
-                      }`}
+                      className={`inline-block rounded-full border ${tint} bg-ink/50 px-3.5 py-1.5 text-sm font-medium text-cream transition-transform duration-200 hover:-translate-y-0.5`}
                     >
                       {item}
                     </span>

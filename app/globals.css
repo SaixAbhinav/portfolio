@@ -1,23 +1,26 @@
 @import "tailwindcss";
 
-/* ── Explorer's-Journal design tokens ─────────────────────────────────────
-   Brand toolkit: light pastel "dawn" palette, Fraunces/Manrope/Caveat,
-   Campfire Amber as the single warm accent. */
+/* ── Explorer's-Journal · DARK line-art toolkit ───────────────────────────
+   Dark twilight-ink canvas, cream text, hand-drawn gold line-art, dawn-pink
+   primary CTA, pastel accents, campfire amber. */
 @theme {
-  /* Paper + sky */
-  --color-skymilk: #f5f3ff;
-  --color-paper: #fdfcff;
-  /* Pastel sky band (rotate by section, never all at once) */
-  --color-dawn: #ffd6e7;
+  /* Canvas + surfaces */
+  --color-night: #1c1d2a;        /* deep canvas background */
+  --color-ink: #2f3142;          /* Twilight Ink — raised cards/surfaces */
+  --color-ink-2: #393b51;        /* lighter surface / hairlines */
+  /* Cream ink (text) */
+  --color-cream: #f5f3ff;        /* primary text */
+  --color-cream-soft: #c7c5d8;   /* muted text (AA-safe on night) */
+  /* Hand-drawn gold (line art + accents) */
+  --color-gold: #d8c08a;
+  --color-gold-soft: #b9a36e;
+  /* Pastel accents */
+  --color-dawn: #ffd6e7;         /* PRIMARY CTA */
   --color-wildflower: #bfd7ff;
   --color-mint: #cfefd9;
   --color-peach: #ffd8b1;
   --color-lavender: #d9c8ff;
-  /* Fire + ink */
-  --color-amber-flame: #ffb347; /* fills only (ink text sits on top) */
-  --color-ember: #b45c1e; /* deep campfire — for accent TEXT/icons on light paper (AA-safe) */
-  --color-ink: #2f3142;
-  --color-ink-soft: #595c6b;
+  --color-amber-flame: #ffb347;  /* campfire glow */
 }
 
 /* Wire next/font families into Tailwind's font utilities */
@@ -31,32 +34,36 @@ html {
   scroll-behavior: smooth;
 }
 
+body {
+  background-color: #1c1d2a;
+}
+
 section[id] {
   scroll-margin-top: 5rem;
 }
 
 ::selection {
-  background-color: rgba(255, 179, 71, 0.32); /* campfire amber wash */
-  color: #2f3142;
+  background-color: rgba(255, 214, 231, 0.3); /* dawn-pink wash */
+  color: #f5f3ff;
 }
 
-/* Soft papery scrollbar */
+/* Soft scrollbar */
 ::-webkit-scrollbar {
   width: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: #f5f3ff;
+  background: #1c1d2a;
 }
 ::-webkit-scrollbar-thumb {
-  background: #d9c8ff;
+  background: #393b51;
   border-radius: 9999px;
-  border: 2px solid #f5f3ff;
+  border: 2px solid #1c1d2a;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #bfd7ff;
+  background: #d8c08a;
 }
 
-/* ── Paper grain — barely-there tooth over the whole page ─────────────── */
+/* ── Paper grain — faint light tooth over the dark page ──────────────── */
 body::before {
   content: "";
   position: fixed;
@@ -64,12 +71,12 @@ body::before {
   pointer-events: none;
   z-index: 100;
   opacity: 0.05;
-  mix-blend-mode: multiply;
+  mix-blend-mode: screen;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size: 200px 200px;
 }
 
-/* ── Section dividers — a soft hand-drawn ink line between pages ──────── */
+/* ── Section dividers — a soft hand-drawn gold line between pages ─────── */
 section + section {
   position: relative;
 }
@@ -85,174 +92,110 @@ section + section::before {
   background: linear-gradient(
     to right,
     transparent,
-    rgba(47, 49, 66, 0.18),
+    rgba(216, 192, 138, 0.35),
     transparent
   );
 }
 
-/* ── Star drift — slow twinkle/parallax dots behind sections ─────────── */
+/* ── Textures ──────────────────────────────────────────────────────────
+   Topographic contour lines — gold, very low opacity. Applied as a class. */
+.topo-texture {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320' viewBox='0 0 320 320'%3E%3Cg fill='none' stroke='%23d8c08a' stroke-opacity='0.5' stroke-width='1'%3E%3Cpath d='M20 300 Q120 240 90 160 T160 40'/%3E%3Cpath d='M60 320 Q150 250 130 170 T210 60'/%3E%3Cpath d='M110 320 Q190 260 175 180 T260 90'/%3E%3Cpath d='M170 320 Q240 270 225 195 T300 120'/%3E%3Ccircle cx='90' cy='160' r='40'/%3E%3Ccircle cx='90' cy='160' r='70'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 360px 360px;
+}
+
+/* Hand-drawn ink-scribble underline accent */
+.scribble-underline {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='10' viewBox='0 0 120 10'%3E%3Cpath d='M2 6 Q30 1 60 5 T118 4' fill='none' stroke='%23ffb347' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: bottom;
+  background-size: 100% 8px;
+}
+
+/* ── Motion ───────────────────────────────────────────────────────────── */
+
+/* Star drift + twinkle */
 @keyframes star-drift {
-  0% {
-    transform: translate3d(0, 0, 0);
-  }
-  100% {
-    transform: translate3d(-40px, -30px, 0);
-  }
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-40px, -30px, 0); }
 }
 @keyframes twinkle {
-  0%,
-  100% {
-    opacity: 0.35;
-  }
-  50% {
-    opacity: 0.9;
-  }
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 1; }
 }
-.star-field {
-  animation: star-drift 60s linear infinite alternate;
-}
-.twinkle {
-  animation: twinkle 4s ease-in-out infinite;
-}
+.star-field { animation: star-drift 60s linear infinite alternate; }
+.twinkle { animation: twinkle 4s ease-in-out infinite; }
 
-/* ── Cloud wash drift — pastel blobs drifting like clouds ────────────── */
+/* Cloud / mist drift */
 @keyframes cloud-drift-1 {
-  0%,
-  100% {
-    transform: translate(0, 0) scale(1);
-  }
-  50% {
-    transform: translate(60px, -24px) scale(1.12);
-  }
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(60px, -24px) scale(1.12); }
 }
 @keyframes cloud-drift-2 {
-  0%,
-  100% {
-    transform: translate(0, 0) scale(1);
-  }
-  50% {
-    transform: translate(-70px, 30px) scale(1.08);
-  }
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-70px, 30px) scale(1.08); }
 }
-.cloud-1 {
-  animation: cloud-drift-1 22s ease-in-out infinite;
-}
-.cloud-2 {
-  animation: cloud-drift-2 26s ease-in-out infinite;
-}
+.cloud-1 { animation: cloud-drift-1 22s ease-in-out infinite; }
+.cloud-2 { animation: cloud-drift-2 26s ease-in-out infinite; }
 
-/* ── Hover float — elements lift gently, like turning a page ─────────── */
+/* Gentle float — elements lift softly, like turning a page */
 @keyframes gentle-float {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-8px);
-  }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
 }
-.float-slow {
-  animation: gentle-float 7s ease-in-out infinite;
-}
+.float-slow { animation: gentle-float 7s ease-in-out infinite; }
 
-/* ── Ink underline draw — for revealed headings ─────────────────────── */
-@keyframes draw-underline {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
-}
-
-/* ── Hero scene — campfire glow, rising embers, drifting islands ─────── */
-@keyframes ember-rise {
-  0% {
-    transform: translateY(0) translateX(0);
-    opacity: 0;
-  }
-  15% {
-    opacity: 0.9;
-  }
-  100% {
-    transform: translateY(-70px) translateX(var(--ember-drift, 6px));
-    opacity: 0;
-  }
-}
-@keyframes fire-glow {
-  0%,
-  100% {
-    opacity: 0.55;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.85;
-    transform: scale(1.08);
-  }
-}
-@keyframes flame-flicker {
-  0%,
-  100% {
-    transform: scaleY(1) translateY(0);
-  }
-  50% {
-    transform: scaleY(1.1) translateY(-1px);
-  }
-}
+/* Floating-island bob */
 @keyframes island-bob {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-12px);
-  }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
 }
 @keyframes island-bob-slow {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-18px);
-  }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-18px); }
 }
-.ember {
-  animation: ember-rise 3.2s ease-out infinite;
+.island-bob { animation: island-bob 9s ease-in-out infinite; }
+.island-bob-slow { animation: island-bob-slow 13s ease-in-out infinite; }
+
+/* Campfire glow + flame + embers */
+@keyframes ember-rise {
+  0% { transform: translateY(0) translateX(0); opacity: 0; }
+  15% { opacity: 0.95; }
+  100% { transform: translateY(-70px) translateX(var(--ember-drift, 6px)); opacity: 0; }
 }
-.fire-glow {
-  animation: fire-glow 2.4s ease-in-out infinite;
-  transform-origin: center bottom;
+@keyframes fire-glow {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(1.1); }
 }
-.flame {
-  animation: flame-flicker 1.1s ease-in-out infinite;
-  transform-origin: center bottom;
+@keyframes flame-flicker {
+  0%, 100% { transform: scaleY(1) translateY(0); }
+  50% { transform: scaleY(1.12) translateY(-1px); }
 }
-.island-bob {
-  animation: island-bob 9s ease-in-out infinite;
+.ember { animation: ember-rise 3.2s ease-out infinite; }
+.fire-glow { animation: fire-glow 2.4s ease-in-out infinite; transform-origin: center bottom; }
+.flame { animation: flame-flicker 1.1s ease-in-out infinite; transform-origin: center bottom; }
+
+/* Line-art self-draw (constellation lines tracing themselves on load) */
+@keyframes draw-stroke {
+  from { stroke-dashoffset: var(--draw-len, 1200); }
+  to { stroke-dashoffset: 0; }
 }
-.island-bob-slow {
-  animation: island-bob-slow 13s ease-in-out infinite;
+.draw-line {
+  stroke-dasharray: var(--draw-len, 1200);
+  animation: draw-stroke 2.4s ease-out forwards;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .star-field,
-  .twinkle,
-  .cloud-1,
-  .cloud-2,
-  .float-slow,
-  .ember,
-  .fire-glow,
-  .flame,
-  .island-bob,
-  .island-bob-slow {
+  .star-field, .twinkle, .cloud-1, .cloud-2, .float-slow,
+  .ember, .fire-glow, .flame, .island-bob, .island-bob-slow {
     animation: none;
   }
-  /* Embers are invisible at rest (opacity:0 keyframe start) — pin them visible */
-  .ember {
-    opacity: 0.7;
+  .ember { opacity: 0.7; }
+  /* Line art must be fully drawn without motion */
+  .draw-line {
+    stroke-dasharray: none;
+    animation: none;
+    stroke-dashoffset: 0;
   }
-  html {
-    scroll-behavior: auto;
-  }
+  html { scroll-behavior: auto; }
 }

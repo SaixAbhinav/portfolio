@@ -13,15 +13,15 @@ import {
 } from "lucide-react";
 
 const PERSONALITY = [
-  { label: "Curious", Icon: Sparkles, tint: "bg-lavender" },
-  { label: "Playful", Icon: Smile, tint: "bg-dawn" },
-  { label: "Explorative", Icon: Compass, tint: "bg-wildflower" },
-  { label: "Unknown", Icon: Telescope, tint: "bg-mint" },
-  { label: "Meaningful", Icon: Heart, tint: "bg-peach" },
+  { label: "Curious", Icon: Sparkles, ring: "border-lavender/55", ink: "text-lavender" },
+  { label: "Playful", Icon: Smile, ring: "border-dawn/55", ink: "text-dawn" },
+  { label: "Explorative", Icon: Compass, ring: "border-wildflower/55", ink: "text-wildflower" },
+  { label: "Unknown", Icon: Telescope, ring: "border-mint/55", ink: "text-mint" },
+  { label: "Meaningful", Icon: Heart, ring: "border-amber-flame/55", ink: "text-amber-flame" },
 ] as const;
 
-// Each block fades+rises in sequence on mount. CSS transitions only, so the
-// content is fully present for reduced-motion / no-JS — only the entrance is gated.
+// Each block fades+rises in sequence on mount. CSS transitions only, so content
+// is fully present for reduced-motion / no-JS — only the entrance is gated.
 function revealClass(shown: boolean) {
   return `transition-all duration-700 ease-out ${
     shown ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
@@ -40,15 +40,16 @@ export function HeroIntro() {
       {/* Kicker */}
       <p
         style={{ transitionDelay: "0ms" }}
-        className={`${revealClass(shown)} mb-5 font-sans text-xs font-semibold uppercase tracking-[0.3em] text-ink-soft`}
+        className={`${revealClass(shown)} mb-5 flex items-center gap-2 font-sans text-xs font-semibold uppercase tracking-[0.3em] text-gold`}
       >
+        <Compass size={14} strokeWidth={2} />
         Explorer · Builder · Learner
       </p>
 
       {/* Name */}
       <h1
         style={{ transitionDelay: "120ms" }}
-        className={`${revealClass(shown)} font-display text-[clamp(2.75rem,9vw,6rem)] font-semibold leading-[1.02] tracking-tight text-ink`}
+        className={`${revealClass(shown)} font-display text-[clamp(2.75rem,9vw,6rem)] font-semibold leading-[1.02] tracking-tight text-cream`}
       >
         Sai Abhinav
       </h1>
@@ -56,7 +57,7 @@ export function HeroIntro() {
       {/* Handwritten tagline */}
       <p
         style={{ transitionDelay: "260ms" }}
-        className={`${revealClass(shown)} mt-3 font-hand text-[clamp(1.75rem,4vw,2.75rem)] leading-none text-ember`}
+        className={`${revealClass(shown)} mt-3 font-hand text-[clamp(1.75rem,4vw,2.75rem)] leading-none text-gold`}
       >
         The universe is larger than the map.
       </p>
@@ -64,23 +65,23 @@ export function HeroIntro() {
       {/* Manifesto line */}
       <p
         style={{ transitionDelay: "400ms" }}
-        className={`${revealClass(shown)} mt-7 max-w-xl text-balance text-lg leading-relaxed text-ink-soft sm:text-xl`}
+        className={`${revealClass(shown)} mt-7 max-w-xl text-balance text-lg leading-relaxed text-cream-soft sm:text-xl`}
       >
         I build intelligent systems to better understand worlds that haven&apos;t
         been mapped yet.
       </p>
 
-      {/* Personality chips */}
+      {/* Personality chips — outlined, like the brand board */}
       <div
         style={{ transitionDelay: "540ms" }}
         className={`${revealClass(shown)} mt-8 flex flex-wrap items-center justify-center gap-2.5`}
       >
-        {PERSONALITY.map(({ label, Icon, tint }) => (
+        {PERSONALITY.map(({ label, Icon, ring, ink }) => (
           <span
             key={label}
-            className={`flex items-center gap-1.5 rounded-full ${tint} px-3.5 py-1.5 text-sm font-medium text-ink shadow-[0_2px_10px_-4px_rgba(47,49,66,0.18)]`}
+            className={`flex items-center gap-1.5 rounded-full border ${ring} bg-ink/40 px-3.5 py-1.5 text-sm font-medium text-cream`}
           >
-            <Icon size={14} strokeWidth={2} />
+            <Icon size={14} strokeWidth={2} className={ink} />
             {label}
           </span>
         ))}
@@ -93,17 +94,17 @@ export function HeroIntro() {
       >
         <div className="flex flex-wrap items-center justify-center gap-3.5">
           <a
-            href="#discoveries"
-            className="group flex items-center gap-2 rounded-full bg-amber-flame px-7 py-3.5 text-base font-semibold text-ink shadow-[0_8px_24px_-8px_rgba(255,179,71,0.9)] transition-all duration-300 hover:-translate-y-0.5 hover:brightness-105"
+            href="#projects"
+            className="group flex items-center gap-2 rounded-full bg-dawn px-7 py-3.5 text-base font-semibold text-ink shadow-[0_10px_30px_-10px_rgba(255,214,231,0.7)] transition-all duration-300 hover:-translate-y-0.5 hover:brightness-105"
           >
-            Explore the Journey
+            View Projects
             <ArrowRight size={17} className="transition-transform duration-300 group-hover:translate-x-0.5" />
           </a>
           <a
-            href="#logbook"
-            className="rounded-full border border-ink/15 bg-paper px-7 py-3.5 text-base font-semibold text-ink shadow-[0_2px_12px_-4px_rgba(47,49,66,0.12)] transition-all duration-300 hover:-translate-y-0.5 hover:border-amber-flame/50"
+            href="#contact"
+            className="rounded-full border border-cream/25 px-7 py-3.5 text-base font-semibold text-cream transition-all duration-300 hover:-translate-y-0.5 hover:border-dawn/60"
           >
-            Read the Logbook
+            Get in Touch
           </a>
         </div>
 
@@ -113,7 +114,7 @@ export function HeroIntro() {
             href="https://github.com/SaixAbhinav"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 rounded-full bg-paper/70 px-4 py-2 text-sm font-medium text-ink-soft transition-colors hover:text-ink"
+            className="flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium text-cream-soft transition-colors hover:text-cream"
           >
             <GitBranch size={15} />
             GitHub
@@ -122,7 +123,7 @@ export function HeroIntro() {
             href="https://www.linkedin.com/in/saixabhinav"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 rounded-full bg-paper/70 px-4 py-2 text-sm font-medium text-ink-soft transition-colors hover:text-ink"
+            className="flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium text-cream-soft transition-colors hover:text-cream"
           >
             LinkedIn
           </a>
@@ -130,7 +131,7 @@ export function HeroIntro() {
             href="/resume.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 rounded-full bg-paper/70 px-4 py-2 text-sm font-medium text-ink-soft transition-colors hover:text-ink"
+            className="flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium text-cream-soft transition-colors hover:text-cream"
           >
             <FileDown size={15} />
             Résumé

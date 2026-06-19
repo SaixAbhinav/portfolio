@@ -67,7 +67,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body
-        className={`${fraunces.variable} ${manrope.variable} ${caveat.variable} bg-skymilk font-sans text-ink antialiased`}
+        className={`${fraunces.variable} ${manrope.variable} ${caveat.variable} bg-night font-sans text-cream antialiased`}
       >
         <script
           type="application/ld+json"

@@ -31,7 +31,7 @@ export function AboutBio() {
         <p
           key={idx}
           style={{ transitionDelay: `${idx * 160}ms` }}
-          className={`text-lg leading-relaxed text-ink-soft transition-all duration-700 ease-out ${
+          className={`text-lg leading-relaxed text-cream-soft transition-all duration-700 ease-out ${
             shown ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
           }`}
         >

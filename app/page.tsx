@@ -4,6 +4,12 @@ import {
   Briefcase,
   GraduationCap,
   ArrowUpRight,
+  BookOpen,
+  Map as MapIcon,
+  Telescope,
+  RadioTower,
+  Flame,
+  Orbit,
 } from "lucide-react";
 import { type ReactNode } from "react";
 import Image from "next/image";
@@ -20,6 +26,20 @@ import { SkinCancerDemo } from "./SkinCancerDemo";
 import { SkyBackdrop } from "./SkyBackdrop";
 import { HeroScene } from "./HeroScene";
 import { ProjectCard, type IconName } from "./ProjectCard";
+import {
+  OpenJournal,
+  CompassRose,
+  PlanetRinged,
+  TelescopeStand,
+  MountainRange,
+  Signpost,
+  LanternHanging,
+  CampfireScene,
+  FloatingIsland,
+  PineTree,
+  StarScatter,
+  Pagoda,
+} from "./LineArt";
 
 type Metric = { value: number; suffix?: string; label: string; trend: "up" | "down" };
 
@@ -115,7 +135,7 @@ const projects: Array<{
   },
 ];
 
-// Unified logbook — work + education interleaved as field-log entries
+// Work + education interleaved
 const timeline = [
   {
     type: "education" as const,
@@ -167,12 +187,21 @@ const skills = [
   },
 ];
 
+// Decorative line-art layer helper
+function Art({ className, children }: { className: string; children: ReactNode }) {
+  return (
+    <div aria-hidden="true" className={`pointer-events-none absolute text-gold ${className}`}>
+      {children}
+    </div>
+  );
+}
+
 export default function Home() {
   return (
     <div id="top" className="min-h-dvh">
       <Nav />
 
-      {/* Hero — the journey begins */}
+      {/* Hero */}
       <section className="relative flex min-h-dvh flex-col justify-center overflow-hidden px-6 pb-44 pt-28 sm:pb-0">
         <HeroScene />
         <div className="relative z-10 mx-auto w-full max-w-5xl">
@@ -180,19 +209,22 @@ export default function Home() {
         </div>
       </section>
 
-      {/* About — the explorer */}
+      {/* About Me */}
       <section
         id="about"
         className="relative flex min-h-dvh flex-col items-center justify-center overflow-hidden px-6 py-24"
       >
-        <SkyBackdrop tint="wildflower" position="center" />
+        <SkyBackdrop tint="lavender" topo />
+        <Art className="right-6 top-24 opacity-25 sm:right-16"><OpenJournal className="w-36 sm:w-48" /></Art>
+        <Art className="bottom-16 left-6 opacity-20 sm:left-16"><CompassRose className="float-slow w-24 sm:w-28" /></Art>
+        <Art className="right-20 bottom-28 opacity-15"><PlanetRinged className="w-28" /></Art>
         <div className="relative z-10 mx-auto w-full max-w-5xl">
-          <SectionHeading kicker="The Explorer" prefix="About " emphasis="me" className="mb-14" />
+          <SectionHeading icon={<BookOpen size={14} />} kicker="Get to know me" prefix="About " emphasis="Me" className="mb-14" />
           <div className="grid gap-10 lg:grid-cols-5">
-            {/* Photo — framed like a journal polaroid with a margin note */}
+            {/* Photo — framed like a journal plate with a margin note */}
             <ScrollReveal effect="slide-left" duration={900} className="lg:col-span-2">
               <div className="group relative">
-                <div className="relative h-[26rem] w-full overflow-hidden rounded-[1.5rem] border border-ink/10 bg-paper p-2 shadow-[0_18px_40px_-16px_rgba(47,49,66,0.28)] sm:h-[32rem] lg:h-full lg:min-h-[34rem]">
+                <div className="relative h-[26rem] w-full overflow-hidden rounded-[1.5rem] border border-gold/30 bg-ink p-2 shadow-[0_18px_50px_-18px_rgba(0,0,0,0.7)] sm:h-[32rem] lg:h-full lg:min-h-[34rem]">
                   <div className="relative h-full w-full overflow-hidden rounded-[1.1rem]">
                     <Image
                       src="/me.jpg"
@@ -203,13 +235,11 @@ export default function Home() {
                     />
                   </div>
                 </div>
-                {/* Hand-written margin note */}
-                <span className="absolute -bottom-4 -right-3 -rotate-6 rounded-2xl bg-lavender px-4 py-1.5 font-hand text-2xl text-ink shadow-[0_6px_16px_-8px_rgba(47,49,66,0.4)]">
-                  somewhere on the map ✷
+                <span className="absolute -bottom-4 -right-3 -rotate-6 rounded-2xl bg-lavender px-4 py-1.5 font-hand text-2xl text-ink shadow-[0_8px_20px_-8px_rgba(0,0,0,0.6)]">
+                  that&apos;s me ✷
                 </span>
               </div>
             </ScrollReveal>
-            {/* Bio */}
             <div className="flex flex-col justify-center lg:col-span-3">
               <AboutBio />
             </div>
@@ -217,35 +247,36 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Logbook — experience & education */}
+      {/* Experience */}
       <section
-        id="logbook"
+        id="experience"
         className="relative flex min-h-dvh flex-col items-center justify-center overflow-hidden px-6 py-24"
       >
-        <SkyBackdrop tint="mint" position="center" />
+        <SkyBackdrop tint="mint" topo />
+        <Art className="inset-x-0 bottom-0 flex justify-center opacity-25"><MountainRange className="w-full max-w-5xl" /></Art>
+        <Art className="left-8 top-24 opacity-25"><LanternHanging className="float-slow w-12" /></Art>
+        <Art className="right-10 bottom-32 opacity-20"><Signpost className="w-24" /></Art>
         <div className="relative z-10 mx-auto w-full max-w-5xl">
-          <SectionHeading kicker="Field Log" prefix="The " emphasis="Logbook" className="mb-14" />
+          <SectionHeading icon={<MapIcon size={14} />} kicker="Where I've been" prefix="My " emphasis="Experience" className="mb-14" />
           <div className="space-y-6">
             {timeline.map((item, index) => {
               const Icon = item.type === "work" ? Briefcase : GraduationCap;
               return (
                 <ScrollReveal key={`${item.title}-${item.org}`} effect="fade-up" delay={index * 120} threshold={0.1}>
-                  <div className="group rounded-[1.25rem] border border-ink/10 bg-paper/80 p-6 shadow-[0_2px_12px_-4px_rgba(47,49,66,0.12)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_40px_-16px_rgba(47,49,66,0.22)] sm:p-7">
+                  <div className="group rounded-[1.25rem] border border-cream/10 bg-ink/70 p-6 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.5)] backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-mint/40 hover:shadow-[0_20px_44px_-18px_rgba(0,0,0,0.6)] sm:p-7">
                     <div className="grid gap-4 md:grid-cols-[12rem_1fr] md:gap-8">
-                      {/* Period rail */}
                       <div className="flex items-center gap-2.5 md:flex-col md:items-start md:gap-3">
-                        <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-mint">
-                          <Icon size={18} className="text-ink" strokeWidth={1.75} />
+                        <span className="flex h-10 w-10 items-center justify-center rounded-2xl border border-mint/30 bg-mint/12">
+                          <Icon size={18} className="text-mint" strokeWidth={1.7} />
                         </span>
-                        <p className="font-sans text-sm font-medium text-ink-soft">{item.period}</p>
+                        <p className="font-sans text-sm font-medium text-cream-soft">{item.period}</p>
                       </div>
-                      {/* Entry */}
                       <div className="max-w-2xl">
-                        <h3 className="font-display text-2xl font-semibold tracking-tight text-ink sm:text-[1.7rem]">
+                        <h3 className="font-display text-2xl font-semibold tracking-tight text-cream sm:text-[1.7rem]">
                           {item.title}
                         </h3>
-                        <p className="mt-1 mb-3 text-sm font-semibold text-ember">{item.org}</p>
-                        <p className="text-base leading-relaxed text-ink-soft">{item.description}</p>
+                        <p className="mt-1 mb-3 text-sm font-semibold text-gold">{item.org}</p>
+                        <p className="text-base leading-relaxed text-cream-soft">{item.description}</p>
                       </div>
                     </div>
                   </div>
@@ -256,14 +287,17 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Discoveries — projects */}
+      {/* Projects */}
       <section
-        id="discoveries"
+        id="projects"
         className="relative flex min-h-dvh flex-col items-center justify-center overflow-hidden px-6 py-24"
       >
-        <SkyBackdrop tint="peach" position="center" />
+        <SkyBackdrop tint="peach" topo />
+        <Art className="right-8 top-20 opacity-25"><PlanetRinged className="float-slow w-36" /></Art>
+        <Art className="left-6 top-40 opacity-20"><StarScatter className="w-40" /></Art>
+        <Art className="bottom-10 left-10 opacity-20"><TelescopeStand className="w-24" /></Art>
         <div className="relative z-10 mx-auto w-full max-w-5xl">
-          <SectionHeading kicker="The Field" prefix="Recent " emphasis="Discoveries" className="mb-14" />
+          <SectionHeading icon={<Telescope size={14} />} kicker="Things I've built" prefix="Featured " emphasis="Projects" className="mb-14" />
           <div className="grid gap-6 sm:grid-cols-2">
             {projects.map((project, index) => (
               <ScrollReveal key={project.title} effect="zoom-up" duration={800} delay={index * 100} threshold={0.1}>
@@ -274,7 +308,7 @@ export default function Home() {
                   tags={project.tags}
                   github={project.github}
                   iconName={project.iconName}
-                  kicker={`Discovery 0${index + 1}`}
+                  kicker={`Project 0${index + 1}`}
                   metric={project.metric}
                   highlights={project.highlights}
                   screenshots={project.screenshots}
@@ -287,17 +321,21 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Signals — skills */}
+      {/* Skills */}
       <section
-        id="signals"
+        id="skills"
         className="relative flex min-h-dvh flex-col items-center justify-center overflow-hidden px-6 py-24"
       >
-        <SkyBackdrop tint="lavender" position="center" />
+        <SkyBackdrop tint="wildflower" topo />
+        <Art className="right-10 top-24 opacity-20"><Orbit size={56} strokeWidth={1.2} className="float-slow" /></Art>
+        <Art className="left-8 bottom-24 opacity-20"><Pagoda className="w-24" /></Art>
+        <Art className="right-16 bottom-16 opacity-25"><PineTree className="w-12" /></Art>
+        <Art className="left-1/3 top-16 opacity-20"><StarScatter className="w-48" /></Art>
         <div className="relative z-10 mx-auto w-full max-w-5xl">
-          <SectionHeading kicker="Tuned In" prefix="My " emphasis="Signals" className="mb-6" />
-          <p className="mb-12 max-w-xl text-lg leading-relaxed text-ink-soft">
-            The tools and methods I reach for on an expedition — the instruments I&apos;ve
-            learned to read along the way.
+          <SectionHeading icon={<RadioTower size={14} />} kicker="My toolkit" prefix="My " emphasis="Skills" className="mb-6" />
+          <p className="mb-12 max-w-xl text-lg leading-relaxed text-cream-soft">
+            The instruments I reach for — the tools and methods I&apos;ve learned to
+            read along the way.
           </p>
           <StaggeredSkills
             skills={skills}
@@ -308,25 +346,31 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Contact + Footer */}
+      {/* Contact */}
       <section
         id="contact"
         className="relative flex min-h-dvh flex-col overflow-hidden px-6 pt-28"
       >
-        <SkyBackdrop tint="dawn" position="bottom" />
+        <SkyBackdrop tint="dawn" position="bottom" topo />
+        <Art className="bottom-24 right-10 opacity-30 sm:right-24"><CampfireScene className="fire-glow-wrap w-32" /></Art>
+        <Art className="bottom-16 left-6 opacity-20"><FloatingIsland className="island-bob w-40" /></Art>
+        <Art className="bottom-10 right-1/3 opacity-20"><PineTree className="w-10" /></Art>
         <div className="relative z-10 mx-auto flex w-full max-w-5xl flex-1 items-center">
           <ScrollReveal effect="fade-up" className="w-full" threshold={0.1}>
             <div className="w-full">
-              <SectionHeading kicker="Say Hello" prefix="Send a " emphasis="Signal" className="mb-6" />
-              <p className="mb-3 font-hand text-3xl text-ember">Let&apos;s map something new together.</p>
-              <p className="mb-12 max-w-xl text-lg leading-relaxed text-ink-soft sm:text-xl">
+              <SectionHeading icon={<Flame size={14} />} kicker="Say hello" prefix="Get in " emphasis="Touch" className="mb-6" />
+              {/* Note-to-self sticky */}
+              <div className="mb-8 inline-block -rotate-2 rounded-2xl bg-peach px-5 py-3 font-hand text-2xl text-ink shadow-[0_10px_24px_-10px_rgba(0,0,0,0.6)]">
+                Let&apos;s build something worth mapping.
+              </div>
+              <p className="mb-12 max-w-xl text-lg leading-relaxed text-cream-soft sm:text-xl">
                 I&apos;m open to collaborations, research opportunities, and
                 interesting AI projects. Feel free to reach out — I usually reply within a day.
               </p>
               <div className="flex flex-wrap items-center gap-4">
                 <a
                   href="mailto:saiabhinav190404@gmail.com"
-                  className="group flex items-center gap-2 rounded-full bg-amber-flame px-7 py-4 text-base font-semibold text-ink shadow-[0_8px_24px_-8px_rgba(255,179,71,0.9)] transition-all duration-300 hover:-translate-y-0.5 hover:brightness-105"
+                  className="group flex items-center gap-2 rounded-full bg-dawn px-7 py-4 text-base font-semibold text-ink shadow-[0_10px_30px_-10px_rgba(255,214,231,0.6)] transition-all duration-300 hover:-translate-y-0.5 hover:brightness-105"
                 >
                   <Mail size={18} />
                   saiabhinav190404@gmail.com
@@ -336,20 +380,19 @@ export default function Home() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="GitHub profile (opens in a new tab)"
-                  className="flex items-center gap-2 rounded-full border border-ink/15 bg-paper px-7 py-4 text-base font-semibold text-ink shadow-[0_2px_12px_-4px_rgba(47,49,66,0.12)] transition-all duration-300 hover:-translate-y-0.5 hover:border-amber-flame/50"
+                  className="flex items-center gap-2 rounded-full border border-cream/25 px-7 py-4 text-base font-semibold text-cream transition-all duration-300 hover:-translate-y-0.5 hover:border-dawn/60"
                 >
                   <GitBranch size={18} />
                   github.com/SaixAbhinav
-                  <ArrowUpRight size={15} className="text-ink-soft" />
+                  <ArrowUpRight size={15} className="text-cream-soft" />
                 </a>
               </div>
             </div>
           </ScrollReveal>
         </div>
-        <footer className="relative z-10 mt-12 border-t border-ink/10 py-8 text-center text-sm text-ink-soft">
+        <footer className="relative z-10 mt-12 border-t border-cream/10 py-8 text-center text-sm text-cream-soft">
           <p>
-            Kept as a living journal · Built with Next.js &amp; Tailwind CSS · Sai Abhinav ©{" "}
-            {new Date().getFullYear()}
+            Built with Next.js &amp; Tailwind CSS · Sai Abhinav © {new Date().getFullYear()}
           </p>
         </footer>
       </section>
