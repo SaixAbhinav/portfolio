@@ -129,7 +129,7 @@ export const timeline = [
   {
     title: "MCA",
     org: "Vivekananda Institute of Professional Studies",
-    meta: "In progress Â· CGPA 8.6",
+    meta: "In progress - CGPA 8.6",
     body:
       "Master of Computer Applications with coursework focused on applied AI, machine learning, and software engineering.",
   },
