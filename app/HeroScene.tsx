@@ -29,7 +29,7 @@ export function HeroScene() {
 
       {/* Gold line-art scene, anchored to the lower band */}
       <div className="absolute inset-x-0 bottom-0 flex justify-center text-gold">
-        <HeroLineArt className="h-auto w-full max-w-6xl translate-y-[6%] opacity-90" />
+        <HeroLineArt className="h-auto w-full max-w-6xl translate-y-[6%] origin-bottom scale-95 opacity-90" />
       </div>
     </div>
   );
