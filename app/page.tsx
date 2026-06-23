@@ -20,7 +20,6 @@ import { AboutBio } from "./AboutBio";
 import { ScrollReveal } from "./ScrollReveal";
 import { StaggeredSkills } from "./StaggeredSkills";
 import { SmartSignalDemo } from "./SmartSignalDemo";
-import { FakeGuardDemo } from "./FakeGuardDemo";
 import { WorkflowDemo } from "./WorkflowDemo";
 import { SkinCancerDemo } from "./SkinCancerDemo";
 import { SkyBackdrop } from "./SkyBackdrop";
@@ -56,6 +55,18 @@ const projects: Array<{
   embedUrl?: string;
   demo: ReactNode;
 }> = [
+  {
+    title: "SmartSignal",
+    subtitle: "AI Traffic Light Automation System",
+    description:
+      "AI-powered traffic signal control system using PPO reinforcement learning and SUMO simulation. Integrated TomTom API for realistic traffic data, reducing vehicle waiting time by ~28% and increasing throughput by 22%.",
+    tags: ["Python", "PPO", "SUMO", "TomTom API", "Reinforcement Learning"],
+    github: "https://github.com/SaixAbhinav/smart-signal",
+    embedUrl: "https://smart-signal-i0v5.onrender.com",
+    iconName: "TrafficCone",
+    metric: { value: 28, suffix: "%", label: "wait time", trend: "down" },
+    demo: <SmartSignalDemo key="smartsignal-demo" />,
+  },
   {
     title: "AI Workflow Copilot",
     subtitle: "Local-first AI desktop assistant",
@@ -98,29 +109,6 @@ const projects: Array<{
       },
     ],
     demo: <WorkflowDemo key="workflow-demo" />,
-  },
-  {
-    title: "SmartSignal",
-    subtitle: "AI Traffic Light Automation System",
-    description:
-      "AI-powered traffic signal control system using PPO reinforcement learning and SUMO simulation. Integrated TomTom API for realistic traffic data, reducing vehicle waiting time by ~28% and increasing throughput by 22%.",
-    tags: ["Python", "PPO", "SUMO", "TomTom API", "Reinforcement Learning"],
-    github: "https://github.com/SaixAbhinav/smart-signal",
-    embedUrl: "https://smart-signal-i0v5.onrender.com",
-    iconName: "TrafficCone",
-    metric: { value: 28, suffix: "%", label: "wait time", trend: "down" },
-    demo: <SmartSignalDemo key="smartsignal-demo" />,
-  },
-  {
-    title: "FakeGuard",
-    subtitle: "Instagram Fake Profile Detection",
-    description:
-      "Predictive system trained on 3,000+ accounts using an ensemble model combining ML and CNN-based image classification. Achieved 92% accuracy, 90% precision, and 88% recall with a 15% reduction in false positives.",
-    tags: ["Python", "CNN", "Scikit-learn", "TensorFlow", "Keras"],
-    github: "https://github.com/SaixAbhinav/Instagram_fake_account_detector",
-    iconName: "ShieldCheck",
-    metric: { value: 92, suffix: "%", label: "accuracy", trend: "up" },
-    demo: <FakeGuardDemo key="fakeguard-demo" />,
   },
   {
     title: "Skin Cancer Detection",
@@ -223,7 +211,7 @@ export default function Home() {
           <div className="grid gap-10 lg:grid-cols-5">
             {/* Photo — framed like a journal plate with a margin note */}
             <ScrollReveal effect="slide-left" duration={900} className="lg:col-span-2">
-              <div className="group relative">
+              <div className="group relative lg:h-full">
                 <div className="relative h-[26rem] w-full overflow-hidden rounded-[1.5rem] border border-gold/30 bg-ink p-2 shadow-[0_18px_50px_-18px_rgba(0,0,0,0.7)] sm:h-[32rem] lg:h-full lg:min-h-[34rem]">
                   <div className="relative h-full w-full overflow-hidden rounded-[1.1rem]">
                     <Image
@@ -266,8 +254,8 @@ export default function Home() {
                   <div className="group rounded-[1.25rem] border border-cream/10 bg-ink/70 p-6 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.5)] backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-mint/40 hover:shadow-[0_20px_44px_-18px_rgba(0,0,0,0.6)] sm:p-7">
                     <div className="grid gap-4 md:grid-cols-[12rem_1fr] md:gap-8">
                       <div className="flex items-center gap-2.5 md:flex-col md:items-start md:gap-3">
-                        <span className="flex h-10 w-10 items-center justify-center rounded-2xl border border-mint/30 bg-mint/12">
-                          <Icon size={18} className="text-mint" strokeWidth={1.7} />
+                        <span className="flex h-14 w-14 items-center justify-center rounded-2xl border border-mint/30 bg-mint/12">
+                          <Icon size={26} className="text-mint" strokeWidth={1.7} />
                         </span>
                         <p className="font-sans text-sm font-medium text-cream-soft">{item.period}</p>
                       </div>
@@ -334,8 +322,7 @@ export default function Home() {
         <div className="relative z-10 mx-auto w-full max-w-5xl">
           <SectionHeading icon={<RadioTower size={14} />} kicker="My toolkit" prefix="My " emphasis="Skills" className="mb-6" />
           <p className="mb-12 max-w-xl text-lg leading-relaxed text-cream-soft">
-            The instruments I reach for — the tools and methods I&apos;ve learned to
-            read along the way.
+            What I work with day to day: languages, frameworks, and tools.
           </p>
           <StaggeredSkills
             skills={skills}
@@ -361,11 +348,11 @@ export default function Home() {
               <SectionHeading icon={<Flame size={14} />} kicker="Say hello" prefix="Get in " emphasis="Touch" className="mb-6" />
               {/* Note-to-self sticky */}
               <div className="mb-8 inline-block -rotate-2 rounded-2xl bg-peach px-5 py-3 font-hand text-2xl text-ink shadow-[0_10px_24px_-10px_rgba(0,0,0,0.6)]">
-                Let&apos;s build something worth mapping.
+                Let&apos;s build something worth remembering.
               </div>
               <p className="mb-12 max-w-xl text-lg leading-relaxed text-cream-soft sm:text-xl">
                 I&apos;m open to collaborations, research opportunities, and
-                interesting AI projects. Feel free to reach out — I usually reply within a day.
+                interesting AI projects. Feel free to reach out.
               </p>
               <div className="flex flex-wrap items-center gap-4">
                 <a

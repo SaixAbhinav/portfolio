@@ -77,7 +77,7 @@ export function HeroIntro() {
         style={{ transitionDelay: "260ms" }}
         className={`${revealClass(shown)} mt-3 font-hand text-[clamp(1.75rem,4vw,2.75rem)] leading-none text-gold`}
       >
-        Aspiring AI Engineer
+        AI Engineer
       </p>
 
       {/* GitHub / LinkedIn / Résumé — outlined, like the brand board */}
