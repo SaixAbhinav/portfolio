@@ -202,7 +202,7 @@ export default function Home() {
       <Nav />
 
       {/* Hero */}
-      <section className="relative flex min-h-dvh flex-col justify-center overflow-hidden px-6 pb-44 pt-28 sm:pb-0">
+      <section className="twk-soft relative flex min-h-dvh flex-col justify-start overflow-hidden px-6 pb-44 pt-44 sm:pb-0">
         <HeroScene />
         <div className="relative z-10 mx-auto w-full max-w-5xl">
           <HeroIntro />

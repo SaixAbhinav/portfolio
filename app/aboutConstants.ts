@@ -1,7 +1,8 @@
 // Bio copy for the About section, consumed by AboutBio.tsx.
 
 export const ABOUT_PARAGRAPHS = [
-  "I'm an Applied AI builder currently pursuing my MCA at Vivekananda Institute of Professional Studies (CGPA 8.6), with a BCA background from the same institution.",
-  "My focus is on building systems that work in the real world, not just in notebooks. I've interned at IBM Skills Build as a Data Analyst, where I built a skin cancer detection model achieving 94% accuracy.",
-  "I'm particularly interested in workflow automation, prompt engineering, and reinforcement learning: areas where AI can eliminate tedious manual work and create measurable impact.",
+  "I'm Sai Abhinav, an MCA student and aspiring AI Engineer passionate about building intelligent systems that solve real-world problems. My work spans machine learning, data science, computer vision, reinforcement learning, and workflow automation, with a strong focus on turning ideas into practical applications.",
+  "I have experience developing projects ranging from a CNN-based Skin Cancer Prediction system to SmartSignal, a reinforcement learning-powered traffic optimization system that uses PPO and traffic simulation data to improve signal control. I enjoy working across the entire development lifecycle, from data collection and model training to deployment and user experience.",
+  "Beyond academics, I continuously explore emerging technologies, AI research, and software engineering concepts. Whether it's training machine learning models, analyzing data, building web applications, or experimenting with new frameworks, I enjoy learning by creating.",
+  "When I'm not coding, you'll usually find me Gaming, exploring new technologies, working out at the gym, or diving deep into how modern AI systems work. My goal is to build impactful technology that combines intelligent decision-making with great user experiences.",
 ];

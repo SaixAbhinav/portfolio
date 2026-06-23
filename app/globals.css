@@ -126,6 +126,26 @@ section + section::before {
 .star-field { animation: star-drift 60s linear infinite alternate; }
 .twinkle { animation: twinkle 4s ease-in-out infinite; }
 
+/* Star-field twinkle styles — applied to a section to make its stars pulse
+   while still drifting. Three intensities for live-mode variants. */
+@keyframes sf-twinkle-soft {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 0.55; }
+}
+@keyframes sf-twinkle-bright {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+@keyframes sf-twinkle-layered {
+  0% { opacity: 0.7; }
+  30% { opacity: 1; }
+  60% { opacity: 0.45; }
+  100% { opacity: 0.85; }
+}
+.twk-soft .star-field { animation: star-drift 60s linear infinite alternate, sf-twinkle-soft 5s ease-in-out infinite; }
+.twk-bright .star-field { animation: star-drift 60s linear infinite alternate, sf-twinkle-bright 3.5s ease-in-out infinite; }
+.twk-layered .star-field { animation: star-drift 60s linear infinite alternate, sf-twinkle-layered 4.5s ease-in-out infinite; }
+
 /* Cloud / mist drift */
 @keyframes cloud-drift-1 {
   0%, 100% { transform: translate(0, 0) scale(1); }
@@ -187,7 +207,8 @@ section + section::before {
 
 @media (prefers-reduced-motion: reduce) {
   .star-field, .twinkle, .cloud-1, .cloud-2, .float-slow,
-  .ember, .fire-glow, .flame, .island-bob, .island-bob-slow {
+  .ember, .fire-glow, .flame, .island-bob, .island-bob-slow,
+  .twk-soft .star-field, .twk-bright .star-field, .twk-layered .star-field {
     animation: none;
   }
   .ember { opacity: 0.7; }
