@@ -12,8 +12,8 @@ import {
   Orbit,
 } from "lucide-react";
 import { type ReactNode } from "react";
-import Image from "next/image";
 import { Nav } from "./Nav";
+import { ScrollZoomImage } from "./ScrollZoomImage";
 import { HeroIntro } from "./HeroIntro";
 import { SectionHeading } from "./SectionHeading";
 import { AboutBio } from "./AboutBio";
@@ -24,7 +24,9 @@ import { WorkflowDemo } from "./WorkflowDemo";
 import { SkinCancerDemo } from "./SkinCancerDemo";
 import { SkyBackdrop } from "./SkyBackdrop";
 import { HeroScene } from "./HeroScene";
+import { ZoomStackSection } from "./ZoomStackSection";
 import { ProjectCard, type IconName } from "./ProjectCard";
+import { ProjectPrewarm } from "./ProjectPrewarm";
 import {
   OpenJournal,
   CompassRose,
@@ -187,22 +189,29 @@ function Art({ className, children }: { className: string; children: ReactNode }
 export default function Home() {
   return (
     <div id="top" className="min-h-dvh">
+      <ProjectPrewarm
+        urls={projects.map((project) => project.embedUrl).filter((url): url is string => Boolean(url))}
+      />
       <Nav />
 
       {/* Hero */}
-      <section className="twk-soft relative flex min-h-dvh flex-col justify-start overflow-hidden px-6 pb-44 pt-44 sm:pb-0">
-        <HeroScene />
+      <ZoomStackSection
+        className="twk-soft"
+        zoomOrigin="bottom"
+        backdrop={<HeroScene />}
+        contentClassName="flex min-h-dvh flex-col justify-start overflow-hidden px-6 pb-44 pt-44 sm:pb-0"
+      >
         <div className="relative z-10 mx-auto w-full max-w-5xl">
           <HeroIntro />
         </div>
-      </section>
+      </ZoomStackSection>
 
       {/* About Me */}
-      <section
+      <ZoomStackSection
         id="about"
-        className="relative flex min-h-dvh flex-col items-center justify-center overflow-hidden px-6 py-24"
+        backdrop={<SkyBackdrop tint="lavender" topo />}
+        contentClassName="flex min-h-dvh flex-col items-center justify-center overflow-hidden px-6 py-24"
       >
-        <SkyBackdrop tint="lavender" topo />
         <Art className="right-6 top-24 opacity-25 sm:right-16"><OpenJournal className="w-36 sm:w-48" /></Art>
         <Art className="bottom-16 left-6 opacity-20 sm:left-16"><CompassRose className="float-slow w-24 sm:w-28" /></Art>
         <Art className="right-20 bottom-28 opacity-15"><PlanetRinged className="w-28" /></Art>
@@ -214,12 +223,12 @@ export default function Home() {
               <div className="group relative lg:h-full">
                 <div className="relative h-[26rem] w-full overflow-hidden rounded-[1.5rem] border border-gold/30 bg-ink p-2 shadow-[0_18px_50px_-18px_rgba(0,0,0,0.7)] sm:h-[32rem] lg:h-full lg:min-h-[34rem]">
                   <div className="relative h-full w-full overflow-hidden rounded-[1.1rem]">
-                    <Image
+                    <ScrollZoomImage
                       src="/me.jpg"
                       alt="Portrait of Sai Abhinav"
-                      fill
                       sizes="(min-width: 1024px) 40vw, 100vw"
-                      className="object-cover transition-all duration-700 group-hover:scale-[1.03]"
+                      className="h-full w-full"
+                      imageClassName="transition-transform duration-700 group-hover:scale-[1.03]"
                     />
                   </div>
                 </div>
@@ -233,14 +242,14 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </ZoomStackSection>
 
       {/* Experience */}
-      <section
+      <ZoomStackSection
         id="experience"
-        className="relative flex min-h-dvh flex-col items-center justify-center overflow-hidden px-6 py-24"
+        backdrop={<SkyBackdrop tint="mint" topo />}
+        contentClassName="flex min-h-dvh flex-col items-center justify-center overflow-hidden px-6 py-24"
       >
-        <SkyBackdrop tint="mint" topo />
         <Art className="inset-x-0 bottom-0 flex justify-center opacity-25"><MountainRange className="w-full max-w-5xl" /></Art>
         <Art className="left-8 top-24 opacity-25"><LanternHanging className="float-slow w-12" /></Art>
         <Art className="right-10 bottom-32 opacity-20"><Signpost className="w-24" /></Art>
@@ -273,14 +282,14 @@ export default function Home() {
             })}
           </div>
         </div>
-      </section>
+      </ZoomStackSection>
 
       {/* Projects */}
-      <section
+      <ZoomStackSection
         id="projects"
-        className="relative flex min-h-dvh flex-col items-center justify-center overflow-hidden px-6 py-24"
+        backdrop={<SkyBackdrop tint="peach" topo />}
+        contentClassName="flex min-h-dvh flex-col items-center justify-center overflow-hidden px-6 py-24"
       >
-        <SkyBackdrop tint="peach" topo />
         <Art className="right-8 top-20 opacity-25"><PlanetRinged className="float-slow w-36" /></Art>
         <Art className="left-6 top-40 opacity-20"><StarScatter className="w-40" /></Art>
         <Art className="bottom-10 left-10 opacity-20"><TelescopeStand className="w-24" /></Art>
@@ -307,14 +316,14 @@ export default function Home() {
             ))}
           </div>
         </div>
-      </section>
+      </ZoomStackSection>
 
       {/* Skills */}
-      <section
+      <ZoomStackSection
         id="skills"
-        className="relative flex min-h-dvh flex-col items-center justify-center overflow-hidden px-6 py-24"
+        backdrop={<SkyBackdrop tint="wildflower" topo />}
+        contentClassName="flex min-h-dvh flex-col items-center justify-center overflow-hidden px-6 py-24"
       >
-        <SkyBackdrop tint="wildflower" topo />
         <Art className="right-10 top-24 opacity-20"><Orbit size={56} strokeWidth={1.2} className="float-slow" /></Art>
         <Art className="left-8 bottom-24 opacity-20"><Pagoda className="w-24" /></Art>
         <Art className="right-16 bottom-16 opacity-25"><PineTree className="w-12" /></Art>
@@ -331,14 +340,14 @@ export default function Home() {
             className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3"
           />
         </div>
-      </section>
+      </ZoomStackSection>
 
       {/* Contact */}
-      <section
+      <ZoomStackSection
         id="contact"
-        className="relative flex min-h-dvh flex-col overflow-hidden px-6 pt-28"
+        backdrop={<SkyBackdrop tint="dawn" position="bottom" topo />}
+        contentClassName="flex min-h-dvh flex-col overflow-hidden px-6 pt-28"
       >
-        <SkyBackdrop tint="dawn" position="bottom" topo />
         <Art className="bottom-24 right-10 opacity-30 sm:right-24"><CampfireScene className="fire-glow-wrap w-32" /></Art>
         <Art className="bottom-16 left-6 opacity-20"><FloatingIsland className="island-bob w-40" /></Art>
         <Art className="bottom-10 right-1/3 opacity-20"><PineTree className="w-10" /></Art>
@@ -382,7 +391,7 @@ export default function Home() {
             Built with Next.js &amp; Tailwind CSS · Sai Abhinav © {new Date().getFullYear()}
           </p>
         </footer>
-      </section>
+      </ZoomStackSection>
     </div>
   );
 }
