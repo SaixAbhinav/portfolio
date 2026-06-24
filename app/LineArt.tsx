@@ -141,8 +141,6 @@ export function TelescopeStand({ className }: ArtProps) {
 export function CampfireScene({ className }: ArtProps) {
   return (
     <svg viewBox="0 0 80 70" className={className} fill="none">
-      {/* glow */}
-      <ellipse className="fire-glow" cx="40" cy="40" rx="30" ry="22" fill="#ffb347" opacity="0.18" />
       <g {...S}>
         {/* logs */}
         <line x1="22" y1="56" x2="58" y2="48" />
@@ -155,6 +153,8 @@ export function CampfireScene({ className }: ArtProps) {
       {/* flame */}
       <g className="flame">
         <path d="M40 50 Q30 38 38 26 Q40 32 42 30 Q40 22 46 18 Q44 30 50 30 Q56 40 48 50 Z" fill="#ffb347" stroke="#ffb347" strokeWidth="1.2" />
+      </g>
+      <g className="flame-inner">
         <path d="M40 50 Q34 42 39 33 Q41 37 43 35 Q42 42 46 46 Z" fill="#ffd8b1" stroke="none" />
       </g>
     </svg>
@@ -237,7 +237,7 @@ export function HeroLineArt({ className }: ArtProps) {
         </g>
 
         {/* explorer — kneeling with a backpack, facing the fire */}
-        <g transform="translate(250 270)" strokeWidth="1.6">
+        <g transform="translate(290 270)" strokeWidth="1.6">
           {/* backpack */}
           <path d="M-16 6 Q-30 8 -30 30 Q-30 46 -16 48" />
           <path d="M-26 16 H-16 M-26 30 H-16" opacity="0.6" />
@@ -253,12 +253,14 @@ export function HeroLineArt({ className }: ArtProps) {
         </g>
 
         {/* campfire in front of explorer */}
-        <g transform="translate(320 300)">
-          <ellipse className="fire-glow" cx="0" cy="6" rx="40" ry="26" fill="#ffb347" opacity="0.2" />
+        <g transform="translate(360 300)">
           <line x1="-18" y1="14" x2="18" y2="6" />
           <line x1="-18" y1="6" x2="18" y2="14" />
           <g className="flame">
             <path d="M0 8 Q-12 -6 -2 -20 Q0 -12 3 -15 Q0 -24 8 -28 Q5 -14 12 -14 Q20 -2 8 8 Z" fill="#ffb347" stroke="#ffb347" strokeWidth="1.2" />
+          </g>
+          <g className="flame-inner">
+            <path d="M2 6 Q-4 -2 1 -10 Q3 -7 4 -8 Q3 -13 7 -15 Q6 -7 9 -6 Z" fill="#ffd8b1" stroke="none" />
           </g>
           {/* embers */}
           {[0, 1, 2].map((i) => (

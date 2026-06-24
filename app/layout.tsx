@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Fraunces, Manrope, Caveat } from "next/font/google";
 import "./globals.css";
+import { ShootingAsteroid } from "./ShootingAsteroid";
 
 // Display serif — storybook wonder. Optical display cut, soft terminals.
 const fraunces = Fraunces({
@@ -31,11 +32,11 @@ const description =
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "Sai Abhinav | Explorer · Builder · Learner",
+  title: "Sai Abhinav | Portfolio",
   description,
   authors: [{ name: "Sai Abhinav" }],
   openGraph: {
-    title: "Sai Abhinav | Explorer · Builder · Learner",
+    title: "Sai Abhinav | Portfolio",
     description,
     type: "website",
     url: "/",
@@ -44,7 +45,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Sai Abhinav | Explorer · Builder · Learner",
+    title: "Sai Abhinav | Portfolio",
     description,
   },
 };
@@ -74,6 +75,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
         />
         {children}
+        <ShootingAsteroid />
       </body>
     </html>
   );
