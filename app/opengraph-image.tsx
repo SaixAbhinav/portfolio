@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
-export const alt = "Sai Abhinav – Applied AI Builder";
+export const alt = "Sai Abhinav - Explorer of intelligent systems";
 
 export default function OpengraphImage() {
   return new ImageResponse(
@@ -15,45 +15,45 @@ export default function OpengraphImage() {
           flexDirection: "column",
           alignItems: "flex-start",
           justifyContent: "center",
-          backgroundColor: "#09090b",
+          backgroundColor: "#07101a",
           backgroundImage:
-            "radial-gradient(circle at 20% 20%, rgba(16,185,129,0.14), transparent 55%)",
+            "radial-gradient(circle at 18% 18%, rgba(255,189,129,0.18), transparent 42%), radial-gradient(circle at 82% 26%, rgba(217,200,255,0.14), transparent 44%)",
           padding: "80px",
-          fontFamily: "sans-serif",
+          fontFamily: "Georgia, serif",
         }}
       >
         <div
           style={{
-            color: "#34d399",
+            color: "#ffbd81",
             fontSize: 28,
             letterSpacing: 6,
             textTransform: "uppercase",
             marginBottom: 24,
           }}
         >
-          Applied AI Builder
+          Explorer of intelligent systems
         </div>
         <div
           style={{
-            color: "#fafafa",
+            color: "#f6ddc9",
             fontSize: 132,
-            fontWeight: 700,
+            fontWeight: 600,
             lineHeight: 1,
             marginBottom: 32,
-            letterSpacing: -2,
+            letterSpacing: 0,
           }}
         >
           Sai Abhinav
         </div>
         <div
           style={{
-            color: "#a1a1aa",
+            color: "#c1b7b2",
             fontSize: 32,
             maxWidth: 980,
             lineHeight: 1.4,
           }}
         >
-          Reinforcement learning, detection models, and AI automation that ship.
+          Build. Observe. Understand.
         </div>
       </div>
     ),
