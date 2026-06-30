@@ -2,6 +2,7 @@
 
 import { useState, useRef, useCallback, useEffect, type ReactNode } from "react";
 import { createPortal } from "react-dom";
+import Image from "next/image";
 import {
   ArrowUpRight,
   TrendingUp,
@@ -239,13 +240,13 @@ export function ProjectCard({
                       aria-label={`Expand screenshot: ${shot.caption}`}
                       className="group/shot relative block w-full cursor-pointer overflow-hidden rounded-xl border border-cream/10 bg-night transition-all duration-300 hover:border-amber-flame/60 hover:shadow-[0_12px_30px_-12px_rgba(0,0,0,0.6)]"
                     >
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
+                      <Image
                         src={shot.src}
                         alt={shot.caption}
                         width={shot.width}
                         height={shot.height}
                         loading="lazy"
+                        sizes="(min-width: 640px) 50vw, 100vw"
                         className="block h-auto w-full transition-transform duration-500 group-hover/shot:scale-[1.02]"
                       />
                       <span className="pointer-events-none absolute right-2 top-2 flex items-center gap-1 rounded-full bg-night/90 px-2.5 py-1 text-[0.6rem] font-semibold uppercase tracking-widest text-cream opacity-0 backdrop-blur-sm transition-opacity duration-300 group-hover/shot:opacity-100">
@@ -392,12 +393,12 @@ export function ProjectCard({
               >
                 <X size={16} />
               </button>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <Image
                 src={lightbox.src}
                 alt={lightbox.caption}
                 width={lightbox.width}
                 height={lightbox.height}
+                sizes="100vw"
                 className="max-h-[80vh] w-auto rounded-xl border border-cream/10 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.8)]"
               />
               <figcaption className="mt-3 text-center text-sm text-cream-soft">
