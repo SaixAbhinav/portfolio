@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect, type ReactNode } from "react";
 import { createPortal } from "react-dom";
+import Image from "next/image";
 import {
   ArrowUpRight,
   TrendingUp,
