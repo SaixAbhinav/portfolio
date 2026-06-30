@@ -17,7 +17,7 @@ export function SmartSignalDemo() {
 
   const isOptimized = mode === "optimized";
   const carCount = isOptimized ? 2 : 5;
-  const waitLabel = isOptimized ? "~3.4s avg" : "~36s avg";
+  const waitLabel = isOptimized ? "~3.4s avg" : "~37s avg";
 
   return (
     <div className="flex h-full min-h-[13rem] flex-col p-4">
