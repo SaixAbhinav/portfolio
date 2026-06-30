@@ -61,12 +61,12 @@ const projects: Array<{
     title: "SmartSignal",
     subtitle: "AI Traffic Light Automation System",
     description:
-      "AI-powered traffic signal control system using PPO reinforcement learning and SUMO simulation. Integrated TomTom API for realistic traffic data, reducing vehicle waiting time by ~28% and increasing throughput by 22%.",
-    tags: ["Python", "PPO", "SUMO", "TomTom API", "Reinforcement Learning"],
+      "AI-powered traffic signal control system using PPO reinforcement learning and SUMO simulation, benchmarked against fixed-timer, actuated, and max-pressure controllers. Cuts average vehicle waiting time by ~91% vs a fixed timer and ~60% vs actuated control.",
+    tags: ["Python", "PPO", "SUMO", "Gymnasium", "Reinforcement Learning"],
     github: "https://github.com/SaixAbhinav/smart-signal",
     embedUrl: "https://smart-signal-i0v5.onrender.com",
     iconName: "TrafficCone",
-    metric: { value: 28, suffix: "%", label: "wait time", trend: "down" },
+    metric: { value: 91, suffix: "%", label: "wait time vs fixed timer", trend: "down" },
     demo: <SmartSignalDemo key="smartsignal-demo" />,
   },
   {
@@ -141,7 +141,7 @@ const timeline = [
     org: "IBM Skills Build",
     period: "Internship",
     description:
-      "Built a CNN-based skin cancer detection model achieving 94% accuracy on dermoscopic images. Owned data preparation, model training, and evaluation end to end.",
+      "Built a CNN-based skin cancer detection model achieving 94% accuracy on the HAM10000 dermoscopic image dataset. Owned data preparation, model training, and evaluation end to end.",
   },
   {
     type: "education" as const,
@@ -163,12 +163,12 @@ const skills = [
   {
     category: "Frameworks",
     primary: false,
-    items: ["TensorFlow", "Keras", "NumPy", "Pandas", "Flask"],
+    items: ["TensorFlow", "Keras", "PyTorch", "Stable-Baselines3", "Gymnasium", "NumPy", "Pandas"],
   },
   {
     category: "AI Tools",
     primary: false,
-    items: ["OpenAI API", "Prompt Engineering", "Workflow Automation"],
+    items: ["FastAPI", "Docker", "Prompt Engineering", "Workflow Automation"],
   },
   {
     category: "Visualization",
