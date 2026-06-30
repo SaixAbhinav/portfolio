@@ -31,12 +31,20 @@ export const projects: Project[] = [
     title: "SmartSignal",
     subtitle: "AI Traffic Light Automation System",
     description:
-      "AI-powered traffic signal control system using PPO reinforcement learning and SUMO simulation. Integrated TomTom API for realistic traffic data, reducing vehicle waiting time by ~28% and increasing throughput by 22%.",
-    tags: ["Python", "PPO", "SUMO", "TomTom API", "Reinforcement Learning"],
+      "AI-powered traffic signal control system using PPO reinforcement learning, benchmarked in SUMO against fixed-timer, actuated, and max-pressure baselines. Cuts average wait time by ~91% vs a fixed timer and ~60% vs actuated control, validated across off-peak, rush, and variable-demand traffic profiles (5-seed average).",
+    tags: ["Python", "PPO", "SUMO", "Reinforcement Learning", "FastAPI"],
     github: "https://github.com/SaixAbhinav/smart-signal",
     embedUrl: "https://smart-signal-i0v5.onrender.com",
     iconName: "TrafficCone",
-    metric: { value: 28, suffix: "%", label: "wait time", trend: "down" },
+    metric: { value: 91, suffix: "%", label: "wait time vs fixed timer", trend: "down" },
+    screenshots: [
+      {
+        src: "https://raw.githubusercontent.com/SaixAbhinav/smart-signal/main/docs/training_curve.png",
+        caption: "PPO training curve: episode reward converging over 500k steps",
+        width: 1040,
+        height: 585,
+      },
+    ],
     demo: <SmartSignalDemo key="smartsignal-demo" />,
   },
   {

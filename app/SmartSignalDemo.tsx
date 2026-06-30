@@ -17,7 +17,7 @@ export function SmartSignalDemo() {
 
   const isOptimized = mode === "optimized";
   const carCount = isOptimized ? 2 : 5;
-  const waitLabel = isOptimized ? "~30s avg" : "~42s avg";
+  const waitLabel = isOptimized ? "~3.4s avg" : "~37s avg";
 
   return (
     <div className="flex h-full min-h-[13rem] flex-col p-4">
@@ -77,7 +77,7 @@ export function SmartSignalDemo() {
         className="mt-3 flex items-center gap-2 rounded-full border border-mint/30 bg-mint/12 px-3 py-2 transition-all duration-500"
         style={{ opacity: isOptimized ? 1 : 0, transform: isOptimized ? "translateY(0)" : "translateY(4px)" }}
       >
-        <span className="text-xs font-bold text-cream">↓ 28% wait time</span>
+        <span className="text-xs font-bold text-cream">↓ 91% wait time</span>
         <span className="text-xs text-cream-soft">via PPO reinforcement learning</span>
       </div>
 
